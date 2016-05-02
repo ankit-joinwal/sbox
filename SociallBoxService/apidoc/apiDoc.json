@@ -1,0 +1,7 @@
+{
+  "name": "SociallBox API",
+  "description": "SociallBox Server API Specifications",
+  "title": "SociallBox API",
+  "version": "1.0.0",
+  "url" : "http://<<host>>:<<port>/SociallBox"
+}

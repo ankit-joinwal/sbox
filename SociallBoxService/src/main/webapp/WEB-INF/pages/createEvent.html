@@ -1,0 +1,51 @@
+<div class="container-fluid" ng-controller="EventsController">
+	<div class="side-body">
+		<div class="page-title">
+			<span class="title">Create New Event</span>
+		</div>
+		<div class="row">
+			<div class="col-md-6" ng-controller="DateTimeController as ctrl">
+			    <form class="form-inline">    
+			        <div class="form-group">
+			        		<label for="startDate">Starts</label>
+			                <input type="text" id="startDate" class="form-control" datetime-picker="MM/dd/yyyy HH:mm a" ng-model="ctrl.dates.startDate" is-open="ctrl.open.startDate" />
+			                <button type="button" class="btn btn-default" ng-click="ctrl.openCalendar($event, 'startDate')"><i class="fa fa-calendar"></i></button>
+			        </div>
+			     </form>
+			</div>
+			<div class="col-md-6" ng-controller="DateTimeController as ctrl">
+				 <form class="form-inline">    
+			        <div class="form-group">
+			        	<label for="endDate">Ends</label>
+			            <input type="text" class="form-control" datetime-picker="MM/dd/yyyy HH:mm a" ng-model="ctrl.dates.endDate" is-open="ctrl.open.endDate" />
+			            <button type="button" class="btn btn-default" ng-click="ctrl.openCalendar($event, 'endDate')"><i class="fa fa-calendar"></i></button>
+			        </div>
+			     </form>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-12"><h4>Details</h4></div>
+		</div>
+		<div class="row" ng-init="initTextAngular()">
+			<div class="col-md-12" ng-controller="EventsController">
+				<div text-angular ng-model="eventDetails"></div>
+				<div ng-bind-html="eventDetails" id="event-details" style="display:none"></div>
+			</div>
+			<div class="col-md-2"><button ng-click="getDetails()">Get HTML Content</button></div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-6">
+				<h4 class="pull-left font-black">Location</h4>
+			</div>
+			<div class="col-md-8">
+				<input class="form-control input-lg"  ng-model="eventPlace" googleplace type="text">
+			</div>
+			<div class="col-md-6">
+				<button ng-click="getEventLocation()">Print Event Location on console</button>
+			</div>
+		</div>
+	</div>
+</div>
+ 

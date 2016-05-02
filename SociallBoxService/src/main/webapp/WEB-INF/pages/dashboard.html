@@ -1,0 +1,150 @@
+<div class="container-fluid" ng-controller="DashboardController">
+	<div class="side-body padding-top">
+		<div class="row" ng-cloak 
+			ng-init="initDashboardCards()">
+
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+				<blockquote class="quote-box-blue">
+					<p class="quotation-mark">{{dashboardCards.events}}</p>
+					<hr class="hr-card">
+					<div class="blog-post-actions">
+						<p class="blog-post-bottom pull-left">Total Events Hosted</p>
+					</div>
+				</blockquote>
+
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+				<blockquote class="quote-box-yellow">
+					<p class="quotation-mark">{{dashboardCards.meetups}}</p>
+					<hr class="hr-card">
+					<div class="blog-post-actions">
+						<p class="blog-post-bottom pull-left">Total Meetups on Events
+						</p>
+					</div>
+				</blockquote>
+
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+				<blockquote class="quote-box-green">
+					<p class="quotation-mark">{{dashboardCards.registeredUsers}}</p>
+					<hr class="hr-card">
+					<div class="blog-post-actions">
+						<p class="blog-post-bottom pull-left">Total Registered Users</p>
+					</div>
+				</blockquote>
+
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+				<blockquote class="quote-box-orange">
+					<p class="quotation-mark">{{dashboardCards.interestedUsers}}</p>
+					<hr class="hr-card">
+					<div class="blog-post-actions">
+						<p class="blog-post-bottom pull-left">Interested Users</p>
+					</div>
+				</blockquote>
+
+			</div>
+		</div>
+		<div class="row  no-margin-bottom">
+			<div class="col-sm-6 col-xs-12">
+				<div class="row">
+					<div class="col-xs-12" ng-init="initDashboardCharts()">
+						<div class="card">
+							<div class="card-header">
+								<div class="card-title">
+									<div class="title">Monthly user registrations on your
+										events</div>
+								</div>
+							</div>
+							<div id="monthlyUsers" class="card-body no-padding loader">
+								<div class="loader-container text-center color-white">
+									<div>
+										<i class="fa fa-spinner fa-pulse fa-3x"></i>
+									</div>
+									<div>Loading</div>
+								</div>
+								<canvas id="bar-chart" class="chart"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-12">
+						<div class="thumbnail no-margin-bottom">
+							<img
+								src="/SociallBox/resources/img/thumbnails/picjumbo.com_IMG_4566.jpg"
+								class="img-responsive">
+							<div class="caption">
+								<h3 id="thumbnail-label">
+									Thumbnail label<a class="anchorjs-link" href="#thumbnail-label"><span
+										class="anchorjs-icon"></span></a>
+								</h3>
+								<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+									quam. Donec id elit non mi porta gravida at eget metus. Nullam
+									id dolor id nibh ultricies vehicula ut id elit.</p>
+								<p>
+									<a href="#" class="btn btn-primary" role="button">Button</a> <a
+										href="#" class="btn btn-default" role="button">Button</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<div class="thumbnail no-margin-bottom">
+							<img
+								src="/SociallBox/resources/img/thumbnails/picjumbo.com_IMG_3241.jpg"
+								class="img-responsive">
+							<div class="caption">
+								<h3 id="thumbnail-label">
+									Thumbnail label<a class="anchorjs-link" href="#thumbnail-label"><span
+										class="anchorjs-icon"></span></a>
+								</h3>
+								<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+									quam. Donec id elit non mi porta gravida at eget metus. Nullam
+									id dolor id nibh ultricies vehicula ut id elit.</p>
+								<p>
+									<a href="#" class="btn btn-success" role="button">Button</a> <a
+										href="#" class="btn btn-default" role="button">Button</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-xs-12">
+
+				<div class="card card-success">
+					<div class="card-header">
+						<div class="card-title">
+							<div class="title">
+								<i class="fa fa-comments-o"></i> Recent Messages
+							</div>
+						</div>
+						<div class="clear-both"></div>
+					</div>
+					<div id="messages" class="card-body no-padding loader">
+						<div class="loader-container text-center color-white">
+							<div>
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<div>Loading</div>
+						</div>
+						<ul class="message-list" ng-init="getUserMessages()">
+							<li ng-repeat="message in userMessages">
+
+								<div class="message-block">
+									<div class="message">
+										<b>{{message.message}}</b>
+									</div>
+									<div>
+										<span class="message-datetime">{{message.time}}</span>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

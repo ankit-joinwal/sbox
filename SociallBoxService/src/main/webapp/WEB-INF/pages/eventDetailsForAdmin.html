@@ -1,0 +1,220 @@
+<style>
+/* Tabs panel */
+.tabbable-panel {
+ 
+}
+
+/* Default mode */
+.tabbable-line > .nav-tabs {
+  border: none;
+  margin: 0px;
+  background-color: #fff;
+}
+.tabbable-line > .nav-tabs > li {
+  margin-right: 2px;
+}
+.tabbable-line > .nav-tabs > li > a {
+  border: 0;
+  margin-right: 0;
+  color: #737373;
+}
+
+.tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+  border-bottom: 4px solid #fbcdcf;
+}
+.tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #333333;
+}
+
+.tabbable-line > .nav-tabs > li.active {
+  border-bottom: 4px solid #f3565d;
+  position: relative;
+}
+.tabbable-line > .nav-tabs > li.active > a {
+  border: 0;
+  color: #333333;
+}
+
+.tabbable-line > .tab-content {
+  margin-top: -3px;
+  background-color: #fff;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+}
+</style>
+<div class="container-fluid" ng-controller="AdminController" >
+	<div class="side-body">
+		<div class="panel panel-default" >
+			<div class="fb-profile">
+				<div class="container-fluid company-profile-img" ng-init="getEventDetails()">
+					<div class="row">
+						<div class="col-md-12">
+							<img ng-cloak align="left" class="fb-image-lg" style="margin-top: 10px;"
+								src="{{eventDetails.display_image.url}}" alt="{{eventDetails.title}}" />
+						</div>
+					</div>
+					<div class="row"  align="left">
+						<div class="col-md-10">
+							<button type="submit" ng-hide="!(eventDetails.status == 'APPROVED')"
+								ng-click="makeLive(eventDetails.id)" class="btn-next btn btn-success">
+								Make Event Live</button>
+						
+							<button type="submit"
+								ng-click="editEvent(eventDetails.id)" class="btn-next btn btn-primary">
+								Edit Event</button>
+								
+							<button type="submit" ng-hide="!(eventDetails.status == 'LIVE')"
+							ng-click="cancelEvent(eventDetails.id)" class="btn-next btn btn-danger">
+							Cancel Event</button>
+						</div>
+					</div>
+				</div>
+			
+				<div class="panel panel-success">
+			      <div class="panel-heading">Event Details</div>
+			      <div class="panel-body">
+			      	<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12">
+									<div class="container" ng-init="getEventDetails()">
+										<div class="row">
+											<div class="col-md-6">
+												<label for="title" class="text-primary">Title</label>
+												<h4 id="title">{{eventDetails.title}}</h4>
+											</div>
+											<div class="col-md-6">
+												<label for="status" class="text-primary">Status</label>
+												<h4 id="status">{{eventDetails.status}}</h4>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<label for="starts" class="text-primary">Starts</label>
+												<h4 id="starts">{{eventDetails.start_date}}</h4>
+											</div>
+											<div class="col-md-6">
+												<label for="ends" class="text-primary">Ends</label>
+												<h4 id="ends">{{eventDetails.end_date}}</h4>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-10">
+												<label for="details" class="text-primary">Details</label>
+												<p id="details"></p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-10">
+												<label for="tags" class="text-primary">Tagged as</label>
+													<div>
+														<ul class="inline" style="float:left" ng-repeat="tag in eventDetails.tags" >
+														  <li ><span class="label label-success">#{{tag.description}}</span></li>
+														</ul>
+													</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-10">
+												<label for="location" class="text-primary">Venue</label>
+												<p id="location">{{eventDetails.event_detail.location.name}}</p>
+											</div>
+										</div>
+									</div>
+									
+								
+							</div>
+						</div>
+						
+						
+					</div>
+			      </div>
+			    </div>
+			   
+			     <div class="panel panel-success">
+				      <div class="panel-heading">Statistics For This Event</div>
+				      <div class="panel-body">
+				      	<div class="container-fluid" ng-init="eventStats()">
+				      		<div class="row">
+								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+									<blockquote class="quote-box-yellow">
+										<p class="quotation-mark">{{statsCards.total_meetups}}</p>
+										<hr class="hr-card">
+										<div class="blog-post-actions">
+											<p class="blog-post-bottom pull-left">Total Meetups
+											</p>
+										</div>
+									</blockquote>
+					
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+									<blockquote class="quote-box-green">
+										<p class="quotation-mark">{{statsCards.total_reg_users}}</p>
+										<hr class="hr-card">
+										<div class="blog-post-actions">
+											<p class="blog-post-bottom pull-left">Total Registered Users</p>
+										</div>
+									</blockquote>
+					
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+									<blockquote class="quote-box-orange">
+										<p class="quotation-mark">{{statsCards.total_int_users}}</p>
+										<hr class="hr-card">
+										<div class="blog-post-actions">
+											<p class="blog-post-bottom pull-left">Interested Users</p>
+										</div>
+									</blockquote>
+					
+								</div>
+							
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">
+												<div class="title">Daily users</div>
+											</div>
+										</div>
+										<div id="dailyUsers" class="card-body no-padding loader">
+											<div class="loader-container text-center color-white">
+												<div>
+													<i class="fa fa-spinner fa-pulse fa-3x"></i>
+												</div>
+												<div>Loading</div>
+											</div>
+											<div id="users-chart-div" style="overflow:auto" class="canvas-holder">
+												<canvas id="users-chart" class="chart"></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">
+												<div class="title">Daily meetups</div>
+											</div>
+										</div>
+										<div id="meetupsChart" class="card-body no-padding loader">
+											<div class="loader-container text-center color-white">
+												<div>
+													<i class="fa fa-spinner fa-pulse fa-3x"></i>
+												</div>
+												<div>Loading</div>
+											</div>
+											<div id="meetups-chart-div" style="overflow:auto">
+												<canvas id="meetups-chart" class="chart"></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+				      	</div>
+				      </div>
+			      </div>
+			</div>
+		</div>
+	</div>
+</div>
