@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-controller="AdminController" ng-init="getAllEOProfiles()" >
+<div class="container-fluid" ng-controller="AdminController" >
 	<div class="side-body">
           <div class="row">
             <div class="col-xs-12">
@@ -9,41 +9,28 @@
                         </div>
                     </div>
                     <div class="card-body">
-                    	<form class="form-inline">
-							<div class="form-group">
-								<label >Search</label>
-								<input type="text" ng-model="search" class="form-control" placeholder="Search">
-							</div>
-						</form>
-                        <table class="table table-striped table-hover" >
+                    	
+                        <table st-table="allProfiles" st-pipe="getPaginatedProfiles" class="table table-striped">
                             <thead>
                                 <tr>
-                                	<th ng-click="sort('company_profile.name')">Company Name
-										<span class="glyphicon sort-icon" ng-show="sortKey=='company_profile.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                	<th>Company Name
 									</th>
-									<th ng-click="sort('create_dt')">Created
-										<span class="glyphicon sort-icon" ng-show="sortKey=='create_dt'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									<th >Created
 									</th>
-									<th ng-click="sort('name')">Company Admin User
-										<span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									<th>Company Admin User
 									</th>
-									<th ng-click="sort('company_profile.website')">Website
-										<span class="glyphicon sort-icon" ng-show="sortKey=='company_profile.website'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									<th>Website
 									</th>
-									<th ng-click="sort('company_profile.phone1')">Contact No
-										<span class="glyphicon sort-icon" ng-show="sortKey=='company_profile.phone1'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									<th>Contact No
 									</th>
-									<th ng-click="sort('status')">Status
-										<span class="glyphicon sort-icon" ng-show="sortKey=='status'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+									<th>Status
 									</th>
-									<th >Details
-										
+									<th>Details
 									</th>
-                                   
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr dir-paginate="profile in profiles|orderBy:sortKey:reverse|filter:search|itemsPerPage:10">
+                           <tbody ng-show="!isProfilesLoading">
+                                <tr ng-repeat="profile in allProfiles">
                                     <td>{{profile.company_profile.name}}</td>
                                     <td>{{profile.create_dt}}</td>
                                     <td>{{profile.name}}</td>
@@ -54,12 +41,19 @@
                                    
                                 </tr>
                             </tbody>
+                            <tbody ng-show="isProfilesLoading">
+							<tr>
+								<td colspan="7" class="text-center">Loading ... </td>
+							</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td class="text-center" st-pagination="" st-items-by-page="10" colspan="7">
+									</td>
+								</tr>
+							</tfoot>
                         </table>
-                        <dir-pagination-controls
-							max-size="5"
-							direction-links="true"
-							boundary-links="true" >
-						</dir-pagination-controls>
+                        
                     </div>
                 </div>
             </div>

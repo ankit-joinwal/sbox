@@ -44,10 +44,21 @@
   border-top: 1px solid #eee;
   padding: 15px 0;
 }
+
+.tags button{width:110px;}
+
+.tags button.btnactive,#IsFreeButton button.active,.reviewTagNames button.btnactive,.reviewFreeButton button.btnactive{background-color: #337ab7;
+    border-color: #337ab7;color:#fff}
 </style>
-<div class="container-fluid" ng-controller="AdminController" >
+<div class="container-fluid" ng-controller="EventsController" >
 	<div class="side-body">
-		<div class="panel panel-default" >
+		<div class="panel panel-default" id="pageContainer">
+			<div class="loader-container text-center color-white">
+				<div>
+					<i class="fa fa-spinner fa-pulse fa-3x"></i>
+				</div>
+				<div>Please wait...</div>
+			</div>
 			<div class="fb-profile">
 				<div class="container-fluid company-profile-img" ng-init="getEventDetails()">
 					<div class="row">
@@ -58,15 +69,15 @@
 					</div>
 					<div class="row"  align="left">
 						<div class="col-md-10">
-							<button type="submit" ng-hide="!(eventDetails.status == 'APPROVED')"
-								ng-click="makeLive(eventDetails.id)" class="btn-next btn btn-success">
+							<button type="submit" ng-hide="(!(eventDetails.status == 'APPROVED') || (eventDetails.status == 'LIVE'))"
+								ng-click="makeLive(eventDetails.id)" id="makeLiveBtn" class="btn-next btn btn-success">
 								Make Event Live</button>
 						
 							<button type="submit"
 								ng-click="editEvent(eventDetails.id)" class="btn-next btn btn-primary">
 								Edit Event</button>
 								
-							<button type="submit" ng-hide="!(eventDetails.status == 'LIVE')"
+							<button type="submit" id="cancelEventBtn" ng-hide="(eventDetails.status == 'PENDING_APPROVAL' || eventDetails.status == 'CANCELLED')"
 							ng-click="cancelEvent(eventDetails.id)" class="btn-next btn btn-danger">
 							Cancel Event</button>
 						</div>
@@ -107,19 +118,21 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-10">
-												<label for="tags" class="text-primary">Tagged as</label>
-													<div>
-														<ul class="inline" style="float:left" ng-repeat="tag in eventDetails.tags" >
-														  <li ><span class="label label-success">#{{tag.description}}</span></li>
-														</ul>
-													</div>
+											<div class="col-md-12" >
+											<label for="tags" class="text-primary">Event Tags</label> 
+												
+												  <div ng-repeat= "tag in eventDetails.tags" class="tags">
+												  	<div class="col-md-3">
+												  	<button type="button" class="btn btnactive">{{tag.description}}</button>
+												  	</div>
+												  </div>
+										     	
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-10">
 												<label for="location" class="text-primary">Venue</label>
-												<p id="location">{{eventDetails.event_detail.location.name}}</p>
+												<h4 id="location">{{eventDetails.event_detail.location.name}}</h4>
 											</div>
 										</div>
 									</div>

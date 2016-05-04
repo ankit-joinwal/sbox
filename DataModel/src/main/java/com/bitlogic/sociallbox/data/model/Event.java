@@ -1,5 +1,6 @@
 package com.bitlogic.sociallbox.data.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +44,7 @@ public class Event {
 
 	@OneToMany(mappedBy="event",cascade=CascadeType.ALL)
 	@JsonIgnore
-	private List<EventImage> eventImages;
+	private List<EventImage> eventImages = new ArrayList<>();
 	
 	@OneToOne(mappedBy="event",cascade = CascadeType.ALL,fetch=FetchType.EAGER)
 	private EventDetails eventDetails;

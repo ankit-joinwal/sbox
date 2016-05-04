@@ -181,9 +181,9 @@ var adminAuthApp = angular.module('Admin')
  		 };
  		 
  		 
- 		 service.getPendingProfiles = function(){
+ 		 service.getPendingProfiles = function(page){
  			var deferred = $q.defer();
- 			var pendingProfilesURL = "/SociallBox/api/secured/admin/organizers/profiles/pending";
+ 			var pendingProfilesURL = "/SociallBox/api/secured/admin/organizers/profiles/pending?page="+page;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -217,9 +217,9 @@ var adminAuthApp = angular.module('Admin')
     		});
  		 };
  		 
- 		service.getEOProfiles = function(){
+ 		service.getEOProfiles = function(page){
  			var deferred = $q.defer();
- 			var allProfilesURL = "/SociallBox/api/secured/admin/organizers/profiles";
+ 			var allProfilesURL = "/SociallBox/api/secured/admin/organizers/profiles?page="+page;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -332,9 +332,9 @@ var adminAuthApp = angular.module('Admin')
 	 		});
  		 };
  		 
- 		service.getPendingEvents = function(){
+ 		service.getPendingEvents = function(page){
  			var deferred = $q.defer();
- 			var pendingProfilesURL = "/SociallBox/api/secured/admin/events/pending";
+ 			var pendingProfilesURL = "/SociallBox/api/secured/admin/events/pending?page="+page;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -367,6 +367,8 @@ var adminAuthApp = angular.module('Admin')
     			
     		});
  		 };
+ 		 
+ 		
  		 
  		service.getEventDetails = function(userId,eventId){
  			var deferred = $q.defer();

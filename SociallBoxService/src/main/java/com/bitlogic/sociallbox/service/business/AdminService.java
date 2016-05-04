@@ -1,6 +1,7 @@
 package com.bitlogic.sociallbox.service.business;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -13,7 +14,7 @@ import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
 public interface AdminService {
 
 	@PreAuthorize("hasRole('"+Constants.ROLE_TYPE_ADMIN+"')")
-	public List<EOAdminProfile> getPendingProfiles();
+	public Map<String, ?> getPendingProfiles(Integer page);
 	
 	@PreAuthorize("hasRole('"+Constants.ROLE_TYPE_ADMIN+"')")
 	public void approveOrRejectProfiles(List<Long> profileIds,EOAdminStatus status);
@@ -21,7 +22,7 @@ public interface AdminService {
 	public User signupOrSignin(String emailId,UserTypeBasedOnDevice userTypeBasedOnDevice);
 	
 	@PreAuthorize("hasRole('"+Constants.ROLE_TYPE_ADMIN+"')")
-	public List<EOAdminProfile> getAllOrganizers(String emailId);
+	public Map<String, ?> getAllOrganizers(String emailId,Integer page);
 	
 	@PreAuthorize("hasRole('"+Constants.ROLE_TYPE_ADMIN+"')")
 	public void approveEvents(List<String> eventIds);

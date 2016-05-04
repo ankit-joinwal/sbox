@@ -107,7 +107,7 @@ public class NotificationMessage {
 		@Column(name="IMAGE")
 		private String image;
 
-		@Column(name="ACTION_URL",length=100)
+		@Column(name="ACTION_URL",length=500)
 		@JsonProperty(value="action_url")
 		private String actionURL;
 

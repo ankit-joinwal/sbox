@@ -1,7 +1,9 @@
 package com.bitlogic.sociallbox.data.model.requests;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
@@ -10,9 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.bitlogic.sociallbox.data.model.EventImage;
-import com.bitlogic.sociallbox.data.model.EventTag;
 import com.bitlogic.sociallbox.data.model.Location;
-import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.ext.google.GooglePlace;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -76,7 +76,7 @@ public class CreateEventRequest implements Serializable{
 	private String endDate;
 	
 	@NotNull(message="error.event.tags.mandatory")
-	private Set<EventTag> tags = new HashSet<>();
+	private List<String> tags = new ArrayList<>();
 	
 	@NotNull(message="error.event.organizer.mandatory")
 	@JsonProperty("profile_id")
@@ -102,11 +102,11 @@ public class CreateEventRequest implements Serializable{
 		this.organizerProfileId = profileId;
 	}
 
-	public Set<EventTag> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 
-	public void setTags(Set<EventTag> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 

@@ -3,7 +3,7 @@
 //Declare Modules
 angular.module('Admin', []);
 
-var App = angular.module('sociallboxadmin',['ngRoute','ngCookies','angularUtils.directives.dirPagination','Admin']);
+var App = angular.module('sociallboxadmin',['ngRoute','ngCookies','smart-table','Admin']);
 
 App.config(['$routeProvider', function($routeProvider) {
 	$routeProvider

@@ -4,6 +4,8 @@ angular.module('Admin')
 .controller('AdminController',['$window','$scope', '$rootScope', '$routeParams','$location','AdminService',
       function ($window,$scope, $rootScope, $routeParams,$location,AdminService) {
 
+	 var ctrl = this;
+
 	$scope.sort = function(keyname){
 		$scope.sortKey = keyname;   //set the sortKey to the param passed
 		$scope.reverse = !$scope.reverse; //if true make it false and vice versa
@@ -52,19 +54,9 @@ angular.module('Admin')
 		});
 	};
   	
-	$scope.getAllEOProfiles = function(){
-		AdminService.getEOProfiles()
-		.then(function(response){
-			$scope.profiles = response.data.data;
-		});
-	};
 	
-	$scope.getPendingProfiles = function(){
-		AdminService.getPendingProfiles()
-		.then(function(response){
-			$scope.pending_profiles = response.data.data;
-		});
-	};
+	
+	
 	
 	$scope.goToCompanyDetails = function(profileId){
 		$window.location.href = "/SociallBox/nimda/home#/organizers/"+profileId;
@@ -112,12 +104,86 @@ angular.module('Admin')
 		});
 	};
 	
-	$scope.getPendingEvents = function(){
-		AdminService.getPendingEvents()
+	$scope.getPaginatedProfiles = function(tableState){
+		$scope.isProfilesLoading = true;
+
+	    var pagination = tableState.pagination;
+
+	    var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+	    var number = pagination.number || 10;  // Number of entries showed per page.
+	    var pageNum ;
+	    
+	    pageNum = Math.floor(start/number) +1;
+	    
+		AdminService.getEOProfiles(pageNum)
 		.then(function(response){
-			$scope.pending_events = response.data.data;
+			$scope.allProfiles = response.data.data;
+			var totalPages ;
+			 if(response.data.total_records%number ==0){
+		    	  totalPages = response.data.total_records/number ;
+		      }else{
+		    	  totalPages = Math.floor(response.data.total_records/number) +1 ;
+		      }
+		      tableState.pagination.numberOfPages = totalPages;//set the number of pages so the pagination can update
+		      $scope.isProfilesLoading = false;
 		});
 	};
+	
+	$scope.getPaginatedPendingProfiles = function(tableState){
+		$scope.isPendingProfilesLoading = true;
+
+	    var pagination = tableState.pagination;
+
+	    var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+	    var number = pagination.number || 10;  // Number of entries showed per page.
+	   
+	    var pageNum ;
+	    
+	    pageNum = Math.floor(start/number) +1;
+		AdminService.getPendingProfiles(pageNum)
+		.then(function(response){
+			$scope.pending_profiles = response.data.data;
+			 var totalPages ;
+			 if(response.data.total_records%number ==0){
+		    	  totalPages = response.data.total_records/number ;
+		      }else{
+		    	  totalPages = Math.floor(response.data.total_records/number) +1 ;
+		      }
+		      tableState.pagination.numberOfPages = totalPages;//set the number of pages so the pagination can update
+		      $scope.isPendingProfilesLoading = false;
+		});
+	};
+	
+	 $scope.getPaginatedEvents = function(tableState) {
+
+		 	$scope.isEventsLoading = true;
+
+		    var pagination = tableState.pagination;
+
+		    var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+		    var number = pagination.number || 10;  // Number of entries showed per page.
+		   
+		    var pageNum ;
+		    
+		    pageNum = Math.floor(start/number) +1;
+		    
+		   
+		    AdminService.getPendingEvents(pageNum)
+		    .then(function (response) {
+		      
+		    $scope.pendingEvents = response.data.data;
+		      var totalPages ;
+		      
+		      if(response.data.total_records%number ==0){
+		    	  totalPages = response.data.total_records/number ;
+		      }else{
+		    	  totalPages = Math.floor(response.data.total_records/number) +1 ;
+		      }
+		     
+		      tableState.pagination.numberOfPages = totalPages;//set the number of pages so the pagination can update
+		      $scope.isEventsLoading = false;
+		    });
+		  };
 	
 	$scope.goToEventDetails = function(eventId){
 		$window.location.href = "/SociallBox/nimda/home#/events/"+eventId;
@@ -164,12 +230,24 @@ angular.module('Admin')
 				var labelArr = [];
 				var regUsers = [];
 				var intUsers = [];
+				var meetups = [];
 				
 				var monthlyUsers = response.data.data.daily_user_stats;
 				$.each(monthlyUsers, function(idx, obj) {
 					labelArr.push(obj.date);
 					regUsers.push(obj.reg_users);
 					intUsers.push(obj.int_users);
+					
+				});
+				
+				
+				
+				
+				var meetupStats = response.data.data.daily_meetup_stats;
+				$.each(meetupStats, function(idx, obj) {
+					
+					meetups.push(obj.meetup_count);
+					
 					
 				});
 				
@@ -214,7 +292,17 @@ angular.module('Admin')
 				         pointHighlightFill: "#fff",
 				         pointHighlightStroke: "#22A7F0",
 				   	     data: intUsers
-				   	   }
+				   	   }, 
+				   	   {
+				   	        label: "Meetups",
+				   	        fillColor: "rgba(255, 231, 51,1)",
+				   	        strokeColor: "#FFE733",
+				   	        pointColor: "#FFE733",
+				   	        pointStrokeColor: "#fff",
+				   	        pointHighlightFill: "#fff",
+				   	        pointHighlightStroke: "#1ABC9C",
+				   	        data: meetups
+				   	      }
 			   	    ]
 			   	  };
 			   	  myBarChart = new Chart(ctx).Bar(data, option_bars);
@@ -222,55 +310,6 @@ angular.module('Admin')
 			   	
 			   	/*Users chart end */
 			   	
-			   	/* Create DailyMeetupsChart */
-				var meetuplabelArr = [];
-				var meetups = [];
-				
-				
-				var meetupStats = response.data.data.daily_meetup_stats;
-				$.each(meetupStats, function(idx, obj) {
-					meetuplabelArr.push(obj.date);
-					meetups.push(obj.meetup_count);
-					
-					
-				});
-				
-				var ctx_meetup_chrt, meetup_data, meetupsBarChart, option_meetup_bars;
-			   	  Chart.defaults.global.responsive = true;
-			   	  ctx_meetup_chrt = $('#meetups-chart').get(0).getContext('2d');
-			   	
-			   	  option_meetup_bars = {
-			   	    scaleBeginAtZero: true,
-			   	    scaleShowGridLines: true,
-			   	    scaleGridLineColor: "rgba(0,0,0,.05)",
-			   	    scaleGridLineWidth: 1,
-			   	    scaleShowHorizontalLines: true,
-			   	    scaleShowVerticalLines: false,
-			   	    barShowStroke: true,
-			   	    barStrokeWidth: 1,
-			   	    barValueSpacing: 5,
-			   	    barDatasetSpacing: 3
-			   	  };
-			   	  meetup_data = {
-			   	    labels: meetuplabelArr,
-			   	    datasets: [
-			   	      {
-			   	        label: "Meetups",
-			   	        fillColor: "rgba(255, 231, 51,1)",
-			   	        strokeColor: "#FFE733",
-			   	        pointColor: "#FFE733",
-			   	        pointStrokeColor: "#fff",
-			   	        pointHighlightFill: "#fff",
-			   	        pointHighlightStroke: "#1ABC9C",
-			   	        data: meetups
-			   	      }
-			   	    ]
-			   	  };
-			   	meetupsBarChart = new Chart(ctx_meetup_chrt).Bar(meetup_data, option_meetup_bars);
-			   	
-			   	$("#meetupsChart").removeClass('loader');
-			   
-			   	/*Users chart end*/
 			})
 			.catch(function(response){
 				console.log('Inside AdminController.getEventStats Response :'+response.status);

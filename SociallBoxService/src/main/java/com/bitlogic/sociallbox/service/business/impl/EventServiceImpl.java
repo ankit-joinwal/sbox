@@ -141,13 +141,10 @@ public class EventServiceImpl extends LoggingService implements EventService,
 					ERROR_EO_ADMIN_UNAPPROVED);
 		}
 
-		Set<EventTag> tags = createEventRequest.getTags();
+		List<String> tags = createEventRequest.getTags();
 		if (tags != null && !tags.isEmpty()) {
-			List<String> tagNames = new ArrayList<>();
-			for (EventTag eventTag : tags) {
-				tagNames.add(eventTag.getName());
-			}
-			List<EventTag> tagsInDB = eventTagDAO.getTagsByNames(tagNames);
+			
+			List<EventTag> tagsInDB = eventTagDAO.getTagsByNames(tags);
 			event.setTags(new HashSet<>(tagsInDB));
 		} else {
 			logError(LOG_PREFIX, "Tags not found in request ");
@@ -449,11 +446,10 @@ public class EventServiceImpl extends LoggingService implements EventService,
 	}
 
 	@Override
-	public List<EventResponse> getEventsPendingForApproval() {
+	public Map<String, ?> getEventsPendingForApproval(Integer page) {
 		String LOG_PREFIX = "EventServiceImpl-getEventsPendingForApproval";
-		List<EventResponse> pendingEvents = this.eventDAO.getPendingEvents();
-		logInfo(LOG_PREFIX, "Total Events Pending = {}", pendingEvents.size());
-		return pendingEvents;
+		return this.eventDAO.getPendingEvents(page);
+		
 	}
 
 	

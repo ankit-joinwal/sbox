@@ -74,6 +74,7 @@ public interface Constants {
 	String BLANK = "";
 	String ZERO = "0";
 	Integer RECORDS_PER_PAGE = 20;
+	Integer RECORDS_PER_PAGE_UI = 10;
 	String SUCCESS_STATUS = "Success";
 	String DEFAULT_USER_PICTURE = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xla1/v/t1.0-1/c15.0.50.50/p50x50/1379841_10150004552801901_469209496895221757_n.jpg?oh=1ecfea0dda4f046e7d518ce2243c1a61&oe=57789C33&__gda__=1471731386_863525fcdf1cee40b0e9562b633a5197";
 	//Default Radius for Nearby Search

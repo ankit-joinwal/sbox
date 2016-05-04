@@ -61,15 +61,7 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 		return eventOrganizerAdmin;
 	}
 	
-	@Override
-	public List<EventOrganizerAdmin> getPendingEOAdminProfiles() {
-		Criteria criteria = getSession().createCriteria(EventOrganizerAdmin.class)
-								.setFetchMode("user", FetchMode.JOIN)
-								.setFetchMode("organizer", FetchMode.JOIN)
-								.add(Restrictions.eq("status", EOAdminStatus.PENDING));
-		
-		return (List<EventOrganizerAdmin>) criteria.list();
-	}
+	
 	
 	@Override
 	public List<EventOrganizerAdmin> getEOAdminProfilesByIds(List<Long> profileIds) {
@@ -102,8 +94,8 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 	public Map<String, ?> getEventsForOrganizer(String timeline,
 			EventStatus eventStatus, Integer page, Long adminProfileId) {
 		
-		int startIdx = (page - 1) * Constants.RECORDS_PER_PAGE;
-		int noOfRecords = Constants.RECORDS_PER_PAGE;
+		int startIdx = (page - 1) * Constants.RECORDS_PER_PAGE_UI;
+		int noOfRecords = Constants.RECORDS_PER_PAGE_UI;
 		StringBuilder queryForTotalRecords = new StringBuilder("SELECT COUNT(1) "
 				+ "		FROM EVENT EVENT INNER JOIN EVENT_DETAILS DTL	ON EVENT.ID = DTL.EVENT_ID ");
 		queryForTotalRecords.append(" WHERE DTL.ORGANIZER_ADMIN_ID = :adminProfileId");
@@ -125,7 +117,7 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 			queryForTotalRecords.append(" AND EVENT.EVENT_STATUS = :eventStatus ");
 		}
 		
-		
+		sql.append(" ORDER BY DTL.CREATE_DT DESC");
 		
 		sql.append(" LIMIT :startIdx,:noOfRecords");
 		
@@ -171,12 +163,61 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 	}
 	
 	@Override
-	public List<EventOrganizerAdmin> getAllOrganizers() {
-		Criteria criteria = getSession().createCriteria(EventOrganizerAdmin.class)
+	public Map<String, Object> getPendingEOAdminProfiles(Integer page) {
+		
+		String sql = "SELECT COUNT(1) FROM ORGANIZER_ADMINS WHERE STATUS = :status";
+		
+		SQLQuery query = getSession().createSQLQuery(sql);
+		query.setParameter("status", EOAdminStatus.PENDING.name());
+		
+		Object result = query.uniqueResult();
+		
+		Integer totalRecords = ((BigInteger)result).intValue();
+		List<EventOrganizerAdmin> pendingProfiles = new ArrayList<>();
+		if (totalRecords != 0) {
+			int startIdx = (page - 1) * Constants.RECORDS_PER_PAGE_UI;
+			int noOfRecords = Constants.RECORDS_PER_PAGE_UI;
+			Criteria criteria = getSession().createCriteria(EventOrganizerAdmin.class)
+								.setFetchMode("user", FetchMode.JOIN)
+								.setFetchMode("organizer", FetchMode.JOIN)
+								.addOrder(Order.desc("createDt"))
+								.add(Restrictions.eq("status", EOAdminStatus.PENDING))
+								.setFirstResult(startIdx)
+								.setMaxResults(noOfRecords);
+			pendingProfiles = criteria.list();
+			
+		}
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("PENDING_PROFILES", pendingProfiles);
+		resultMap.put("TOTAL_RECORDS", totalRecords);
+		return resultMap;
+	}
+	
+	@Override
+	public Map<String, Object> getAllOrganizers(Integer page) {
+		String sql = "SELECT COUNT(1) FROM ORGANIZER_ADMINS";
+		
+		SQLQuery query = getSession().createSQLQuery(sql);
+		Object result = query.uniqueResult();
+		
+		Integer totalRecords = ((BigInteger)result).intValue();
+		List<EventOrganizerAdmin> profiles = new ArrayList<>();
+		if (totalRecords != 0) {
+			int startIdx = (page - 1) * Constants.RECORDS_PER_PAGE_UI;
+			int noOfRecords = Constants.RECORDS_PER_PAGE_UI;
+			Criteria criteria = getSession().createCriteria(EventOrganizerAdmin.class)
 				.setFetchMode("user", FetchMode.JOIN)
 				.setFetchMode("organizer", FetchMode.JOIN)
-				.addOrder(Order.desc("createDt"));
-		
-		return criteria.list();
+				.addOrder(Order.desc("createDt"))
+				.setFirstResult(startIdx)
+				.setMaxResults(noOfRecords);
+			
+			profiles = criteria.list();
+		}
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("ADMIN_PROFILES", profiles);
+		resultMap.put("TOTAL_RECORDS", totalRecords);
+		return resultMap;
 	}
 }

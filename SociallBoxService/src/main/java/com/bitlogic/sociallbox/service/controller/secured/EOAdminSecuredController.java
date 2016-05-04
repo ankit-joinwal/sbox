@@ -585,7 +585,7 @@ public class EOAdminSecuredController extends BaseController implements Constant
 		}
 	}
 	
-	@RequestMapping(value="/{userId}/events/{eventId}/live",method = RequestMethod.PUT, produces = {
+	@RequestMapping(value="/{userId}/events/{eventId}/live",method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseStatus(HttpStatus.OK)
 	public SingleEntityResponse<String> makeEventLive(@RequestHeader(value=Constants.AUTHORIZATION_HEADER) String auth,@PathVariable String eventId){
@@ -600,7 +600,7 @@ public class EOAdminSecuredController extends BaseController implements Constant
 		return entityResponse;
 	}
 	
-	@RequestMapping(value="/{userId}/events/{eventId}/cancel",method = RequestMethod.PUT, produces = {
+	@RequestMapping(value="/{userId}/events/{eventId}/cancel",method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseStatus(HttpStatus.OK)
 	public SingleEntityResponse<String> cancelEvent(@RequestHeader(value=Constants.AUTHORIZATION_HEADER) String auth,@PathVariable String eventId){

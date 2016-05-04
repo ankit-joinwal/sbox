@@ -70,14 +70,18 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 		Criteria criteria = getSession().createCriteria(Event.class, "event")
 				.add(Restrictions.eq("event.uuid", id))
 				.setFetchMode("event.tags", FetchMode.JOIN)
-				.setFetchMode("event.eventImages", FetchMode.JOIN)
-				.createAlias("event.eventImages", "image")
-				.add(Restrictions.eq("image.displayOrder", 1))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		String sql = "SELECT * FROM EVENT_IMAGES WHERE EVENT_ID = :eventId AND DISPLAY_ORDER = 1";
 		Event event = (Event) criteria.uniqueResult();
 		if (event != null && event.getEventImages() != null) {
-			// To Load images
-			event.getEventImages().size();
+			SQLQuery query = getSession().createSQLQuery(sql);
+			query.addEntity(EventImage.class);
+			query.setParameter("eventId", id);
+			Object result = query.uniqueResult();
+			EventImage displayImage = (EventImage) result;
+			
+			event.getEventImages().add(displayImage);
 			event.getTags().size();
 			event.getEventDetails().toString();
 		}
@@ -277,38 +281,52 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 	}
 
 	@Override
-	public List<EventResponse> getPendingEvents() {
-		Criteria criteria = getSession().createCriteria(Event.class, "event")
-				.setFetchMode("event.eventDetails.organizer", FetchMode.JOIN)
-				.setFetchMode("event.tags", FetchMode.JOIN)
-				.createAlias("event.eventDetails", "ed")
-				.createAlias("event.tags", "eventTag")
-				.setFetchMode("event.eventImages", FetchMode.JOIN)
-				.createAlias("event.eventImages", "image")
-				.add(Restrictions.eq("image.displayOrder", 1))
-				.add(Restrictions.eq("event.eventStatus", EventStatus.PENDING_APPROVAL))
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		List<Event> events = criteria.list();
+	public Map<String, ?> getPendingEvents(Integer page) {
+		
+		String sql = "SELECT COUNT(1) FROM EVENT WHERE EVENT_STATUS = :eventStatus";
+		
+		SQLQuery query = getSession().createSQLQuery(sql);
+		query.setParameter("eventStatus", EventStatus.PENDING_APPROVAL.name());
+		
+		Object result = query.uniqueResult();
+		
+		Integer totalRecords = ((BigInteger)result).intValue();
+		
 		List<EventResponse> eventsResponse = new ArrayList<EventResponse>();
-		if (events != null && !events.isEmpty()) {
-			logger.info("Found : {} events", events.size());
+		if (totalRecords != 0) {
+			int startIdx = (page - 1) * Constants.RECORDS_PER_PAGE_UI;
+			int noOfRecords = Constants.RECORDS_PER_PAGE_UI;
+			Criteria criteria = getSession()
+					.createCriteria(Event.class, "event")
+					.setFetchMode("event.eventDetails.organizer",
+							FetchMode.JOIN)
+					.createAlias("event.eventDetails", "ed")
+					.add(Restrictions.eq("event.eventStatus",
+							EventStatus.PENDING_APPROVAL))
+					.addOrder(Order.desc("ed.createDt"))
+					.setFirstResult(startIdx).setMaxResults(noOfRecords)
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			List<Event> events = criteria.list();
 
-			EventTransformer transformer = (EventTransformer) TransformerFactory
-					.getTransformer(TransformerTypes.EVENT_TRANS);
-			EventResponse eventInCity = null;
-			for (Event event : events) {
-				// TODO: This is done to lazy load the tags.
-				event.getTags().size();
-				if (event.getEventImages() != null) {
-					// To Load images
-					event.getEventImages().size();
+			if (events != null && !events.isEmpty()) {
+				logger.info("Found : {} events", events.size());
+
+				EventTransformer transformer = (EventTransformer) TransformerFactory
+						.getTransformer(TransformerTypes.EVENT_TRANS);
+				EventResponse eventInCity = null;
+				for (Event event : events) {
+					// TODO: This is done to lazy load the tags.
+					event.getTags().size();
+
+					eventInCity = transformer.transform(event);
+					eventsResponse.add(eventInCity);
 				}
-
-				eventInCity = transformer.transform(event);
-				eventsResponse.add(eventInCity);
 			}
 		}
-		return eventsResponse;
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("EVENTS", eventsResponse);
+		resultMap.put("TOTAL_RECORDS", totalRecords);
+		return resultMap;
 	}
 
 	@Override

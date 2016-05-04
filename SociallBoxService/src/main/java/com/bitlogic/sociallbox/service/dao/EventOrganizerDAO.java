@@ -19,7 +19,7 @@ public interface EventOrganizerDAO {
 	
 	public EventOrganizerAdmin createEOAdmin(EventOrganizerAdmin eventOrganizerAdmin);
 	
-	public List<EventOrganizerAdmin> getPendingEOAdminProfiles();
+	public Map<String, Object> getPendingEOAdminProfiles(Integer page);
 	
 	public List<EventOrganizerAdmin> getEOAdminProfilesByIds(List<Long> profileIds);
 	
@@ -29,6 +29,6 @@ public interface EventOrganizerDAO {
 	
 	public Map<String, ?> getEventsForOrganizer(String timeline,EventStatus eventStatus,Integer page,Long adminProfileId);
 	
-	public List<EventOrganizerAdmin> getAllOrganizers();
+	public Map<String, Object> getAllOrganizers(Integer page);
 	
 }

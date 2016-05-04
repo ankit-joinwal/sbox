@@ -96,9 +96,9 @@ var app = angular.module('Authentication')
           							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,response.data.data.company_profile)
 				          	 .then(function(userProfileResponse){
 									if(userProfileResponse.status == 200){
-										console.log('AuthenticationService.registerUser : Succesfully stored user profile in cookies');
+										console.log('AuthenticationService.signin : Succesfully stored user profile in cookies');
 									}else{
-										console.log('AuthenticationService.registerUser : Failed to store user profile in cookies');
+										console.log('AuthenticationService.signin : Failed to store user profile in cookies');
 									}
 							});
 		                 	deferred.resolve(response);

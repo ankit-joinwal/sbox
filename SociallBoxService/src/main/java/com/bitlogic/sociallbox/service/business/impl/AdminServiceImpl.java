@@ -2,9 +2,9 @@ package com.bitlogic.sociallbox.service.business.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -22,7 +22,6 @@ import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
 import com.bitlogic.sociallbox.data.model.Role;
-import com.bitlogic.sociallbox.data.model.SmartDevice;
 import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.UserMessage;
 import com.bitlogic.sociallbox.data.model.UserRoleType;
@@ -93,9 +92,10 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 		throw new UnauthorizedException(RestErrorCodes.ERR_003, ERROR_USER_INVALID);
 	}
 	@Override
-	public List<EOAdminProfile> getPendingProfiles() {
+	public Map<String, ?> getPendingProfiles(Integer page) {
 		String LOG_PREFIX = "AdminServiceImpl-getPendingProfiles";
-		List<EventOrganizerAdmin> pendingEOs = this.eventOrganizerDAO.getPendingEOAdminProfiles();
+		Map<String, Object> resultMap = this.eventOrganizerDAO.getPendingEOAdminProfiles(page);
+		List<EventOrganizerAdmin> pendingEOs = (List<EventOrganizerAdmin>) resultMap.get("PENDING_PROFILES");
 		List<EOAdminProfile> pendingProfiles = new ArrayList<EOAdminProfile>();
 		logInfo(LOG_PREFIX, "Preparing Pending Profiles ");
 		for(EventOrganizerAdmin admin : pendingEOs){
@@ -107,7 +107,8 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 			EOAdminProfile adminProfile = new EOAdminProfile(eventOrganizerProfile, admin, user);
 			pendingProfiles.add(adminProfile);
 		}
-		return pendingProfiles;
+		resultMap.put("PROFILES", pendingProfiles);
+		return resultMap;
 	}
 	
 	@Override
@@ -203,7 +204,7 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 	}
 	
 	@Override
-	public List<EOAdminProfile> getAllOrganizers(String emailId) {
+	public Map<String, ?> getAllOrganizers(String emailId,Integer page) {
 		String LOG_PREFIX = "AdminServiceImpl-getAllOrganizers";
 		User userInDB = this.userDAO.getUserByEmailId(emailId, false);
 		if(userInDB!=null){
@@ -211,8 +212,9 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 			if(roles!=null){
 				for(Role role : roles){
 					if(UserRoleType.ADMIN == role.getUserRoleType()){
-						List<EventOrganizerAdmin> eoAdmins = this.eventOrganizerDAO.getAllOrganizers();
+						Map<String, Object> resultMap = this.eventOrganizerDAO.getAllOrganizers(page);
 						List<EOAdminProfile> profiles = new ArrayList<EOAdminProfile>();
+						List<EventOrganizerAdmin> eoAdmins = (List<EventOrganizerAdmin>) resultMap.get("ADMIN_PROFILES");
 						for(EventOrganizerAdmin admin : eoAdmins){
 							User user = admin.getUser();
 							EventOrganizer organizer = admin.getOrganizer();
@@ -223,7 +225,8 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 							profiles.add(adminProfile);
 							
 						}
-						return profiles;
+						resultMap.put("PROFILES", profiles);
+						return resultMap;
 						
 					}
 				}

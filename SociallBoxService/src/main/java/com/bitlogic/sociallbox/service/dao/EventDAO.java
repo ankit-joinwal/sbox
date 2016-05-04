@@ -36,7 +36,7 @@ public interface EventDAO {
 	
 	public List<EventImage> getEventImages(String eventId);
 	
-	public List<EventResponse> getPendingEvents();
+	public Map<String, ?> getPendingEvents(Integer page);
 	
 	public List<Event> getEventsByIds(List<String> eventIds);
 	

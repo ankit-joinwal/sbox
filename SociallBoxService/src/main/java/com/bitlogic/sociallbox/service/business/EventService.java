@@ -40,7 +40,7 @@ public interface EventService {
 	public List<EventImage> getEventImages(String eventId);
 	
 	@PreAuthorize("hasRole('"+Constants.ROLE_TYPE_ADMIN+"')")
-	public List<EventResponse> getEventsPendingForApproval();
+	public Map<String, ?> getEventsPendingForApproval(Integer page);
 	
 	public EventAttendee registerForEvent(String eventId, String deviceId);
 	
