@@ -166,7 +166,7 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 				UserMessage userMessage = new UserMessage();
 				userMessage.setCreateDt(new Date());
 				userMessage.setIsRead(Boolean.FALSE);
-				userMessage.setMessage(message);
+				userMessage.setMessage(String.format(message,event.getTitle()));
 				userMessage.setUser(user);
 				this.userDAO.addMessageForUser(userMessage);
 			}
