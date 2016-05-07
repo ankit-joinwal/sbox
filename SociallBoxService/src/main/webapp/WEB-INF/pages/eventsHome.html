@@ -9,7 +9,10 @@
     color: #FFF;
     border-color: #5bc0de;
 }
-  
+ 
+ .float-right {
+ 	float : right;'
+ }
 
       #search:hover input, #search input:focus {
             width: 250px;
@@ -74,7 +77,192 @@
 .board {
     margin: 25px auto;}
     .table>tbody>tr>td{vertical-align:middle;}
+
+   
     
+    .event-list {
+		list-style: none;
+		font-family: 'Lato', sans-serif;
+		margin: 0px;
+		padding: 0px;
+	}
+	.event-list > li {
+		background-color: rgb(255, 255, 255);
+		box-shadow: 0px 0px 5px rgb(51, 51, 51);
+		box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+		padding: 0px;
+		margin: 0px 0px 20px;
+	}
+	.event-list > li > time {
+		display: inline-block;
+		width: 100%;
+		color: rgb(255, 255, 255);
+		background-color: #34d1da;
+		padding: 5px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	.event-list > li:nth-child(even) > time {
+		background-color: #1a888e;
+	}
+	.event-list > li > time > span {
+		display: none;
+	}
+	.event-list > li > time > .day {
+		display: block;
+		font-size: 56pt;
+		font-weight: 100;
+		line-height: 1;
+	}
+	.event-list > li time > .month {
+		display: block;
+		font-size: 24pt;
+		font-weight: 900;
+		line-height: 1;
+	}
+	.event-list > li > img {
+		width: 100%;
+	}
+	.event-list > li > .info {
+		padding-top: 5px;
+		text-align: center;
+	}
+	.event-list > li > .info > .title {
+		font-size: 17pt;
+		font-weight: 700;
+		margin: 0px;
+	}
+	.event-list > li > .info > .desc {
+		font-size: 13pt;
+		font-weight: 300;
+		margin: 0px;
+	}
+	.event-list > li > .info > ul,
+	.event-list > li > .social > ul {
+		display: table;
+		list-style: none;
+		margin: 10px 0px 0px;
+		padding: 0px;
+		width: 100%;
+		text-align: center;
+	}
+	.event-list > li > .social > ul {
+		margin: 0px;
+	}
+	.event-list > li > .info > ul > li,
+	.event-list > li > .social > ul > li {
+		display: table-cell;
+		cursor: pointer;
+		color: rgb(30, 30, 30);
+		font-size: 11pt;
+		font-weight: 300;
+        padding: 3px 0px;
+	}
+    .event-list > li > .info > ul > li > a {
+		display: block;
+		width: 100%;
+		color: rgb(30, 30, 30);
+		text-decoration: none;
+	} 
+    .event-list > li > .social > ul > li {    
+        padding: 0px;
+    }
+    .event-list > li > .social > ul > li > a {
+        padding: 3px 0px;
+	} 
+	.event-list > li > .info > ul > li:hover,
+	.event-list > li > .social > ul > li:hover {
+		color: rgb(30, 30, 30);
+		background-color: rgb(200, 200, 200);
+	}
+	.facebook a,
+	.twitter a,
+	.google-plus a {
+		display: block;
+		width: 100%;
+		color: rgb(75, 110, 168) !important;
+	}
+	.twitter a {
+		color: rgb(79, 213, 248) !important;
+	}
+	.google-plus a {
+		color: rgb(221, 75, 57) !important;
+	}
+	.facebook:hover a {
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(75, 110, 168) !important;
+	}
+	.twitter:hover a {
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(79, 213, 248) !important;
+	}
+	.google-plus:hover a {
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(221, 75, 57) !important;
+	}
+
+	@media (min-width: 768px) {
+		.event-list > li {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 120px;
+			padding: 0px;
+		}
+		.event-list > li > time,
+		.event-list > li > img  {
+			display: inline-block;
+		}
+		.event-list > li > time,
+		.event-list > li > img {
+			width: 120px;
+			float: left;
+		}
+		.event-list > li > .info {
+			overflow: hidden;
+		}
+		.event-list > li > time,
+		.event-list > li > img {
+			width: 120px;
+			height: 120px;
+			padding: 0px;
+			margin: 0px;
+		}
+		.event-list > li > .info {
+			position: relative;
+			height: 120px;
+			text-align: left;
+			padding-right: 40px;
+		}	
+		.event-list > li > .info > .title, 
+		.event-list > li > .info > .desc {
+			padding: 0px 10px;
+		}
+		.event-list > li > .info > ul {
+			position: absolute;
+			left: 0px;
+			bottom: 0px;
+		}
+		.event-list > li > .social {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			display: block;
+			width: 40px;
+		}
+        .event-list > li > .social > ul {
+            border-left: 1px solid rgb(230, 230, 230);
+        }
+		.event-list > li > .social > ul > li {			
+			display: block;
+            padding: 0px;
+		}
+		.event-list > li > .social > ul > li > a {
+			display: block;
+			width: 40px;
+			padding: 10px 0px 9px;
+		}
+	}
     
 </style>
 
@@ -89,17 +277,9 @@
 					<div class="row">
 						<div class="col-md-4">
 						</div>
-       					 <div class="col-md-4" id="search">
-							<form class="navbar-form navbar-left" role="search">
-  								<div class="form-group">
-    								<input type="text" class="form-control"  ng-model="searchKeyword" placeholder="Search">
-    								<button type="submit" class="btn btn-primary">Search</button>
- 								 </div>
-							</form>
+       					 <div class="col-md-4" >
+       					 	<button type="submit" ng-click="initNewEvent()" class="btn btn-success btn-lg">Create New Event</button>
 					   	</div>
-						 <div class="col-md-4" style="margin-top:8px;text-align:center;">
-						 	<button type="submit" ng-click="initNewEvent()" class="btn btn-primary">Create Event</button>
-						 </div>
 					</div>
 					<div class="row">
 						<div class="board">
@@ -125,24 +305,29 @@
 								    	<div class="row">
 								    		<div class=" eventSection">
 								    			<table st-table="myEventsData_upcoming" st-pipe="myevents_upcoming" class="table table-striped">
-												    <thead>
-												      <tr >
-												        <th>Event Title</th>
-												        <th>Start Date & Time</th>
-												        <th>End Date & Time</th>
-												        <th>Status</th>
-												        <th></th>
-												      </tr>
-												    </thead>
 												   <tbody ng-show="!isUpEventsLoading">
-												      <tr ng-repeat= "event in myEventsData_upcoming">
-												        <td>{{event.title}}</td>
-												        <td>{{event.start_date}}</td>
-												        <td>{{event.end_date}}</td>
-												        <td>{{event.status}}</td>
-												        <td><button type="button" ng-click="goToEventDetails(event.id)" class="btn btn-info">Details</button></td>
-												      </tr>
-
+												   		<div>
+												   		<ul class="event-list">
+													      <li ng-repeat= "event in myEventsData_upcoming">
+													        <time>
+																<span class="day">{{event.day}}</span>
+																<span class="month">{{event.month}}</span>
+															</time>
+															<img alt="No Image Available" src="{{event.display_image.url}}" />
+															<div class="info">
+																<button type="button" ng-click="goToEventDetails(event.id)" class="btn btn-success float-right">View Details</button>
+																<label class="text-primary title">{{event.title}}</label>
+																<h3 class="desc">{{event.event_detail.location.locality}}</h3>
+																
+																<p ng-show="(event.status == 'APPROVED')" class="desc">Status : <span class="label label-primary">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'PENDING_APPROVAL')" class="desc">Status : <span class="label label-info">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'LIVE')" class="desc">Status : <span class="label label-success">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'REJECTED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'CANCELLED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
+															</div>
+													        </li>
+														</ul>
+														</div>
 												    </tbody>
 												     <tbody ng-show="isUpEventsLoading">
 														<tr>
@@ -164,23 +349,31 @@
 											<div class="row">
 								    		<div class="eventSection">
 								    			<table st-table="myEventsData_past" st-pipe="myevents_past" class="table table-striped">
-												    <thead>
-												      <tr>
-												        <th>Event Title</th>
-												        <th>Start Date & Time</th>
-												        <th>End Date & Time</th>
-												        <th>Status</th>
-												        <th></th>
-												      </tr>
-												    </thead>
+												    
 												  <tbody ng-show="!isPastEventsLoading">
-												       <tr ng-repeat= "event in myEventsData_past">
-												        <td>{{event.title}}</td>
-												        <td>{{event.start_date}}</td>
-												        <td>{{event.end_date}}</td>
-												        <td>{{event.status}}</td>
-												       <td><button type="button" ng-click="goToEventDetails(event.id)" class="btn btn-info">Details</button></td>
-												      </tr>
+												      
+												      <div>
+												   		<ul class="event-list">
+													      <li ng-repeat= "event in myEventsData_past">
+													        <time>
+																<span class="day">{{event.day}}</span>
+																<span class="month">{{event.month}}</span>
+															</time>
+															<img alt="No Image Available" src="{{event.display_image.url}}" />
+															<div class="info">
+																<button type="button" ng-click="goToEventDetails(event.id)" class="btn btn-success float-right">View Details</button>
+																<label class="text-primary title">{{event.title}}</label>
+																<h3 class="desc">{{event.event_detail.location.locality}}</h3>
+																
+																<p ng-show="(event.status == 'APPROVED')" class="desc">Status : <span class="label label-primary">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'PENDING_APPROVAL')" class="desc">Status : <span class="label label-info">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'LIVE')" class="desc">Status : <span class="label label-success">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'REJECTED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
+																<p ng-show="(event.status == 'CANCELLED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
+															</div>
+													        </li>
+														</ul>
+														</div>
 												    </tbody>
 												    <tbody ng-show="isPastEventsLoading">
 														<tr>

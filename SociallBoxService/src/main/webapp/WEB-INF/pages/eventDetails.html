@@ -1,58 +1,13 @@
 <style>
-/* Tabs panel */
-.tabbable-panel {
- 
-}
-
-/* Default mode */
-.tabbable-line > .nav-tabs {
-  border: none;
-  margin: 0px;
-  background-color: #fff;
-}
-.tabbable-line > .nav-tabs > li {
-  margin-right: 2px;
-}
-.tabbable-line > .nav-tabs > li > a {
-  border: 0;
-  margin-right: 0;
-  color: #737373;
-}
-
-.tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
-  border-bottom: 4px solid #fbcdcf;
-}
-.tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
-  border: 0;
-  background: none !important;
-  color: #333333;
-}
-
-.tabbable-line > .nav-tabs > li.active {
-  border-bottom: 4px solid #f3565d;
-  position: relative;
-}
-.tabbable-line > .nav-tabs > li.active > a {
-  border: 0;
-  color: #333333;
-}
-
-.tabbable-line > .tab-content {
-  margin-top: -3px;
-  background-color: #fff;
-  border: 0;
-  border-top: 1px solid #eee;
-  padding: 15px 0;
-}
-
 .tags button{width:110px;}
-
+.tags button.btninactive, #IsFreeButton button.inactive{background-color: #F0F0F0;
+    border-color: #EAEAEA;}
 .tags button.btnactive,#IsFreeButton button.active,.reviewTagNames button.btnactive,.reviewFreeButton button.btnactive{background-color: #337ab7;
     border-color: #337ab7;color:#fff}
 </style>
 <div class="container-fluid" ng-controller="EventsController" >
 	<div class="side-body">
-		<div class="panel panel-default" id="pageContainer">
+		<div class="panel" id="pageContainer">
 			<div class="loader-container text-center color-white">
 				<div>
 					<i class="fa fa-spinner fa-pulse fa-3x"></i>
@@ -83,7 +38,6 @@
 						</div>
 					</div>
 				</div>
-			
 				<div class="panel panel-info">
 			      <div class="panel-heading">Event Details</div>
 			      <div class="panel-body">
@@ -98,7 +52,11 @@
 											</div>
 											<div class="col-md-6">
 												<label for="status" class="text-primary">Status</label>
-												<h4 id="status">{{eventDetails.status}}</h4>
+												<h3 ng-show="(eventDetails.status == 'APPROVED')" class="desc">Status : <span class="label label-primary">{{eventDetails.status}}</span></h3>
+												<h3 ng-show="(eventDetails.status == 'PENDING_APPROVAL')" class="desc">Status : <span class="label label-info">{{eventDetails.status}}</span></h3>
+												<h3 ng-show="(eventDetails.status == 'LIVE')" class="desc">Status : <span class="label label-success">{{eventDetails.status}}</span></h3>
+												<h3 ng-show="(eventDetails.status == 'REJECTED')" class="desc">Status : <span class="label label-danger">{{eventDetails.status}}</span></h3>
+												<h3 ng-show="(eventDetails.status == 'CANCELLED')" class="desc">Status : <span class="label label-danger">{{eventDetails.status}}</span></h3>
 											</div>
 										</div>
 										<div class="row">

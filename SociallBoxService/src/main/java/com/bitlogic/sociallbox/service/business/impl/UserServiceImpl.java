@@ -547,9 +547,10 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 	}
 	
 	@Override
-	public List<UserMessage> getMessagesForUser(Long userId) {
+	public Map<String,Object> getMessagesForUser(Long userId,Integer page) {
 		String LOG_PREFIX = "UserServiceImpl-getMessagesForUser";
-		List<UserMessage> messages = this.userDAO.getMessages(userId);
+		Map<String,Object> resultsMap = this.userDAO.getMessages(userId,page);
+		List<UserMessage> messages = (List<UserMessage>) resultsMap.get("MESSAGES");
 		Date now = new Date();
 		if(messages!=null){
 			for(UserMessage userMessage : messages){
@@ -576,7 +577,7 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 				}
 			}
 		}
-		return messages;
+		return resultsMap;
 	}
 	
 	@Override

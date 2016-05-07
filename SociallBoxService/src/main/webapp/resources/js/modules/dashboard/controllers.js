@@ -138,17 +138,34 @@ app.controller('DashboardController',
 		});
 	};
 	
-	$scope.getUserMessages = function(){
+	$scope.getUserMessages = function(tableState){
+		$scope.isUserMessagesLoading = true;
+		var pagination = tableState.pagination;
+
+	    var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+	    var number = pagination.number || 10;  // Number of entries showed per page.
+	   
+	    var pageNum ;
+	    
+	    pageNum = Math.floor(start/number) +1;
+	    
 		var userId ;
 		AuthenticationService.getUserProfile()
 		.then(function(profileResponse){
 			var profile = profileResponse.data;
 			userId = profile.userId;
 			
-			DashboardService.getMessagesForUser(userId)
+			DashboardService.getMessagesForUser(userId,pageNum)
 			.then(function(messagesResponse){
 				$scope.userMessages = messagesResponse.data.data;
-				$("#messages").removeClass('loader');
+				 var totalPages ;
+				 if(messagesResponse.data.total_records%number ==0){
+			    	  totalPages = messagesResponse.data.total_records/number ;
+			      }else{
+			    	  totalPages = Math.floor(messagesResponse.data.total_records/number) +1 ;
+			      }
+			      tableState.pagination.numberOfPages = totalPages;//set the number of pages so the pagination can update
+			      $scope.isUserMessagesLoading = false;
 			})
 			.catch(function(dashboardResponse){
 				alert('Unable to get details from server');

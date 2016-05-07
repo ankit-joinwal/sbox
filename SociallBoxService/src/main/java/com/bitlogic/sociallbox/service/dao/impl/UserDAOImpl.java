@@ -1,5 +1,6 @@
 package com.bitlogic.sociallbox.service.dao.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
+import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.MeetupAttendeeEntity;
 import com.bitlogic.sociallbox.data.model.PushNotificationSettingMaster;
 import com.bitlogic.sociallbox.data.model.Role;
@@ -331,12 +333,24 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 	}
 	
 	@Override
-	public List<UserMessage> getMessages(Long userId) {
-		String sql  = "SELECT * FROM USER_MESSAGES WHERE USER_ID = :userId ORDER BY CREATE_DT DESC LIMIT 20";
+	public Map<String,Object> getMessages(Long userId,Integer page) {
+		String totalRecordsSql = "SELECT COUNT(1) FROM USER_MESSAGES WHERE USER_ID = :userId ";
+		
+		SQLQuery totalRecordsQuery = getSession().createSQLQuery(totalRecordsSql);
+		totalRecordsQuery.setParameter("userId", userId);
+		Object result = totalRecordsQuery.uniqueResult();
+		
+		Integer totalRecords = ((BigInteger)result).intValue();
+		
+		int startIdx = (page - 1) * Constants.RECORDS_PER_PAGE_UI;
+		int noOfRecords = Constants.RECORDS_PER_PAGE_UI;
+		
+		String sql  = "SELECT * FROM USER_MESSAGES WHERE USER_ID = :userId ORDER BY CREATE_DT DESC LIMIT :startIdx , :limit";
 		SQLQuery query = getSession().createSQLQuery(sql);
 		query.addEntity(UserMessage.class);
 		query.setParameter("userId", userId);
-		
+		query.setParameter("startIdx", startIdx);
+		query.setParameter("limit", noOfRecords);
 		List results = query.list();
 		List<UserMessage> messages = new ArrayList<UserMessage>(results.size());
 
@@ -346,7 +360,11 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 				 messages.add(message);
 			 }
 		 }
-		return messages;
+		
+		Map<String,Object> resultMap = new HashMap<>();
+		resultMap.put("MESSAGES", messages);
+		resultMap.put("TOTAL_RECORDS", totalRecords);
+		return resultMap;
 	}
 	
 	@Override

@@ -18,9 +18,12 @@ import org.springframework.stereotype.Repository;
 import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.EOAdminStatus;
 import com.bitlogic.sociallbox.data.model.Event;
+import com.bitlogic.sociallbox.data.model.EventImage;
 import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
+import com.bitlogic.sociallbox.data.model.Location;
+import com.bitlogic.sociallbox.data.model.response.EventDetailsResponse;
 import com.bitlogic.sociallbox.data.model.response.EventResponse;
 import com.bitlogic.sociallbox.service.dao.AbstractDAO;
 import com.bitlogic.sociallbox.service.dao.EventOrganizerDAO;
@@ -101,7 +104,8 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 		queryForTotalRecords.append(" WHERE DTL.ORGANIZER_ADMIN_ID = :adminProfileId");
 		
 		StringBuilder sql = new StringBuilder("SELECT EVENT.ID , EVENT.TITLE , DATE_FORMAT(EVENT.START_DT,'%b %d %Y %h:%i %p') , DATE_FORMAT(EVENT.END_DT,'%b %d %Y %h:%i %p') ,"
-					+ "	EVENT.EVENT_STATUS	FROM EVENT EVENT INNER JOIN EVENT_DETAILS DTL	ON EVENT.ID = DTL.EVENT_ID ");
+					+ "	EVENT.EVENT_STATUS, DTL.LOCALITY , IMG.URL FROM EVENT EVENT INNER JOIN EVENT_DETAILS DTL	ON EVENT.ID = DTL.EVENT_ID "
+					+ " LEFT JOIN EVENT_IMAGES IMG ON EVENT.ID = IMG.EVENT_ID ");
 		sql.append(" WHERE DTL.ORGANIZER_ADMIN_ID = :adminProfileId");
 		Date now = new Date();
 		if(timeline.equals(Constants.TIMELINE_UPCOMING)){
@@ -148,11 +152,21 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 			 for (Iterator iterator = results.iterator(); iterator.hasNext();) {
 				 Object[] resultArr = (Object[]) iterator.next();
 				 EventResponse eventResponse = new EventResponse();
+				 EventDetailsResponse detailsResponse = new EventDetailsResponse();
+				 Location location = new Location();
 				 eventResponse.setUuid((String) resultArr[0]);
 				 eventResponse.setTitle((String)resultArr[1]);
 				 eventResponse.setStartDate((String)resultArr[2]);
 				 eventResponse.setEndDate((String)resultArr[3]);
+				 
 				 eventResponse.setEventStatus(EventStatus.getStatusFromValue((String)resultArr[4]));
+				 
+				 location.setLocality((String)resultArr[5]);
+				 EventImage eventImage = new EventImage();
+				 eventImage.setUrl((String)resultArr[6]);
+				 eventResponse.setDisplayImage(eventImage);
+				 detailsResponse.setLocation(location);
+				 eventResponse.setEventDetails(detailsResponse);
 				 events.add(eventResponse);
 			 }
 		}

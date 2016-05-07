@@ -45,7 +45,16 @@ app.controller('EventsController',
 						
 						EventService.myevents_upcoming(userId,pageNum)
 						.then(function(eventResponse){
-							$scope.myEventsData_upcoming =eventResponse.data.data;
+							var events = eventResponse.data.data;
+							$.each(events, function(key,event) {
+								  var startDate = event.start_date;
+								  var startDateArr = startDate.split(" ");
+								  var day = startDateArr[1];
+								  var month = startDateArr[0];
+								  event.day = day;
+								  event.month = month;
+							}); 
+							$scope.myEventsData_upcoming =events;
 							var totalPages ;
 							 if(eventResponse.data.total_records%number ==0){
 						    	  totalPages = eventResponse.data.total_records/number ;
@@ -90,8 +99,16 @@ app.controller('EventsController',
 						
 						EventService.myevents_past(userId,pageNum)
 						.then(function(eventResponse){
-							$scope.myEventsData_past =eventResponse.data.data;
-							
+							var events = eventResponse.data.data;
+							$.each(events, function(key,event) {
+								  var startDate = event.start_date;
+								  var startDateArr = startDate.split(" ");
+								  var day = startDateArr[1];
+								  var month = startDateArr[0];
+								  event.day = day;
+								  event.month = month;
+							}); 
+							$scope.myEventsData_past =events;
 							var totalPages ;
 							 if(eventResponse.data.total_records%number ==0){
 						    	  totalPages = eventResponse.data.total_records/number ;

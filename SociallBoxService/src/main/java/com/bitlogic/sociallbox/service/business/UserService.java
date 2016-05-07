@@ -1,6 +1,7 @@
 package com.bitlogic.sociallbox.service.business;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -46,7 +47,7 @@ public interface UserService {
 
 	public List<UserSetting> setUserSettings(Long userId,List<UserSetting> newSettings);
 	
-	public List<UserMessage> getMessagesForUser(Long userId);
+	public Map<String,Object> getMessagesForUser(Long userId,Integer page);
 	
 	public String markMessageAsRead(Long userId,Long messageId);
 	

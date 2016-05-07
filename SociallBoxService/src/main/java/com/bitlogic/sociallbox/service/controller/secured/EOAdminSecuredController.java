@@ -377,15 +377,19 @@ public class EOAdminSecuredController extends BaseController implements Constant
 	@RequestMapping(value="/{userId}/messages",method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	public EntityCollectionResponse<UserMessage> getMessagesForUser(@PathVariable Long userId){
+	public EntityCollectionResponse<UserMessage> getMessagesForUser(@PathVariable Long userId,@RequestParam(value="page",required=false)Integer page){
 		logRequestStart(GET_USER_MESSAGES_API, SECURED_REQUEST_START_LOG_MESSAGE, GET_USER_MESSAGES_API);
-		List<UserMessage> messages = this.userService.getMessagesForUser(userId);
+		if(page==null){
+			page = new Integer(1);
+		}
+		
+		Map<String,?> resultsMap = this.userService.getMessagesForUser(userId,page);
 		
 		EntityCollectionResponse<UserMessage> collectionResponse = new EntityCollectionResponse<UserMessage>();
-		collectionResponse.setData(messages);
+		collectionResponse.setData((List<UserMessage>) resultsMap.get("MESSAGES"));
 		collectionResponse.setStatus(SUCCESS_STATUS);
-		collectionResponse.setPage(1);
-		collectionResponse.setTotalRecords(messages==null?0 :messages.size());
+		collectionResponse.setPage(page);
+		collectionResponse.setTotalRecords((Integer)resultsMap.get("TOTAL_RECORDS"));
 		
 		logRequestEnd(GET_USER_MESSAGES_API, GET_USER_MESSAGES_API);
 		return collectionResponse;

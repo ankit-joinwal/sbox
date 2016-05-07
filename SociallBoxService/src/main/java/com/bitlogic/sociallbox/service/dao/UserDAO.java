@@ -56,7 +56,7 @@ public interface UserDAO {
 	
 	public void addMessageForUser(UserMessage userMessage);
 	
-	public List<UserMessage> getMessages(Long userId);
+	public Map<String,Object> getMessages(Long userId,Integer page);
 	
 	public UserMessage getMessage(Long userId,Long messageId);
 	

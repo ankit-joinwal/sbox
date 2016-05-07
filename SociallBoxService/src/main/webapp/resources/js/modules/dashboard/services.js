@@ -87,9 +87,9 @@ app.factory('DashboardService',
 	    	};
 	    	
 	    	
-	    	service.getMessagesForUser = function(userId){
+	    	service.getMessagesForUser = function(userId,page){
 	    		var deferred = $q.defer();
-	    		var userMessagesUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/messages";
+	    		var userMessagesUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/messages?page="+page;
 	    		return AuthenticationService.getAuthToken()
 	    		.then(function(tokenResponse){
 	    			//Extract epoch time and token from response

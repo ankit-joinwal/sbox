@@ -71,7 +71,7 @@
 			</div>
 			<div class="col-sm-6 col-xs-12">
 
-				<div class="card card-info">
+				<div class="card card-info" style="max-height:390px;scroll:auto;">
 					<div class="card-header">
 						<div class="card-title">
 							<div class="title">
@@ -80,26 +80,28 @@
 						</div>
 						<div class="clear-both"></div>
 					</div>
-					<div id="messages" class="card-body no-padding loader">
-						<div class="loader-container text-center color-white">
-							<div>
-								<i class="fa fa-spinner fa-pulse fa-3x"></i>
-							</div>
-							<div>Loading</div>
-						</div>
-						<ul class="message-list" ng-init="getUserMessages()">
-							<li ng-repeat="message in userMessages">
-
-								<div class="message-block">
-									<div class="message">
-										<b>{{message.message}}</b>
-									</div>
-									<div>
-										<span class="message-datetime">{{message.time}}</span>
-									</div>
-								</div>
-							</li>
-						</ul>
+					<div id="messages" class="card-body no-padding">
+						
+						<table st-table="userMessages" st-pipe="getUserMessages" class="table table-striped">
+						 		<tbody ng-show="!isUserMessagesLoading">
+								 	<tr ng-repeat="message in userMessages">
+	                                    <td>{{message.message}}</td>
+	                                    <td>{{message.time}}</td>
+	                                </tr>
+                                </tbody>
+                                <tbody ng-show="isUserMessagesLoading">
+								<tr>
+									<td colspan="2" class="text-center">Loading ... </td>
+								</tr>
+								</tbody>
+                                <tfoot>
+									<tr>
+										<td class="text-center" st-pagination="" st-items-by-page="10" colspan="9">
+										</td>
+									</tr>
+								</tfoot>
+						</table>
+						
 					</div>
 				</div>
 			</div>
