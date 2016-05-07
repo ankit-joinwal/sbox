@@ -9,7 +9,7 @@ app.controller('EventsController',
 		   $scope.eventDetails = '';
 			
 			$scope.initNewEvent = function(){
-				$window.location.href = "/SociallBox/eo/home#/events/new";
+				$window.location.href = "/eo/home#/events/new";
 			};
 			
 			$scope.toggleTag = function(event) {
@@ -68,14 +68,14 @@ app.controller('EventsController',
 					}).catch(function(response){
 						 $scope.isUpEventsLoading = false;
 						console.log("Inside event service controller Response :"+response.status);
-						$window.location.href = "/SociallBox/eo/login";
+						$window.location.href = "/eo/login";
 			
 					});
 					
 				}).catch(function(response){
 					 $scope.isUpEventsLoading = false;
 					console.log("Inside event service controller Response :"+response.status);
-					$window.location.href = "/SociallBox/eo/login";
+					$window.location.href = "/eo/login";
 		
 				});
 			};
@@ -123,20 +123,20 @@ app.controller('EventsController',
 					}).catch(function(response){
 						 $scope.isPastEventsLoading = false;
 						console.log("Inside event service controller Response :"+response.status);
-						$window.location.href = "/SociallBox/eo/login";
+						$window.location.href = "/eo/login";
 			
 					});
 					
 				}).catch(function(response){
 					 $scope.isPastEventsLoading = false;
 					console.log("Inside event service controller Response :"+response.status);
-					$window.location.href = "/SociallBox/eo/login";
+					$window.location.href = "/eo/login";
 		
 				});
 			};
 			
 			$scope.goToEventDetails = function(eventId){
-				$window.location.href = "/SociallBox/eo/home#/events/"+eventId;
+				$window.location.href = "/eo/home#/events/"+eventId;
 			};
 			
 			$scope.getEventDetails = function(){
@@ -156,12 +156,12 @@ app.controller('EventsController',
 					})
 					.catch(function(response){
 						console.log('Inside EventsController.getEventDetails Response :'+response.status);
-						$window.location.href = "/SociallBox/eo/home";
+						$window.location.href = "/eo/home";
 					});
 				})
 				.catch(function(profileResponse){
 					console.log('Inside EventsController.getEventDetails Response :'+profileResponse.status);
-					$window.location.href = "/SociallBox/eo/home";
+					$window.location.href = "/eo/home";
 				});
 			};
 			
@@ -261,12 +261,12 @@ app.controller('EventsController',
 					})
 					.catch(function(response){
 						console.log('Inside EventsController.getEventStats Response :'+response.status);
-						$window.location.href = "/SociallBox/eo/home";
+						$window.location.href = "/eo/home";
 					});
 				})
 				.catch(function(profileResponse){
 					console.log('Inside EventsController.getEventStats.getUserProfile Response :'+profileResponse.status);
-					$window.location.href = "/SociallBox/eo/home";
+					$window.location.href = "/eo/home";
 				});
 			};
 			
@@ -394,7 +394,7 @@ app.controller('EventsController',
 						        .then(function(uploadResponse){
 						        	if(uploadResponse.status == 201){
 							        	console.log('Uploaded event Pic');
-							        	$window.location.href = "/SociallBox/eo/home#/events";
+							        	$window.location.href = "/eo/home#/events";
 						        	}
 						         })
 						        .catch(function(uploadResponse){
@@ -402,7 +402,7 @@ app.controller('EventsController',
 								});
 					        }
 					        
-					        $window.location.href = "/SociallBox/eo/home#/events";
+					        $window.location.href = "/eo/home#/events";
 						})
 						.catch(function(eventResponse){
 							console.log('Error in creating company profile . Response :'+createResponse.status);
@@ -410,14 +410,14 @@ app.controller('EventsController',
 						
 					}).catch(function(profileResponse){
 						console.log("Inside event service controller Response :"+profileResponse.status);
-						$window.location.href = "/SociallBox/eo/login";
+						$window.location.href = "/eo/login";
 			
 					});
 				})
 				.catch(function(response){
 					console.log('Inside EventController.createEvent to create event. Response :'+response.status);
 					console.log('Inside EventController.createEvent to create event. Response :'+response.status);
-					$window.location.href = "/SociallBox/eo/login";
+					$window.location.href = "/eo/login";
 				});
 			};
 			
@@ -439,17 +439,17 @@ app.controller('EventsController',
 						})
 						.catch(function(response){
 							console.log('Inside EventsController.makeLive Response :'+response.status);
-							$window.location.href = "/SociallBox/eo/home#/events";
+							$window.location.href = "/eo/home#/events";
 						});
 					}).catch(function(profileResponse){
 						console.log("Inside event service controller Response :"+profileResponse.status);
-						$window.location.href = "/SociallBox/eo/login";
+						$window.location.href = "/eo/login";
 			
 					});
 					
 				}).catch(function(response){
 					console.log("Inside event service controller Response :"+response.status);
-					$window.location.href = "/SociallBox/eo/login";
+					$window.location.href = "/eo/login";
 		
 				});
 			};
@@ -473,17 +473,17 @@ app.controller('EventsController',
 							})
 							.catch(function(response){
 								console.log('Inside EventsController.cancelEvent Response :'+response.status);
-								$window.location.href = "/SociallBox/eo/home#/events";
+								$window.location.href = "/eo/home#/events";
 							});
 						}).catch(function(profileResponse){
 							console.log("Inside event service controller Response :"+profileResponse.status);
-							$window.location.href = "/SociallBox/eo/login";
+							$window.location.href = "/eo/login";
 				
 						});
 						
 					}).catch(function(response){
 						console.log("Inside event service controller Response :"+response.status);
-						$window.location.href = "/SociallBox/eo/login";
+						$window.location.href = "/eo/login";
 			
 					});
 				} 

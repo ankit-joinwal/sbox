@@ -9,7 +9,7 @@ app.factory('EventService',
 	    	
 	   	 service.myevents_upcoming = function(userId,page){
 	 			var deferred = $q.defer();
-	 			var myeventsURL = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/events?timeline=upcoming&page="+page;
+	 			var myeventsURL = "/api/secured/users/organizers/admins/"+userId+"/events?timeline=upcoming&page="+page;
 	 			return AuthenticationService.getAuthToken()
 	    		.then(function(tokenResponse){
 	    			//Extract epoch time and token from response
@@ -46,7 +46,7 @@ app.factory('EventService',
 	 		 
 	 		 service.myevents_past = function(userId,page){
 		 			var deferred = $q.defer();
-		 			var myeventsURL = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/events?timeline=past&page="+page;
+		 			var myeventsURL = "/api/secured/users/organizers/admins/"+userId+"/events?timeline=past&page="+page;
 		 			return AuthenticationService.getAuthToken()
 		    		.then(function(tokenResponse){
 		    			//Extract epoch time and token from response
@@ -83,7 +83,7 @@ app.factory('EventService',
 	 		 
 		 		service.createEvent = function(createEventRequest){
 		    		var deferred = $q.defer();
-		    		var createEventURL = "/SociallBox/api/secured/events";
+		    		var createEventURL = "/api/secured/events";
 		    		return AuthenticationService.getAuthToken()
 		    		.then(function(tokenResponse){
 		    			//Extract epoch time and token from response
@@ -122,7 +122,7 @@ app.factory('EventService',
 		    	
 		    	service.uploadEventPhoto = function(eventId,eventPic){
 		    		var deferred = $q.defer();
-		    		var uploadUrl ="/SociallBox/api/secured/events/"+eventId+"/images";
+		    		var uploadUrl ="/api/secured/events/"+eventId+"/images";
 		    		return AuthenticationService.getAuthToken()
 				    		.then(function(tokenResponse){
 					    			//Extract epoch time and token from response 
@@ -162,7 +162,7 @@ app.factory('EventService',
 		    	
 		    	service.getAllTags = function(){
 		    		var deferred = $q.defer();
-		 			var tagsUrl = "/SociallBox/api/public/events/tags";
+		 			var tagsUrl = "/api/public/events/tags";
 		 			
 		    			return $http({
 		 	 				method:'GET',
@@ -189,7 +189,7 @@ app.factory('EventService',
 		    	
 		    	service.getEventDetails = function(userId,eventId){
 		 			var deferred = $q.defer();
-		 			var eventDetailsUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/events/"+eventId;
+		 			var eventDetailsUrl = "/api/secured/users/organizers/admins/"+userId+"/events/"+eventId;
 		 			return AuthenticationService.getAuthToken()
 		    		.then(function(tokenResponse){
 		    			//Extract epoch time and token from response
@@ -228,7 +228,7 @@ app.factory('EventService',
 		 		 
 		 		 service.getEventStats = function(userId,eventId){
 		 			var deferred = $q.defer();
-		    		var eventStatsURL = '/SociallBox/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/statistics';
+		    		var eventStatsURL = '/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/statistics';
 		    		//Get auth token to pass in request
 		    		return AuthenticationService.getAuthToken()
 		    		.then(function(tokenResponse){
@@ -266,7 +266,7 @@ app.factory('EventService',
 	    	
 		 		service.makeEventLive = function(eventId,userId){
 		 			var deferred = $q.defer();
-		 			var url =  '/SociallBox/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/live';
+		 			var url =  '/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/live';
 		 			
 		 			//Get auth token to pass in request
 		    		return AuthenticationService.getAuthToken()
@@ -308,7 +308,7 @@ app.factory('EventService',
 		 		
 		 		service.cancelEvent = function(eventId,userId){
 		 			var deferred = $q.defer();
-		 			var url =  '/SociallBox/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/cancel';
+		 			var url =  '/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/cancel';
 		 			
 		 			//Get auth token to pass in request
 		    		return AuthenticationService.getAuthToken()

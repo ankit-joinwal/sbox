@@ -27,7 +27,7 @@ var adminAuthApp = angular.module('Admin')
 	   		 
 	   		 return $http({
 		 				method:'POST',
-		 				url: '/SociallBox/api/secured/admin/signin',
+		 				url: '/api/secured/admin/signin',
 		 	            data: {},
 		 	            headers: {
 		 	                    "Content-Type"		: 	"application/json",
@@ -183,7 +183,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		 service.getPendingProfiles = function(page){
  			var deferred = $q.defer();
- 			var pendingProfilesURL = "/SociallBox/api/secured/admin/organizers/profiles/pending?page="+page;
+ 			var pendingProfilesURL = "/api/secured/admin/organizers/profiles/pending?page="+page;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -219,7 +219,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		service.getEOProfiles = function(page){
  			var deferred = $q.defer();
- 			var allProfilesURL = "/SociallBox/api/secured/admin/organizers/profiles?page="+page;
+ 			var allProfilesURL = "/api/secured/admin/organizers/profiles?page="+page;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -256,7 +256,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		 service.getCompanyDetails = function(profileId){
  			var deferred = $q.defer();
- 			var organizerProfileUrl = "/SociallBox/api/secured/users/organizers/admins/"+profileId;
+ 			var organizerProfileUrl = "/api/secured/users/organizers/admins/"+profileId;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -295,7 +295,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		 service.approveCompanyProfile = function(profileIds){
  			var deferred = $q.defer();
- 			var approveProfileUrl = "/SociallBox/api/secured/admin/organizers/profiles/approve";
+ 			var approveProfileUrl = "/api/secured/admin/organizers/profiles/approve";
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -334,7 +334,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		service.getPendingEvents = function(page){
  			var deferred = $q.defer();
- 			var pendingProfilesURL = "/SociallBox/api/secured/admin/events/pending?page="+page;
+ 			var pendingProfilesURL = "/api/secured/admin/events/pending?page="+page;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -372,7 +372,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		service.getEventDetails = function(userId,eventId){
  			var deferred = $q.defer();
- 			var eventDetailsUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/events/"+eventId;
+ 			var eventDetailsUrl = "/api/secured/users/organizers/admins/"+userId+"/events/"+eventId;
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -411,7 +411,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		 service.getEventStats = function(userId,eventId){
  			var deferred = $q.defer();
-    		var eventStatsURL = '/SociallBox/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/statistics';
+    		var eventStatsURL = '/api/secured/users/organizers/admins/'+userId+'/events/'+eventId+'/statistics';
     		//Get auth token to pass in request
     		return service.getAuthToken()
     		.then(function(tokenResponse){
@@ -449,7 +449,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		service.approveEvents = function(eventIds){
  			var deferred = $q.defer();
- 			var approveEventUrl = "/SociallBox/api/secured/admin/events/pending/approve";
+ 			var approveEventUrl = "/api/secured/admin/events/pending/approve";
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -488,7 +488,7 @@ var adminAuthApp = angular.module('Admin')
  		 
  		service.rejectEvents = function(eventIds){
  			var deferred = $q.defer();
- 			var rejectEventUrl = "/SociallBox/api/secured/admin/events/pending/reject";
+ 			var rejectEventUrl = "/api/secured/admin/events/pending/reject";
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response

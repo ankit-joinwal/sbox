@@ -2,25 +2,25 @@ package com.bitlogic.sociallbox.data.model.notifications;
 
 public enum NotificationType {
 	
-	GENERAL_NOTIFICATION("GENERAL_NOTIFICATION","","icon","action","normal"),
+	GENERAL_NOTIFICATION("GENERAL_NOTIFICATION","","ic_notification","rawNotficationNew","normal"),
 	
-	NEW_FRIEND_NOTIFICATION("NEW_FRIEND_NOTIFICATION"," joined","icon","action","normal") ,
+	NEW_FRIEND_NOTIFICATION("NEW_FRIEND_NOTIFICATION"," joined","ic_notification","rawNotficationNew","normal") ,
 	
-	NEW_MEETUP_NOTIFICATION("NEW_MEETUP_NOTIFICATION"," invited you to meetup","icon","action","high") ,
+	NEW_MEETUP_NOTIFICATION("NEW_MEETUP_NOTIFICATION"," invited you to meetup","ic_notification","meetupDetailsNotfication","high") ,
 	
-	MEETUP_PHOTO_NOTIFICATION("MEETUP_PHOTO_NOTIFICATION"," posted photo in meetup","icon","action","high") ,
+	MEETUP_PHOTO_NOTIFICATION("MEETUP_PHOTO_NOTIFICATION"," posted photo in meetup","ic_notification","meetupDetailsNotfication","high") ,
 	
-	MEETUP_UPDATE_NOTIFICATION("MEETUP_UPDATE_NOTIFICATION"," updated meetup","icon","action","high") ,
+	MEETUP_UPDATE_NOTIFICATION("MEETUP_UPDATE_NOTIFICATION"," updated meetup","ic_notification","meetupDetailsNotfication","high") ,
 	
-	MEETUP_CANCEL_NOTIFICATION("MEETUP_CANCEL_NOTIFICATION"," cancelled meetup","icon","action","high") ,
+	MEETUP_CANCEL_NOTIFICATION("MEETUP_CANCEL_NOTIFICATION"," cancelled meetup","ic_notification","meetupDetailsNotfication","high") ,
 	
-	MEETUP_MESSAGE_NOTIFICATION("MEETUP_MESSAGE_NOTIFICATION"," posted message in meetup","icon","action","high") ,
+	MEETUP_MESSAGE_NOTIFICATION("MEETUP_MESSAGE_NOTIFICATION"," posted message in meetup","ic_notification","meetupDetailsNotfication","high") ,
 	
-	EVENT_UPDATE_NOTIFICATION("EVENT_UPDATE_NOTIFICATION"," updated event","icon","action","high") ,
+	EVENT_UPDATE_NOTIFICATION("EVENT_UPDATE_NOTIFICATION"," updated event","ic_notification","eventDetailsNotfication","high") ,
 	
-	EVENT_CANCEL_NOTIFICATION("EVENT_CANCEL_NOTIFICATION"," cancelled event","icon","action","high") ,
+	EVENT_CANCEL_NOTIFICATION("EVENT_CANCEL_NOTIFICATION"," cancelled event","ic_notification","eventDetailsNotfication","high") ,
 	
-	NEW_EVENT_NOTIFICATION("NEW_EVENT_NOTIFICATION"," is available now on","icon","action","high"); 
+	NEW_EVENT_NOTIFICATION("NEW_EVENT_NOTIFICATION"," is available now on","ic_notification","eventDetailsNotfication","high"); 
 	
 	String type;
 	String verb;

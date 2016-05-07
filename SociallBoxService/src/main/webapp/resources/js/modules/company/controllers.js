@@ -19,14 +19,14 @@ app.controller('CompanyController',
 						$scope.userId = profile.userId;
 						
 						if(profile.status == 'COMPANY_NOT_LINKED'){
-							$window.location.href = "/SociallBox/eo/home#/company/new";
+							$window.location.href = "/eo/home#/company/new";
 						}
 					});
 					
 				})
 				.catch(function(response){
 					console.log('Inside CompanyController.isUserLoggedIn Response :'+response.status);
-					$window.location.href = "/SociallBox/eo/login";
+					$window.location.href = "/eo/login";
 				});
 			};
 			
@@ -108,7 +108,7 @@ app.controller('CompanyController',
 			        					createResponse.data.data.profile_pic,createResponse.data.data.status,
 			        					profile.password,createResponse.data.data.company_profile)
 					        	.then(function(){
-					        		$window.location.href = "/SociallBox/eo/company";
+					        		$window.location.href = "/eo/company";
 					        	});
 					        	/*var profilePic = $scope.profilePic;
 						        console.log('Profile Pic :' );
@@ -134,7 +134,7 @@ app.controller('CompanyController',
 		        					createResponse.data.data.profile_pic,createResponse.data.data.status,
 		        					profile.password,createResponse.data.data.company_profile)
 				        	.then(function(){
-				        		$window.location.href = "/SociallBox/eo/company";
+				        		$window.location.href = "/eo/company";
 				        		
 				        	});
 				        }
@@ -147,7 +147,7 @@ app.controller('CompanyController',
 				})
 				.catch(function(response){
 					console.log('Inside CompanyController.createCompany to get user profile. Response :'+response.status);
-					$window.location.href = "/SociallBox/eo/login";
+					$window.location.href = "/eo/login";
 				});
 			};
 			

@@ -2,6 +2,7 @@ package com.bitlogic.sociallbox.data.model.notifications;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
@@ -46,6 +47,9 @@ public class NotificationMessage {
 		@Column(name="NOTIFICATION_ICON")
 		private String icon;
 		
+		@Transient
+		private String sound;
+		
 		public String getIcon() {
 			return icon;
 		}
@@ -77,6 +81,14 @@ public class NotificationMessage {
 
 		public void setClickAction(String clickAction) {
 			this.clickAction = clickAction;
+		}
+
+		public String getSound() {
+			return sound;
+		}
+
+		public void setSound(String sound) {
+			this.sound = sound;
 		}
 
 		@Override

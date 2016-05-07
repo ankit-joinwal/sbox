@@ -11,7 +11,7 @@ app.factory('DashboardService',
 	    	//Service function to get dashboard cards
 	    	service.dashboardCards = function(userId){
 	    		var deferred = $q.defer();
-	    		var dashboardCardsUrl = '/SociallBox/api/secured/users/organizers/admins/'+userId+'/dashboard';
+	    		var dashboardCardsUrl = '/api/secured/users/organizers/admins/'+userId+'/dashboard';
 	    		
 	    		//Get auth token to pass in request
 	    		return AuthenticationService.getAuthToken()
@@ -51,7 +51,7 @@ app.factory('DashboardService',
 	    	
 	    	service.getMonthlyUsers = function(userId){
 	    		var deferred = $q.defer();
-	    		var monthlyUsersURL = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/dashboard/monthly/attendees";
+	    		var monthlyUsersURL = "/api/secured/users/organizers/admins/"+userId+"/dashboard/monthly/attendees";
 	    		return AuthenticationService.getAuthToken()
 	    		.then(function(tokenResponse){
 	    			//Extract epoch time and token from response
@@ -89,7 +89,7 @@ app.factory('DashboardService',
 	    	
 	    	service.getMessagesForUser = function(userId,page){
 	    		var deferred = $q.defer();
-	    		var userMessagesUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/messages?page="+page;
+	    		var userMessagesUrl = "/api/secured/users/organizers/admins/"+userId+"/messages?page="+page;
 	    		return AuthenticationService.getAuthToken()
 	    		.then(function(tokenResponse){
 	    			//Extract epoch time and token from response

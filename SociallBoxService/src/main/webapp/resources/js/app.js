@@ -15,34 +15,34 @@ App.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
 		.when('/', {
 			controller : "DashboardController",
-			templateUrl: '/SociallBox/eo/dashboard'
+			templateUrl: '/eo/dashboard'
 		})
 		.when('/dashboard', {
 			controller : "DashboardController",
-			templateUrl: '/SociallBox/eo/dashboard'
+			templateUrl: '/eo/dashboard'
 		})
 		.when('/profile', {
 			controller : "AuthController",
-			templateUrl: '/SociallBox/eo/profile'
+			templateUrl: '/eo/profile'
 		})
 		.when('/company', {
 			controller : "CompanyController",
-			templateUrl: '/SociallBox/eo/company'
+			templateUrl: '/eo/company'
 		})
 		.when('/company/new', {
 			controller : "CompanyController",
-			templateUrl: '/SociallBox/eo/company/new'
+			templateUrl: '/eo/company/new'
 		})
 		.when('/events', {
 			controller : "EventsController",
-			templateUrl: '/SociallBox/eo/events/list'
+			templateUrl: '/eo/events/list'
 		})
 		.when('/events/new', {
 			controller : "EventsController",
-			templateUrl: '/SociallBox/eo/events/new'
+			templateUrl: '/eo/events/new'
 		}).when('/events/:eventId', {
             controller: 'EventsController',
-            templateUrl: '/SociallBox/eo/events/details'
+            templateUrl: '/eo/events/details'
         })
 		.otherwise({redirectTo:'/'});		
 }]);

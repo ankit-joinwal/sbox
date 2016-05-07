@@ -9,7 +9,7 @@ app.controller('DashboardController',
 	console.log("Inside DashboardController");
 	
 	$scope.editProfile = function(){
-		$window.location.href = "/SociallBox/eo/home#/profile";
+		$window.location.href = "/eo/home#/profile";
 	};
 	
 	$scope.initCompanyPage = function(){
@@ -25,16 +25,16 @@ app.controller('DashboardController',
 				$scope.userId = profile.userId;
 				
 				if(profile.status == 'COMPANY_NOT_LINKED'){
-					$window.location.href = "/SociallBox/eo/home#/company/new";
+					$window.location.href = "/eo/home#/company/new";
 				}else{
-					$window.location.href = "/SociallBox/eo/home#/company";
+					$window.location.href = "/eo/home#/company";
 				}
 			});
 			
 		})
 		.catch(function(response){
 			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
-			$window.location.href = "/SociallBox/eo/login";
+			$window.location.href = "/eo/login";
 		});
 	};
 	
@@ -54,7 +54,7 @@ app.controller('DashboardController',
 		})
 		.catch(function(response){
 			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
-			$window.location.href = "/SociallBox/eo/login";
+			$window.location.href = "/eo/login";
 		});
 	};
 	
@@ -70,8 +70,10 @@ app.controller('DashboardController',
 			DashboardService.dashboardCards(userId)
 			.then(function(dashboardResponse){
 				$scope.dashboardCards = dashboardResponse.data.data;
+				$('#dashboard').removeClass('loader');
 			})
 			.catch(function(dashboardResponse){
+				$('#dashboard').removeClass('loader');
 				alert('Unable to get details from server');
 			});
 		});

@@ -125,6 +125,7 @@ public interface Constants {
 	//Notification Service Constants
 	String PACKAGE_NAME_FOR_NOTIFICATIONS = "com.bitlogic.sociallbox";
 	String NOTIFICATION_SERVICE_URL = "sb.notification.service.url";
+	String NOTIFICATION_SOUND = "default";
 	String NEW_FRIEND_JOINED_NOT_TITLE = "Friend joined you";
 	String NEW_FRIEND_JOINED_NOT_BODY = "%s is now on SociallBox";
 	String NEW_FRIEND_JOINED_NOT_TARGET = "SociallBox";

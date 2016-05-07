@@ -120,7 +120,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		ObjectMapper objectMapper = new ObjectMapper();
 		logInfo(LOG_PREFIX, "GCM NotificationBody for {} :", notificationType);
 		try{
-		logInfo(LOG_PREFIX, "{}", objectMapper.writeValueAsString(gcmNotification));
+			logInfo(LOG_PREFIX, "{}", objectMapper.writeValueAsString(gcmNotification));
 		}catch(Exception ex){
 			logError(LOG_PREFIX, "Exception while printing notification body ", ex);
 		}
@@ -191,7 +191,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		//Set icon from Notification Type. This is used to display notification item on phone notifications tray
 		notificationPayload.setIcon(notificationType.getIcon());
 		notificationPayload.setClickAction(notificationType.getClickAction());
-
+		notificationPayload.setSound(Constants.NOTIFICATION_SOUND);
 		DataPayload dataPayload = recievedMessage.getDataPayload();
 		dataPayload.setType(notificationType.getType());
 		dataPayload.setVerb(notificationType.getVerb());

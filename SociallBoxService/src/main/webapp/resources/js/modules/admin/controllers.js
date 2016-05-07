@@ -20,7 +20,7 @@ angular.module('Admin')
 		AdminService.signin(emailId,password,false)
 		.then(function(authResponse){
 			console.log('Inside AdminAuthController.signin Response :'+authResponse.status);
-			$window.location.href = "/SociallBox/nimda/home";
+			$window.location.href = "/nimda/home";
 		})
 		.catch(function(authResponse){
 			console.log('Inside AdminAuthController.signin Response :'+authResponse.status);
@@ -31,7 +31,7 @@ angular.module('Admin')
 	
 	$scope.logout = function(){
 		AdminService.clearProfile();
-		$window.location.href = "/SociallBox/nimda/login";
+		$window.location.href = "/nimda/login";
 	};
 	
 	$scope.getProfileData = function(){
@@ -50,7 +50,7 @@ angular.module('Admin')
 		})
 		.catch(function(response){
 			console.log('Inside AdminController.isUserLoggedIn Response :'+response.status);
-			$window.location.href = "/SociallBox/nimda/login";
+			$window.location.href = "/nimda/login";
 		});
 	};
   	
@@ -59,11 +59,11 @@ angular.module('Admin')
 	
 	
 	$scope.goToCompanyDetails = function(profileId){
-		$window.location.href = "/SociallBox/nimda/home#/organizers/"+profileId;
+		$window.location.href = "/nimda/home#/organizers/"+profileId;
 	};
 	
 	$scope.goToAdminHome = function(organizerId){
-		$window.location.href = "/SociallBox/nimda/home#/organizers";
+		$window.location.href = "/nimda/home#/organizers";
 	};
 	
 	$scope.getCompanyDetails = function(){
@@ -77,7 +77,7 @@ angular.module('Admin')
 		})
 		.catch(function(response){
 			console.log('Inside AdminController.getCompanyDetails Response :'+response.status);
-			$window.location.href = "/SociallBox/nimda/home";
+			$window.location.href = "/nimda/home";
 		});
 	};
 	
@@ -92,7 +92,7 @@ angular.module('Admin')
 			.then(function(response){
 				$scope.pending_profiles = response.data.data;
 				alert('Profile approved succesfully')
-				$window.location.href = "/SociallBox/nimda/home#/organizers";
+				$window.location.href = "/nimda/home#/organizers";
 				
 			});
 			
@@ -100,7 +100,7 @@ angular.module('Admin')
 		.catch(function(approveResponse){
 			console.log('Inside AdminController.approveProfile Response :'+approveResponse.status);
 			alert('Unable to approve profile.Error occured');
-			$window.location.href = "/SociallBox/nimda/home#/organizers";
+			$window.location.href = "/nimda/home#/organizers";
 		});
 	};
 	
@@ -186,7 +186,7 @@ angular.module('Admin')
 		  };
 	
 	$scope.goToEventDetails = function(eventId){
-		$window.location.href = "/SociallBox/nimda/home#/events/"+eventId;
+		$window.location.href = "/nimda/home#/events/"+eventId;
 	};
 	
 	$scope.getEventDetails = function(){
@@ -206,12 +206,12 @@ angular.module('Admin')
 			})
 			.catch(function(response){
 				console.log('Inside AdminController.getEventDetails Response :'+response.status);
-				$window.location.href = "/SociallBox/nimda/home";
+				$window.location.href = "/nimda/home";
 			});
 		})
 		.catch(function(profileResponse){
 			console.log('Inside AdminController.getEventDetails Response :'+profileResponse.status);
-			$window.location.href = "/SociallBox/nimda/home";
+			$window.location.href = "/nimda/home";
 		});
 	};
 	
@@ -313,12 +313,12 @@ angular.module('Admin')
 			})
 			.catch(function(response){
 				console.log('Inside AdminController.getEventStats Response :'+response.status);
-				$window.location.href = "/SociallBox/nimda/home";
+				$window.location.href = "/nimda/home";
 			});
 		})
 		.catch(function(profileResponse){
 			console.log('Inside AdminController.getEventStats.getUserProfile Response :'+profileResponse.status);
-			$window.location.href = "/SociallBox/nimda/home";
+			$window.location.href = "/nimda/home";
 		});
 	};
 	
@@ -334,14 +334,14 @@ angular.module('Admin')
 			.then(function(response){
 				$scope.pending_events = response.data.data;
 				alert('Event approved succesfully')
-				$window.location.href = "/SociallBox/nimda/home#/organizers";
+				$window.location.href = "/nimda/home#/organizers";
 			});
 			
 		})
 		.catch(function(approveResponse){
 			console.log('Inside AdminController.approveEvents Response :'+approveResponse.status);
 			alert('Unable to approve events');
-			$window.location.href = "/SociallBox/nimda/home#/organizers";
+			$window.location.href = "/nimda/home#/organizers";
 		});
 	};
 	
@@ -357,14 +357,14 @@ angular.module('Admin')
 			.then(function(response){
 				$scope.pending_events = response.data.data;
 				alert('Event rejected succesfully')
-				$window.location.href = "/SociallBox/nimda/home#/organizers";
+				$window.location.href = "/nimda/home#/organizers";
 			});
 			
 		})
 		.catch(function(approveResponse){
 			console.log('Inside AdminController.approveEvents Response :'+approveResponse.status);
 			alert('Unable to reject events');
-			$window.location.href = "/SociallBox/nimda/home#/organizers";
+			$window.location.href = "/nimda/home#/organizers";
 		});
 	};
 	

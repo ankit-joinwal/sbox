@@ -18,7 +18,7 @@ angular.module('Authentication')
     		.then(function(authResponse){
 				console.log('Inside AuthController.register Response :'+authResponse.status);
 				
-				$window.location.href = "/SociallBox/eo/home";
+				$window.location.href = "/eo/home";
 			})
 			.catch(function(authResponse){
 				console.log('Inside AuthController.register Response :'+authResponse.status);
@@ -35,7 +35,7 @@ angular.module('Authentication')
     		AuthenticationService.signin(emailId,password,false)
     		.then(function(authResponse){
 				console.log('Inside AuthController.signin Response :'+authResponse.status);
-				$window.location.href = "/SociallBox/eo/home";
+				$window.location.href = "/eo/home";
 			})
 			.catch(function(authResponse){
 				console.log('Inside AuthController.signin Response :'+authResponse.status);
@@ -46,7 +46,7 @@ angular.module('Authentication')
     	
     	$scope.logout = function(){
     		AuthenticationService.clearProfile();
-    		$window.location.href = "/SociallBox/eo/login";
+    		$window.location.href = "/eo/login";
   		      	};
     	
     	$scope.initUserProfilePage = function(){
@@ -92,7 +92,7 @@ angular.module('Authentication')
 								editResponse.data.data.profile_pic,editResponse.data.data.status,
 								password,editResponse.data.data.company_profile)
 			        	.then(function(){
-			        		//$window.location.href = "/SociallBox/eo/home#/profile";
+			        		//$window.location.href = "/eo/home#/profile";
 			        		$window.location.reload();
 			        	});
 					}

@@ -22,7 +22,7 @@ var app = angular.module('Authentication')
 							'}';
     		 return $http({
 	 				method:'POST',
-	 				url: '/SociallBox/api/public/users/organizers/admins/signup',
+	 				url: '/api/public/users/organizers/admins/signup',
 	 	            data: userData,
 	 	            headers: {
 	 	                    "Content-Type"		: 	"application/json",
@@ -80,7 +80,7 @@ var app = angular.module('Authentication')
     		 
     		 return $http({
 	 				method:'POST',
-	 				url: '/SociallBox/api/secured/users/organizers/admins/signin',
+	 				url: '/api/secured/users/organizers/admins/signin',
 	 	            data: {},
 	 	            headers: {
 	 	                    "Content-Type"		: 	"application/json",
@@ -245,7 +245,7 @@ var app = angular.module('Authentication')
  		
  		service.editUserProfile = function(userId,userName,newPassword,profilePic){
  			var deferred = $q.defer();
- 			var editProfileUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/profile";
+ 			var editProfileUrl = "/api/secured/users/organizers/admins/"+userId+"/profile";
  			return service.getAuthToken()
     		.then(function(tokenResponse){
     			//Extract epoch time and token from response
@@ -275,7 +275,7 @@ var app = angular.module('Authentication')
  	    		 }).then(function(response) {
 	 	                 if (response.status == 200) {
 	 	                	 if(profilePic!=null){
-	 	                	 	var uploadUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/profile/picture";
+	 	                	 	var uploadUrl = "/api/secured/users/organizers/admins/"+userId+"/profile/picture";
 	 	                	 	 var fd = new FormData();
 				    		        fd.append('files', profilePic);
 				    		        return $http.post(uploadUrl, fd, {

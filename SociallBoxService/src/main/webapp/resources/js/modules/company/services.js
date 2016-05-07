@@ -10,7 +10,7 @@ app.factory('CompanyService',
 	    	
 	    	service.createCompanyProfile = function(userId,createCompanyRequest){
 	    		var deferred = $q.defer();
-	    		var createCompanyURL = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/company";
+	    		var createCompanyURL = "/api/secured/users/organizers/admins/"+userId+"/company";
 	    		return AuthenticationService.getAuthToken()
 	    		.then(function(tokenResponse){
 	    			//Extract epoch time and token from response
@@ -49,7 +49,7 @@ app.factory('CompanyService',
 	    	
 	    	service.uploadCompanyPhoto = function(userId,companyId,file,photoType){
 	    		var deferred = $q.defer();
-	    		var uploadUrl = "/SociallBox/api/secured/users/organizers/admins/"+userId+"/company/"+companyId+"/picture?type="+photoType
+	    		var uploadUrl = "/api/secured/users/organizers/admins/"+userId+"/company/"+companyId+"/picture?type="+photoType
 	    		return AuthenticationService.getAuthToken()
 			    		.then(function(tokenResponse){
 				    			//Extract epoch time and token from response

@@ -1,5 +1,13 @@
 <div class="container-fluid" ng-controller="DashboardController">
-	<div class="side-body padding-top">
+	<div id="dashboard" class="side-body padding-top loader">
+		
+		<div class="loader-container text-center color-white">
+			<div>
+				<i class="fa fa-spinner fa-pulse fa-3x"></i>
+			</div>
+			<div>Loading</div>
+		</div>
+	
 		<div class="row" ng-cloak 
 			ng-init="initDashboardCards()">
 
@@ -39,7 +47,7 @@
 					<p class="quotation-mark">{{dashboardCards.interestedUsers}}</p>
 					<hr class="hr-card">
 					<div class="blog-post-actions">
-						<p class="blog-post-bottom pull-left">Interested Users</p>
+						<p class="blog-post-bottom pull-left">Total Interested Users</p>
 					</div>
 				</blockquote>
 
