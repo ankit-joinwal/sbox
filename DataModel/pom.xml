@@ -48,5 +48,11 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.5.3</version>
 		</dependency>
+		<!-- Streams Dependency -->
+		<dependency>
+			<groupId>io.getstream.client</groupId>
+			<artifactId>stream-repo-apache</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 	</dependencies>
 </project>

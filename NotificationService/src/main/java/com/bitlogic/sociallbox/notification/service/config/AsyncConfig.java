@@ -17,7 +17,7 @@ public class AsyncConfig implements AsyncConfigurer{
 	@Override
 	public Executor getAsyncExecutor() {
 		SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
-		asyncTaskExecutor.setThreadNamePrefix("AsyncExecutor-");
+		asyncTaskExecutor.setThreadNamePrefix("NotificationSvcAsyncExecutor-");
         return asyncTaskExecutor;
 	}
 	@Override

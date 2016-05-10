@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Admin')
-.controller('AdminController',['$window','$scope', '$rootScope', '$routeParams','$location','AdminService',
+.controller('AdminController',['$window','$scope', '$rootScope', '$routeParams','$location','AdminService', 
       function ($window,$scope, $rootScope, $routeParams,$location,AdminService) {
 
 	 var ctrl = this;

@@ -18,6 +18,7 @@
 		<module>../DataModel</module>
 		<module>../ImageService</module>
 		<module>../NotificationService</module>
+		<module>../FeedService</module>
 		<module>../SociallBoxService</module>
   </modules> 
  

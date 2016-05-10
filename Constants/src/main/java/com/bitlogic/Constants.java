@@ -81,6 +81,7 @@ public interface Constants {
 	String DEFAULT_RADIUS = "5000";
 	String TIMELINE_UPCOMING = "upcoming";
 	String TIMELINE_PAST = "past";
+	Integer FEEDS_PER_PAGE = 5;
 	
 	//Date Formats 
 	String MEETUP_DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
@@ -145,6 +146,10 @@ public interface Constants {
 	String MEETUP_MESSAGE_NOT_BODY = "New message from %s";
 	String MEETUP_MESSAGE_NOT_TARGET = "%s"; //Meetup title
 	
+	//Feed service Constants
+	String STREAMS_API_KEY_PROP = "streams.api.key";
+	String STREAMS_PRIVATE_KEY_PROP = "streams.private.key";
+	String FEED_SERVICE_URL = "sb.feed.service.url";
 	
 	//Error Message Keys
 	String ERROR_ID_MANDATORY = "error.id.mandatory";
@@ -152,10 +157,12 @@ public interface Constants {
 	String ERROR_EMAIL_MANDATORY = "error.email.mandatory";
 	String ERROR_GAPI_CLIENT_REQUEST = "error.gapi.client.request";
 	String ERROR_NOTIFICATION_CLIENT_REQUEST = "error.notification.client.request";
+	String ERROR_FEED_CLIENT_REQUEST = "error.feed.client.request";
 	String ERROR_GAPI_WEBSERVICE_ERROR = "error.gapi.webservice.error";
 	String ERROR_ZAPI_CLIENT_REQUEST = "error.zapi.client.request";
 	String ERROR_ZAPI_WEBSERVICE_ERROR = "error.zapi.webservice.error";
 	String ERROR_NOTIFICATION_WEBSERVICE_ERROR = "error.notification.webservice.error";
+	String ERROR_FEED_WEBSERVICE_ERROR = "error.feed.webservice.error";
 	String ERROR_LOGIN_SOCIAL_DETAILS_MISSING = "error.login.social.details.missing";
 	String ERROR_LOGIN_INVALID_DEVICES_IN_REQ = "error.login.invalid.devices.in.req";
 	String ERROR_LOGIN_DEVICE_MISSING = "error.login.device.missing";

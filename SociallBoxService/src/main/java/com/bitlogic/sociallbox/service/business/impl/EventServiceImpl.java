@@ -40,6 +40,7 @@ import com.bitlogic.sociallbox.data.model.UserSocialActivity;
 import com.bitlogic.sociallbox.data.model.UserSocialActivity.ActivityType;
 import com.bitlogic.sociallbox.data.model.ext.google.GooglePlace;
 import com.bitlogic.sociallbox.data.model.ext.google.GooglePlace.Result.AddressComponent;
+import com.bitlogic.sociallbox.data.model.feed.CreateFeedRequest;
 import com.bitlogic.sociallbox.data.model.requests.CreateEventRequest;
 import com.bitlogic.sociallbox.data.model.requests.CreateEventRequest.MockEventDetails;
 import com.bitlogic.sociallbox.data.model.response.EntityCollectionResponse;
@@ -48,6 +49,7 @@ import com.bitlogic.sociallbox.data.model.response.UserEventInterest;
 import com.bitlogic.sociallbox.data.model.response.UserFriend;
 import com.bitlogic.sociallbox.image.service.ImageService;
 import com.bitlogic.sociallbox.service.business.EventService;
+import com.bitlogic.sociallbox.service.business.FeedServiceClient;
 import com.bitlogic.sociallbox.service.dao.EventDAO;
 import com.bitlogic.sociallbox.service.dao.EventOrganizerDAO;
 import com.bitlogic.sociallbox.service.dao.EventTagDAO;
@@ -105,6 +107,9 @@ public class EventServiceImpl extends LoggingService implements EventService,
 
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private FeedServiceClient feedServiceClient;
 
 	@Override
 	public Event create(String userEmail, CreateEventRequest createEventRequest) {
@@ -498,15 +503,27 @@ public class EventServiceImpl extends LoggingService implements EventService,
 		
 		logInfo(LOG_PREFIX, "Registering {} for event {}", user.getName(),event.getTitle());
 		EventAttendee newAttendee = new EventAttendee();
+		EventAttendee registeredAttendee = null;
 		newAttendee.setEvent(event);
 		newAttendee.setUser(user);
 
 		Date now = new Date();
 		newAttendee.setCreateDate(now);
-		EventAttendee registeredAttendee = this.eventDAO
-				.saveAttendee(newAttendee);
-		logInfo(LOG_PREFIX, "User {} Registered for Event  succesfully",
-				user.getName());
+		Boolean isAlreadyRegistered = this.eventDAO.checkIfUserRegisteredForEvent(newAttendee);
+		if(!isAlreadyRegistered){
+			registeredAttendee =  this.eventDAO
+					.saveAttendee(newAttendee);
+			logInfo(LOG_PREFIX, "User {} Registered for Event  succesfully",
+					user.getName());
+			try{
+				this.feedServiceClient.storeFeedForEventRegisterActivity(user, event);
+			}catch(Exception ex){
+				logError(LOG_PREFIX, "Exception occured while storing feed for event register activity for user {} , event {}",user.getName(),event.getTitle(),ex);
+			}
+			
+		}else{
+			registeredAttendee = this.eventDAO.getAttendee(event.getUuid(), user.getId());
+		}
 		return registeredAttendee;
 	}
 	
@@ -582,7 +599,14 @@ public class EventServiceImpl extends LoggingService implements EventService,
 		userFavouriteEvents.setUserId(user.getId());
 		userFavouriteEvents.setEventId(eventId);
 		userFavouriteEvents.setCreateDt(new Date());
-		this.eventDAO.addEventToFav(userFavouriteEvents);
+		Boolean isActivityDone = this.eventDAO.addEventToFav(userFavouriteEvents);
+		if(isActivityDone){
+			try{
+				this.feedServiceClient.storeFeedForEventFavActivity(user, event);
+			}catch(Exception ex){
+				logError(LOG_PREFIX, "Exception occured while saving feed for event favourite activity for user {} , event {}",user.getName() , event.getTitle(), ex);
+			}
+		}
 	}
 	
 	@Override

@@ -64,13 +64,16 @@ public class SpringConfiguration extends LoggingService {
 		String LOG_PREFIX = "getSociallBoxConfig";
 		SocialBoxConfig boxConfig = new SocialBoxConfig();
 		String notificationServiceURL = environment.getRequiredProperty(Constants.NOTIFICATION_SERVICE_URL);
+		String feedServiceURL = environment.getRequiredProperty(Constants.FEED_SERVICE_URL);
 		String meetupsBaseURL = environment.getRequiredProperty(Constants.MEETUPS_BASE_URL_PROPERTY);
 		logger.info("###           SocialBoxConfig       ###");
 		logInfo(LOG_PREFIX, "NOTIFICATION_SERVICE_URL : {}", notificationServiceURL);
 		logInfo(LOG_PREFIX, "MEETUPS_BASE_URL_PROPERTY : {}", meetupsBaseURL);
+		logInfo(LOG_PREFIX, "FEED_SERVICE_URL : {}", feedServiceURL);
 		logger.info("###########################################");
 		
 		boxConfig.setNotificationServiceURL(notificationServiceURL);
+		boxConfig.setFeedServiceURL(feedServiceURL);
 		boxConfig.setMeetupsBaseUrl(meetupsBaseURL);
 		return boxConfig;
 	}

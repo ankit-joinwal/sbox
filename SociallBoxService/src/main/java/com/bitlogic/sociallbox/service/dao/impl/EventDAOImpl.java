@@ -340,14 +340,10 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 
 	@Override
 	public EventAttendee saveAttendee(EventAttendee attendee) {
-		if(!checkIfUserRegisteredForEvent(attendee)){
-			Long id = (Long) getSession().save(attendee);
-			return getAttendeeById(id);
-		}else{
-			return attendee;
-		}
-		
+		Long id = (Long) getSession().save(attendee);
+		return getAttendeeById(id);
 	}
+	
 	@Override
 	public Boolean checkIfUserRegisteredForEvent(EventAttendee attendee) {
 		EventAttendee registered = getAttendee(attendee.getEvent().getUuid(), attendee.getUser().getId());
@@ -415,12 +411,14 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 	}
 	
 	@Override
-	public void addEventToFav(UserFavouriteEvents favouriteEvents) {
+	public Boolean addEventToFav(UserFavouriteEvents favouriteEvents) {
 
 		Boolean isEventFav = checkIfUserFavEvent(favouriteEvents);
 		if(!isEventFav){
 			this.getSession().save(favouriteEvents);
 		}
+		
+		return (!isEventFav);
 	}
 	
 	@Override

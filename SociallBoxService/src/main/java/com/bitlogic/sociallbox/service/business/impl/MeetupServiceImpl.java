@@ -47,6 +47,7 @@ import com.bitlogic.sociallbox.data.model.requests.SaveAttendeeResponse;
 import com.bitlogic.sociallbox.data.model.response.UserFriend;
 import com.bitlogic.sociallbox.image.service.ImageService;
 import com.bitlogic.sociallbox.service.business.EventService;
+import com.bitlogic.sociallbox.service.business.FeedServiceClient;
 import com.bitlogic.sociallbox.service.business.MeetupService;
 import com.bitlogic.sociallbox.service.business.NotificationService;
 import com.bitlogic.sociallbox.service.dao.EventDAO;
@@ -92,6 +93,9 @@ public class MeetupServiceImpl extends LoggingService implements MeetupService,C
 	
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private FeedServiceClient feedServiceClient;
 	
 	@Override
 	public MeetupResponse createMetup(CreateMeetupRequest createMeetupRequest) {
@@ -153,8 +157,13 @@ public class MeetupServiceImpl extends LoggingService implements MeetupService,C
 			//created.setAddressComponents(this.getMeetupAddressInfo(created,createMeetupRequest.getAddressComponents()));
 		}
 		
-		//meetupDAO.saveMeetup(created);
-		
+		if(!createMeetupRequest.getIsPrivate()){
+			try{
+				this.feedServiceClient.storeFeedForCreateMeetupActivity(organizer, created);
+			}catch(Exception ex){
+				logError(LOG_PREFIX, "Exception while storing feed for create meetup activity for user : {} meetup : {}",organizer.getName() , meetup.getTitle()  );
+			}
+		}
 		MeetupTransformer transformer = (MeetupTransformer) TransformerFactory.getTransformer(TransformerTypes.MEETUP_TRANS);
 		MeetupResponse createMeetupResponse = transformer.transform(created);
 		createMeetupResponse.setUrl(createMeetupRequest.getMeetupsURL()+created.getUuid());
@@ -527,7 +536,8 @@ public class MeetupServiceImpl extends LoggingService implements MeetupService,C
 	 @Override
 	public List<MeetupImage> uploadImageToMeetup(Boolean isDp,String deviceId,String imagesURL, List<MultipartFile> images,
 			String meetupId) {
-		 logger.info("### Inside MeetupServiceImpl.uploadImageToMeetup ###");
+		 String LOG_PREFIX = "MeetupServiceImp-uploadImageToMeetup";
+		 
 		 List<MeetupImage> imagesToSave = new ArrayList<>();
 		 User uploadedBy = this.smartDeviceDAO.getUserInfoFromDeviceId(deviceId);
 		 if(uploadedBy==null){
@@ -542,8 +552,8 @@ public class MeetupServiceImpl extends LoggingService implements MeetupService,C
 		 }
 		 for(MultipartFile multipartFile : images){
 			 String fileName = multipartFile.getOriginalFilename();
-				logger.info("File to process : {} ", fileName);
-	      	 logger.info("File size : {} ", multipartFile.getSize());
+				logInfo(LOG_PREFIX,"File to process : {} ", fileName);
+				logInfo(LOG_PREFIX,"File size : {} ", multipartFile.getSize());
 	      	Transformer<MeetupImage, MultipartFile> transformer = 
 	      			   (Transformer<MeetupImage, MultipartFile>)TransformerFactory.getTransformer(TransformerTypes.MULTIPART_TO_MEETUP_IMAGE_TRANFORMER);
 	      	 try{
@@ -573,18 +583,28 @@ public class MeetupServiceImpl extends LoggingService implements MeetupService,C
 	      		   meetupImage.setIsDisplayImage(isDp);
 	      		   imagesToSave.add(meetupImage);
 	      	   }catch(ServiceException serviceException){
-	      		   logger.error("Error occurred while processing meetup image",serviceException);
+	      		 logError(LOG_PREFIX,"Error occurred while processing meetup image",serviceException);
 	      	   }catch(Exception ex){
-	      		 logger.error("Error occurred while processing meetup image",ex);
+	      		 logError(LOG_PREFIX,"Error occurred while processing meetup image",ex);
 	      	   }
 		 }
 		 
 		 if(!imagesToSave.isEmpty()){
 			 this.meetupDAO.saveMeetupImages(imagesToSave);
+			 //Send notification
+			 this.notificationService.notifyAboutMeetupPhoto(uploadedBy, imagesToSave, meetup);
+			 if(!meetup.getIsPrivate()){
+				 try{
+						this.feedServiceClient.storeFeedForUplImgToMeetupActivity(uploadedBy, meetup);
+					}catch(Exception ex){
+						logError(LOG_PREFIX, "Exception while storing feed for upload photo to meetup activity for user : {} meetup : {}",uploadedBy.getName() , meetup.getTitle()  );
+					}
+			 }
 		 }
 		 
-		 //Send notification
-		 this.notificationService.notifyAboutMeetupPhoto(uploadedBy, imagesToSave, meetup);
+		
+		 
+		 
 		 return imagesToSave;
 	}
 	 

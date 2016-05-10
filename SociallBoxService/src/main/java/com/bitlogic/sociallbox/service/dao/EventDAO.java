@@ -46,7 +46,7 @@ public interface EventDAO {
 	
 	public EventAttendee getAttendeeById(Long attendeeId);
 	
-	public void addEventToFav(UserFavouriteEvents favouriteEvents);
+	public Boolean addEventToFav(UserFavouriteEvents favouriteEvents);
 	
 	public void removeEventFromFav(UserFavouriteEvents favouriteEvents);
 	

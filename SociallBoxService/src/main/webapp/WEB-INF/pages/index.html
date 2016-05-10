@@ -1,250 +1,446 @@
 <!DOCTYPE html>
-<html ng-app="sociallbox">
-
-<head>
-    <title>SociallBox</title>
-    <link rel="icon" type="image/png" href="/resources/img/favicon.ico">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-    <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap.min.css">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Social Box</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/resources/img/favicon.ico">
+    <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/select2.min.css">
-    <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/themes/flat-blue.css">
-</head>
+    <!-- Bootstrap -->
+    <link href="/resources/css/index/bootstrap.css" rel="stylesheet">    
+    <!-- Slick slider -->
+    <link rel="stylesheet" type="text/css" href="/resources/css/index/slick.css"/> 
+    <!-- Fancybox slider -->
+    <link rel="stylesheet" href="/resources/css/index/jquery.fancybox.css" type="text/css" media="screen" /> 
+    <!-- Animate css -->
+    <link rel="stylesheet" type="text/css" href="/resources/css/index/animate.css"/>  
+     <!-- Theme color -->
+    <link id="switcher" href="/resources/css/index/theme-color/default-theme.css" rel="stylesheet">
 
-<body class="flat-blue landing-page" ng-controller="IndexController">
-    <nav class="navbar navbar-inverse navbar-fixed-top  navbar-affix" role="navigation" data-spy="affix" data-offset-top="60">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <div class="icon fa fa-paper-plane"></div>
-                    <div class="title">Flat Admin V.2</div>
-                </a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse " aria-expanded="true">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
-        </div>
+    <!-- Main Style -->
+     <link rel="stylesheet" type="text/css" href="/resources/css/index/index.css">
+
+    <!-- Fonts -->
+
+    <!-- Open Sans for body font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <!-- Cabin for Title -->
+    <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+    <!-- Pacifico for Logo   -->
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+   
+  </head>
+  <body>  
+
+  <div id="bodyContent">
+  <!-- Start menu area -->
+  <div class="nav-area">      
+    <a id="menu-btn" href="#"><i class="fa fa-bars"></i></a>
+    <nav class="main-nav" id="main-menu">
+      <span class="fa fa-remove" id="close"></span>
+      <ul id="mainMenuNav">  
+        <li class="active"> <a href="#header"><i class="fa fa-home"></i><span>Home</span></a></li>
+        <li><a href="#features"><i class="fa fa-server"></i><span>Features</span></a></li>
+        <li><a href="#screenshot"><i class="fa fa-hourglass"></i><span>Screenshots</span></a></li>
+        <li><a href="#download-app"><i class="fa fa-download"></i><span>Download</span></a></li>
+        <li><a href="#contact"><i class="fa fa-envelope-o"></i><span>Contact</span></a></li>          
+      </ul>      
     </nav>
-    <div class="jumbotron app-header">
-        <div class="container">
-            <h2 class="text-center"><i class="app-logo fa fa-connectdevelop fa-5x color-white"></i><div class="color-white">Flat Admin V.2</div></h2>
-            <p class="text-center color-white app-description">This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p class="text-center"><a class="btn btn-primary btn-lg app-btn" href="#" role="button">Learn more »</a></p>
-        </div>
-    </div>
-    <div class="container-fluid app-content-a">
-        <div class="container">        <div class="row text-center">
-            <div class="col-md-4 col-sm-6">
-                <span class="fa-stack fa-lg fa-5x">
-                  <i class="fa fa-circle-thin fa-stack-2x"></i>
-                  <i class="fa fa-twitter fa-stack-1x"></i>
-                </span>
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            </div>
-            <!-- /.col-lg-4 -->
-            <div class="col-md-4 col-sm-6">
-                <span class="fa-stack fa-lg fa-5x">
-                  <i class="fa fa-circle-thin fa-stack-2x"></i>
-                  <i class="fa fa-inbox fa-stack-1x"></i>
-                </span>
-                <h2>Heading</h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            </div>
-            <!-- /.col-lg-4 -->
-            <div class="col-md-4 col-sm-6">
-                <span class="fa-stack fa-lg fa-5x">
-                  <i class="fa fa-circle-thin fa-stack-2x"></i>
-                  <i class="fa fa-comments-o fa-stack-1x"></i>
-                </span>
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            </div>
-            <!-- /.col-lg-4 -->
-        </div>
-        </div>
-    </div>
-    <div class="container-fluid app-content-b feature-1">
-        <div class="container">
+  </div>  
+  <!-- End menu area -->
+
+  <!-- Start header section --> 
+  <header id="header">
+    <div class="header-inner">
+      <!-- Header image -->
+      <img  class="headBackImage mHide" src="/resources/img/index/bg.png" alt="img">
+      <img  class="headBackImage tHide dHide" src="/resources/img/index/bg-mobile.png" alt="img">
+      <div class="overlay">
+        <div class="header-content">
+          <div class="homeContainer">
             <div class="row">
-                <div class="col-md-7 col-sm-6">
-                </div>
-                <div class="col-md-5 col-sm-6 text-right color-white">
-                    <h2 class="featurette-heading">First featurette heading. It'll blow your mind.</h2>
-                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-                </div>
+                <div class="header-top">
+                  <!-- Start logo area -->
+                  <div class="logo-area col-md-7 col-col-xs-7">
+                    <!-- Image based logo -->
+					<img src="/resources/img/index/socialBoxLogo.png" alt="logo">
+                    <img style="margin-left:10px" class="mHide" src="/resources/img/index/brandname.png" alt="logo">
+                  </div>
+                  <!-- End logo area -->  
+					<div class="signUpSection col-md-4 col-xs-4">
+						<ul style="display:none">
+							<li>Planning an event soon ? </li>
+							<li><button class="signUpButton">Sign Up</button></li>
+						</ul>
+					</div>
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid app-content-a">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="text-center app-content-header">Pricing</h2>
-                    <p class="text-center app-content-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row no-margin no-gap">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="pricing-table dark-blue">
-                                <div class="pt-header">
-                                    <div class="plan-pricing">
-                                        <div class="pricing">$10</div>
-                                        <div class="pricing-type">per month</div>
-                                    </div>
-                                </div>
-                                <div class="pt-body">
-                                    <h4>Basic Plan</h4>
-                                    <ul class="plan-detail">
-                                        <li>1 Website</li>
-                                        <li>100 GB Storage</li>
-                                        <li>Unlimited Bandwidth</li>
-                                    </ul>
-                                </div>
-                                <div class="pt-footer">
-                                    <button type="button" class="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="pricing-table green">
-                                <div class="pt-header">
-                                    <div class="plan-pricing">
-                                        <div class="pricing">$25</div>
-                                        <div class="pricing-type">per month</div>
-                                    </div>
-                                </div>
-                                <div class="pt-body">
-                                    <h4>Standard Plan</h4>
-                                    <ul class="plan-detail">
-                                        <li>5 Website</li>
-                                        <li>500 GB Storage</li>
-                                        <li>Unlimited Bandwidth</li>
-                                    </ul>
-                                </div>
-                                <div class="pt-footer">
-                                    <button type="button" class="btn btn-success">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="pricing-table  dark-blue">
-                                <div class="pt-header">
-                                    <div class="plan-pricing">
-                                        <div class="pricing">$50</div>
-                                        <div class="pricing-type">per month</div>
-                                    </div>
-                                </div>
-                                <div class="pt-body">
-                                    <h4>Advanced Plan</h4>
-                                    <ul class="plan-detail">
-                                        <li>10 Website</li>
-                                        <li>1 TB Storage</li>
-                                        <li>Unlimited Bandwidth</li>
-                                    </ul>
-                                </div>
-                                <div class="pt-footer">
-                                    <button type="button" class="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="pricing-table dark-blue">
-                                <div class="pt-header">
-                                    <div class="plan-pricing">
-                                        <div class="pricing">$100</div>
-                                        <div class="pricing-type">per month</div>
-                                    </div>
-                                </div>
-                                <div class="pt-body">
-                                    <h4>Unlimited Plan</h4>
-                                    <ul class="plan-detail">
-                                        <li>Unlimited Website</li>
-                                        <li>Unlimited Storage</li>
-                                        <li>Unlimited Bandwidth</li>
-                                    </ul>
-                                </div>
-                                <div class="pt-footer">
-                                    <button type="button" class="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
+                
+            <div class="row contentPart">
+                  <div class="col-md-5 col-sm-7 col-md-offset-1 col-xs-12">
+                    <div class="header-bottom-left">
+                      <div class="socialBoxImage col-sm-12 col-xs-12">
+					  <img class="mHide"src="/resources/img/index/sociallbox.png">
+					  <img class="tHide dHide" src="/resources/img/index/sociallbox-phone.png">
+					  </div>
+                      <h2 style="color: white;">Your Daily Planner just got upgraded !</h2>
+					  <h3 style="color: white;">The ultimate discovery platform for Events, Activities and beyond.</h3>
+                      
                     </div>
-                </div>
+                  </div>
+                  <div class="col-md-6  col-sm-5 col-md-offset-0 col-sm-offset-0 col-xs-5">
+                      <div class="homeFrontImage" > <img src="/resources/img/index/homelandscape.png" alt="iphone grpup img"></div>
+                     <div class="homeBackImage"> <img src="/resources/img/index/homePotrait.png" alt="iphone grpup img"></div> 
+                   
+                  </div>
             </div>
         </div>
+      </div>      
     </div>
-    <div class="container-fluid app-content-b contact-us">
-        <div class="container">
-            <div class="row featurette">
-                <div class="col-md-6"><h2 class="color-white contact-us-header">Contact Us</h2>
-                <p class="color-white contact-us-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut </p></div>
-                <div class="col-md-6">
-                    <form>
+	</div>
+  </header>
+  <!-- End header section --> 
 
-                        <div class="row">
-                            <div class="col-sm-6"><input id="name" name="name" type="text" class="form-control" placeholder="Full Name"> </div>
-                            <div class="col-sm-6"><input id="email" name="email" type="email" class="form-control" placeholder="Email address"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12"><textarea id="message" name="message" class="form-control" placeholder="Your Message" rows="5"></textarea></div>
-                        </div>
-                        <div>
-                            <button id="contact-submit" type="submit" class="btn btn-success pull-right">Send</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /END THE FEATURETTES -->
-    <!-- FOOTER -->
-    <footer class="app-footer">
-      <div class="container">
-        <p class="text-muted">&copy; 2015, Tui2Tone Templates Studio.</p>
+  <!-- Start Features -->
+  <section id="features">
+   
+      <div class="row">
+          <div class="title-area">
+           <h2 class="title">App<span>  Features</span></h2>
+          </div>
       </div>
-    </footer>
-    <!-- Javascript Libs -->
-    <script type="text/javascript" src="/resources/js/lib/jquery.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/angular.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/angular-route.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/Chart.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/bootstrap-switch.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/jquery.matchHeight-min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/select2.full.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ace/ace.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ace/mode-html.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ace/theme-github.js"></script>
-    <script type="text/javascript" src="/resources/js/app.js"></script>
-    <script type="text/javascript" src="/resources/js/modules/index/controllers.js"></script>
-    <!-- /.container -->
-</body>
+        <div class="row sectionHeight" id="discoverSection">
+          <div class="featuresDiscover col-sm-7">
+		  <div class="col-md-7 ">
+		  <div class="doodleImage mHide"></div>
+		 <div class="discoverPhoneImg mHide tHide"><img src="/resources/img/index/socialBoxDiscoverImg.png"></div>
+		 <div class="discoverPhoneImg mHide dHide"><img src="/resources/img/index/socialBoxDiscoverTabImg.png"></div>
+		  </div>
+		  </div>
+				<div class="col-md-5 col-sm-5 col-xs-12 featureTextSection" >
+					<div class="featureHeading col-md-12 col-xs-12">Discover trending Events and Activities</div>
+					<div class="featureHeadingBorder col-md-12 col-xs-12"></div>
+					<div class="featureText col-md-9 col-sm-11 col-xs-12">Find the best places to hangout  with our curated list of trending events near you. </div>
+					<div class="download col-md-12 col-sm-12 col-xs-12">
+					<div class="discoverPhoneImg tHide dHide col-xs-8"><img src="/resources/img/index/discoverMobile.png"></div>
+					<div class="downloadAppImg mHide col-md-2 col-sm-3"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-md-5 deskComingSoon col-sm-7 mHide">Download <br> Coming Soon </div>
+					<div class="dHide tHide col-xs-4 mobileDownloadSec">
+					<div class="downloadAppImg col-xs-12"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-xs-12 coomingSoon">Download <br> Coming Soon</div>
+					</div>
+					 
+					</div>
+				</div>
+          
+        </div>
+		<div class="featureBorder"></div>
+		
+		<div class="row sectionHeight"  id="plannerSection">
+          <div class="featuresUltimatePlanner">
+		  <div class="col-md-7 col-sm-7">
+		  <div class="doodleImage mHide"></div>
+		   <div class="plannerPhoneImg mHide tHide"><img src="/resources/img/index/screenPlannerSecond.png" alt="img"></div> 
+		   <div class="plannerPhoneImg mHide dHide"><img src="/resources/img/index/screenPlannerTab.png" alt="img"> </div>
+			
+		  </div>
+			<div class="col-md-5 col-sm-5 featureTextSection" >
+					<div class="featureHeading col-xs-12">Create Meetups and Invite Friends</div>
+					<div class="featureHeadingBorderPlanner col-xs-12"></div>
+					<div class="featureText col-md-9 col-sm-11 col-xs-12">Plan better on our Meetup section with the perfect people at the perfect place & time. </div>
+					<div class="download col-md-12 col-sm-12 col-xs-12">
+					<div class="discoverPhoneImg tHide dHide col-xs-7"><img src="/resources/img/index/inviteFrds.png"></div>
+					<div class="dHide tHide col-xs-4 mobileDownloadSecMeetUp">
+					<div class="downloadAppImgMeetUp col-xs-12"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-xs-12 coomingSoonMeetUP">Download <br> Coming Soon</div>
+					</div>
+					
+					<div class="downloadAppImg col-md-2 col-sm-3 mHide"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-md-5 mHide col-sm-7 deskComingSoon">Download <br> Coming Soon</div>
+					</div>
+				</div>
+				
+             
+          </div>
+        </div>
+		<div class="featureBorder"></div>
+		
+		
+		<div class="row sectionHeight"  id="meetupSection">
+          <div class="featuresMeetup">
+				
+				<div class="col-md-5 col-sm-5 col-md-offset-1 col-sm-offset-1 featureTextSection" >
+					<div class="featureHeading col-xs-12">Become the Ultimate Planner</div>
+					<div class="featureHeadingBorderMeetup col-xs-12"></div>
+					<div class="featureText col-md-9 col-sm-11">Meetup at places, events or your own backyard. Find friends nearby, post meetup details and you're live. </div>
+					<div class="download col-md-12 col-sm-12 col-xs-12">
+					<div class="dHide tHide col-xs-5 mobileDownloadSecUltiPlanner">
+					<div class="downloadAppImgUltiPlanner col-xs-12"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-xs-12 ultiPlannercoomingSoon">Download <br> Coming Soon</div>
+					</div>
+					<div class="meetupPhoneImgImg tHide dHide col-xs-7"><img src="/resources/img/index/meetUpMobile.png"></div>
+					<div class="downloadAppImg mHide col-md-2 col-sm-3"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-md-5 col-sm-7 ultimatePlannerDownload mHide">Download <br> Coming Soon</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6">
+				<div class="doodleImageMeetup mHide"></div>
+				<div class="meetupPhoneImgImg mHide tHide "><img src="/resources/img/index/meetupScreenImg.png" alt="img"></div>
+				<div class="meetupPhoneImgImg mHide dHide"><img src="/resources/img/index/meetupScreenImgTab.png" alt="img"></div>
+				</div>
+             
+          </div>
+        </div>
+		<div class="featureBorder"></div>
+		
+		
+		<div class="row sectionHeight"  id="dealSection">
+          <div class="featuresDeals">
+				<div class="col-md-7 col-sm-7">
+		  <div class="doodleImage mHide"></div>
+			<div class="dealPhoneImg mHide tHide"><img src="/resources/img/index/dealScreenImg.png" alt="img"> </div>
+			<div class="dealPhoneImg mHide dHide"><img src="/resources/img/index/dealScreenImgTab.png" alt="img"> </div>
+				</div>
+		  </div>
+				<div class="col-md-5  col-sm-5 col-xs-12 featureTextSection" >
+					<div class="featureHeading col-xs-12">Explore amazing deals & discounts</div>
+					<div class="featureHeadingBorderDeals col-xs-12"></div>
+					<div class="featureText col-md-9 col-sm-11">Share deals on Shopping & DineOuts with friends and Spread the joy of Saving.</div>
+					<div class="download col-md-12 col-sm-12 col-xs-12">
+					<div class="dealPhone tHide dHide col-xs-7"><img src="/resources/img/index/dealMobile.png"></div>
+					<div class="dHide tHide col-xs-5 mobileDownloadSecDeal">
+					<div class="downloadAppImgDeal col-xs-12"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-xs-12 DealcoomingSoon">Download <br> Coming Soon</div>
+					</div>
+					
+					<div class="downloadAppImg col-md-2 col-sm-3 mHide"><img src="/resources/img/index/appStore.png" alt="img"></div><div class="col-md-5 deskComingSoon mHide col-sm-7">Download <br> Coming Soon</div>
+					</div>
+				</div>
+             
+          
+        </div>
+   
+  </section>
+  <!-- End Features -->
 
+  <!-- Start screenshot -->
+  <section id="screenshot">
+    <div class="container">
+      <div class="row mHide">
+        <div class="col-md-12">
+          <div class="title-area wow fadeInUp">
+            <h2 class="title">App <span>Screenshots</span></h2>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="screenshots-area">
+            <ul class="screenshots-slide">
+              <li class="col-md-3 wow fadeInLeft">
+               <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/splash_screenpopup.png"><img src="/resources/img/index/splash_screen.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/homescreenpopup.png"><img src="/resources/img/index/homescreen.png" alt="app screenshot">
+                    <div class="view-btn-area">
+                      <span class="fa fa-search view-btn"></span>
+                    </div>
+                 </a>
+              </li>
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/meetupdetailsPopup.png"><img src="/resources/img/index/meetupdetails.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/restaurantdetailspopup-2.png"><img src="/resources/img/index/restaurantdetails-2.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+              
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/pendingmeetupinvitespopup.png"><img src="/resources/img/index/pendingmeetupinvites.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+	  
+	  <div class="row dHide tHide">
+        <div class="col-md-12">
+          <div class="title-area wow fadeInUp">
+            <h2 class="title">App <span>Screenshots</span></h2>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="screenshots-area">
+            <ul class="screenshots-slide">
+              <li class="col-md-3 wow fadeInLeft">
+               <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/mobileScreenShots/splash_screen6pop-up.png"><img src="/resources/img/index/mobileScreenShots/splash_screen6.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/mobileScreenShots/home-screen-1@1xpop-up.png"><img src="/resources/img/index/mobileScreenShots/home-screen-1@1x.png" alt="app screenshot">
+                    <div class="view-btn-area">
+                      <span class="fa fa-search view-btn"></span>
+                    </div>
+                 </a>
+              </li>
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/mobileScreenShots/meetup-details(messages)@1xpop-up.png"><img src="/resources/img/index/mobileScreenShots/meetup-details(messages)@1x.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+               <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/mobileScreenShots/restaurant-details-not-logged-in@1xpop-up.png"><img src="/resources/img/index/mobileScreenShots/restaurant-details-not-logged-in@1x.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+              <li class="col-md-3 wow fadeInLeft">
+                 <a class="fancybox" data-fancybox-group="gallery" href="/resources/img/index/mobileScreenShots/pending-meetup-invites@1xpop-up.png"><img src="/resources/img/index/mobileScreenShots/pending-meetup-invites@1x.png" alt="app screenshot">
+                  <div class="view-btn-area">
+                    <span class="fa fa-search view-btn"></span>
+                  </div>
+               </a>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End screenshot -->
+
+  <!-- Start download app -->
+  <section id="download-app">
+    <div class="download-overlay">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-area wow fadeInUp">
+              <h2 class="title">Download <span>App</span></h2>
+            </div>
+          </div>
+          
+          <div class="col-md-12">
+            <div class="download-app-content mHide">
+              <a class="single-download wow fadeInLeft" data-wow-duration="0.75s" data-wow-delay="0.75s" href="#">
+                <div class="download-icon">
+                  <i class="fa fa-play"></i>
+                </div>
+                <div class="download-content">
+                  <p>Coming Soon</p>
+                  <span>Play Store</span>
+                </div>
+             </a>
+            </div>
+			
+			<div class="download-app-content dHide tHide">
+              <a class="single-download" href="#">
+                <div class="download-icon">
+                  <i class="fa fa-play"></i>
+                </div>
+                <div class="download-content">
+                  <p>Coming Soon on</p>
+                  <span>Play Store</span>
+				</div>
+			</a>	
+             
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="contact">
+  <div class="download-overlay">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <div class="title-area">
+              <h2 class="title">Contact<span>  Us</span></h2>
+          </div>
+        </div>
+        <div class="col-md-12  mHide">
+          <div class="col-md-4  col-sm-4  facebookLogo"><a href="https://www.facebook.com/sociallbox" target="_blank"><img src="/resources/img/index/fbIcon.png" ></a></div>
+          <div class="col-md-4  col-sm-4  twitterLogo"><a href="https://twitter.com/reachsociallbox" target="_blank"><img src="/resources/img/index/twitterIcon.png"></a></div>
+          <div class="col-md-4  col-sm-4 pinterestLogo"><a href="https://www.pinterest.com/sociallbox/" target="_blank"><img src="/resources/img/index/pinterestIcon.png"></a></div>
+        </div>
+		<div class="col-xs-12 mContact tHide dHide">
+          <div class="col-xs-4 facebookLogo"><a href="https://www.facebook.com/sociallbox" target="_blank"><img src="/resources/img/index/mobileScreenShots/fb color.png" ></a></div>
+          <div class="col-xs-4 twitterLogo"><a href="https://twitter.com/reachsociallbox" target="_blank"><img src="/resources/img/index/mobileScreenShots/twitter color.png"></a></div>
+          <div class="col-sm-4 col-xs-4 pinterestLogo"><a href="https://www.pinterest.com/sociallbox/" target="_blank"><img src="/resources/img/index/mobileScreenShots/pinterest color.png"></a></div>
+        </div>
+      </div>
+    </div>
+	</div>
+  </section>
+  <!-- End contact -->
+
+  <!-- Start footer -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End -->
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+				<div class="modal-body">
+					<p>Please switch to potrait mode to see the page.</p>
+				</div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  </div>
+				</div>
+
+		</div>
+	</div>
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>    
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <!-- Bootstrap -->
+  <script src="/resources/js/index/bootstrap.js"></script>
+  <!-- Slick Slider -->
+  <script type="text/javascript" src="/resources/js/index/slick.js"></script>   
+  <!-- Add fancyBox -->        
+  <script type="text/javascript" src="/resources/js/index/jquery.fancybox.pack.js"></script>
+  <!-- Wow animation -->
+  <script type="text/javascript" src="/resources/js/index/wow.js"></script> 
+  <!-- Off-canvas Menu -->   
+  <script src="/resources/js/index/classie.js"></script>
+ 
+  <!-- Custom js -->
+  <script type="text/javascript" src="/resources/js/index/custom.js"></script>
+    
+  </body>
 </html>
