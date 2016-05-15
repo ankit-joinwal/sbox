@@ -33,14 +33,12 @@ app.factory('EventService',
 		 					 return deferred.promise;
 		                 }
 	 	    		 }).catch(function(response){
-	 	    			 console.log('Unable to get my events data . Response :'+response.status);
 	 	    			 deferred.reject(response);
 	 					 return deferred.promise;
 	 	    		});
-	    		}).catch(function(tokenResponse){
-	    			//If unable to get auth token, then redirect to login page
-	    			console.log('Unable to gen token in AdminService.getPendingProfiles.Response :'+tokenResponse.status);
-	    			
+	    		}).catch(function(response){
+	    			 deferred.reject(response);
+ 					 return deferred.promise;
 	    		});
 	 		 };
 	 		 
@@ -74,10 +72,9 @@ app.factory('EventService',
 		 	    			 deferred.reject(response);
 		 					 return deferred.promise;
 		 	    		});
-		    		}).catch(function(tokenResponse){
-		    			//If unable to get auth token, then redirect to login page
-		    			console.log('Unable to gen token in AuthenticationService.Response :'+tokenResponse.status);
-		    			
+		    		}).catch(function(response){
+		    			 deferred.reject(response);
+	 					 return deferred.promise;
 		    		});
 		 		 };
 	 		 
@@ -114,8 +111,8 @@ app.factory('EventService',
 		 	                 }
 		 	             });
 		    		}).catch(function(response){
-		    			//If unable to get auth token, then redirect to login page
-		    			console.log('Inside EventService.createEvent to gen token.Response :'+response.status);
+		    			 deferred.reject(response);
+ 	 					 return deferred.promise;
 		    		});
 		    	};
 		    	
@@ -147,14 +144,10 @@ app.factory('EventService',
 				    		        	}
 				    		        })
 				    		        .catch(function(uploadResponse){
-				    	    			//If unable to get auth token, then redirect to login page
-				    	    			console.log('Inside EventService.uploadeventPic to upload pic.Response :'+tokenResponse.status);
 				    	    			 deferred.reject(uploadResponse);
 				 	 					 return deferred.promise;
 				    	    		});
 				    		}).catch(function(tokenResponse){
-				    			//If unable to get auth token, then redirect to login page
-				    			console.log('Inside CompanyService.uploadCompanyPhoto to gen token.Response :'+tokenResponse.status);
 				    			deferred.reject(response);
 				 				return deferred.promise;
 				    		});
@@ -180,7 +173,6 @@ app.factory('EventService',
 			 					 return deferred.promise;
 			                 }
 		 	    		 }).catch(function(response){
-		 	    			 console.log("Unable to get all tags . Response :"+response.status);
 		 	    			 deferred.reject(response);
 		 					 return deferred.promise;
 		 	    		});
@@ -218,10 +210,9 @@ app.factory('EventService',
 		 					 return deferred.promise;
 		 	    		});
 		    		
-			 		}).catch(function(tokenResponse){
-			 			//If unable to get auth token, then redirect to login page
-			 			console.log('Unable to gen token in AdminService.getEventDetails.Response :'+tokenResponse.status);
-			 			
+			 		}).catch(function(response){
+			 			 deferred.reject(response);
+	 					 return deferred.promise;
 			 		});
 		 		 };
 		 		 
@@ -253,14 +244,12 @@ app.factory('EventService',
 			 					 return deferred.promise;
 			                 }
 		 	    		 }).catch(function(eventStatsResponse){
-		 	    			 console.log('Unable to get event stats . Response :'+eventStatsResponse.status);
 		 	    			 deferred.reject(eventStatsResponse);
 		 					 return deferred.promise;
 		 	    		});
-		    		}).catch(function(tokenResponse){
-		    			//If unable to get auth token, then redirect to login page
-		    			console.log('Inside EventService.getEventStats to gen token.Response :'+tokenResponse.status);
-		    			
+		    		}).catch(function(response){
+		    			 deferred.reject(response);
+	 					 return deferred.promise;
 		    		});
 		 		 };
 	    	
@@ -291,18 +280,16 @@ app.factory('EventService',
 			                 	deferred.resolve(response);
 			 					return deferred.promise;
 			                 }
-			                 console.log('Unable to make event live . Response :'+response.status);
 			                 deferred.reject(response);
 		 					 return deferred.promise;
 			    		 }).catch(function(response){
-		 	    			 console.log('Unable to make event live . Response :'+response.status);
 		 	    			 deferred.reject(response);
 		 					 return deferred.promise;
 		 	    		});
 		    			
-		    		}).catch(function(tokenResponse){
-		    			//If unable to get auth token, then redirect to login page
-		    			console.log('Inside EventService.makeEventLive to gen token.Response :'+tokenResponse.status);
+		    		}).catch(function(response){
+		    			 deferred.reject(response);
+	 					 return deferred.promise;
 		    		});
 		 		};
 		 		
@@ -342,9 +329,9 @@ app.factory('EventService',
 		 					 return deferred.promise;
 		 	    		});
 		    			
-		    		}).catch(function(tokenResponse){
-		    			//If unable to get auth token, then redirect to login page
-		    			console.log('Inside EventService.cancelEvent to gen token.Response :'+tokenResponse.status);
+		    		}).catch(function(response){
+		    			deferred.reject(response);
+	 					 return deferred.promise;
 		    		});
 		 		};
 		 		 

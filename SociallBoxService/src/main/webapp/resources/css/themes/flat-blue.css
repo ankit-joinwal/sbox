@@ -292,29 +292,36 @@
       color: #FFF; }
   .flat-blue .btn.btn-default {
     background-color: #F0F0F0;
-    border-color: #EAEAEA; }
+    border-color: #EAEAEA;
+    border-radius: 5px; }
   .flat-blue .btn.btn-default:hover {
     background-color: #EAEAEA; }
   .flat-blue .btn.btn-primary {
     background-color: #353d47;
     color: #FFF;
-    border-color: #353d47; }
+    border-color: #353d47;
+    border-radius: 5px; }
   .flat-blue .btn.btn-success {
-    background-color: #1ABC9C;
-    color: #FFF;
-    border-color: #1ABC9C; }
+   background-color: #029f5b;
+    color: #fff;
+    font-weight: normal;
+    border-color: #029f5b;
+    border-radius: 5px;}
   .flat-blue .btn.btn-warning {
     background-color: #FABE28;
     color: #FFF;
-    border-color: #FABE28; }
+    border-color: #FABE28;
+    border-radius: 5px; }
   .flat-blue .btn.btn-info {
-    background-color: #22A7F0;
+    background-color: #33d1da;
     color: #FFF;
-    border-color: #22A7F0; }
+    border-color: #33d1da;
+    border-radius: 5px;  }
   .flat-blue .btn.btn-danger {
-    background-color: #FA2A00;
+    background-color: #de5149;
     color: #FFF;
-    border-color: #FA2A00; }
+    border-color: #de5149; 
+    border-radius: 5px;}
   .flat-blue .btn.btn-link {
     color: #353d47; }
   .flat-blue .progress .progress-bar {

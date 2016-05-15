@@ -681,7 +681,7 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
         					"	HAVING DTLS.ORGANIZER_ADMIN_ID = :profileId "
         					+ "	AND EVENT.EVENT_STATUS = :status "
         					+ " AND EVENT.START_DT > :dateStart "
-        					+ "	AND EVENT.START_DT < :dateEnd "
+        					+ "	AND EVENT.START_DT < :dateEnd"
         					+ "	ORDER BY EVENT.START_DT ";	
         	SQLQuery query = getSession().createSQLQuery(sql);
         	query.setParameter("profileId", profileId);
@@ -705,6 +705,7 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 	   					 eventIds.add(eventId);
 	   				 }else{
 	   					 List<String> eventIds = new ArrayList<>();
+	   					eventIds.add(eventId);
 	   					 monthAndEvents.put(month, eventIds);
 	   				 }
 	   			 }

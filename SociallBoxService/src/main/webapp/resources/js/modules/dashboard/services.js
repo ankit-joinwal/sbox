@@ -42,10 +42,9 @@ app.factory('DashboardService',
 			 	    			 deferred.reject(dashboardResponse);
 			 					 return deferred.promise;
 			 	    		});
-	    		}).catch(function(tokenResponse){
-	    			//If unable to get auth token, then redirect to login page
-	    			console.log('Inside DashboardService.dashboardCards to gen token.Response :'+tokenResponse.status);
-	    			
+	    		}).catch(function(dashboardResponse){
+	    			 deferred.reject(dashboardResponse);
+ 					 return deferred.promise;
 	    		});
 	    	};
 	    	
@@ -80,9 +79,8 @@ app.factory('DashboardService',
 	 	    		});
 	    			
 	    		}).catch(function(response){
-	    			//If unable to get auth token, then redirect to login page
-	    			console.log('Inside DashboardService.dashboardCards to gen token.Response :'+tokenResponse.status);
-	    			
+	    			 deferred.reject(response);
+ 					 return deferred.promise;
 	    		});
 	    	};
 	    	
@@ -118,9 +116,8 @@ app.factory('DashboardService',
 	 					 return deferred.promise;
 	 	    		});
 	    		}).catch(function(response){
-	    			//If unable to get auth token, then redirect to login page
-	    			console.log('Inside DashboardService.dashboardCards to gen token.Response :'+tokenResponse.status);
-	    			
+	    			 deferred.reject(response);
+ 					 return deferred.promise;
 	    		});
 	    	};
 	    	return service;

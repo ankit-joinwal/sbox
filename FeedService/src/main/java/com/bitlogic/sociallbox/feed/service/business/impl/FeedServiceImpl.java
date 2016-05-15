@@ -290,6 +290,7 @@ public class FeedServiceImpl extends LoggingService implements FeedService{
 	private void storeFeedOnStreams(UserActivity userActivity , List<Long> friendIds) throws InvalidFeedNameException {
 		String LOG_PREFIX = "FeedServiceImpl-storeFeedOnStreams";
 		ClientConfiguration streamConfig = new ClientConfiguration();
+		streamConfig.setTimeout(30000);
     	StreamClient streamClient = new StreamClientImpl(streamConfig, streamsAPIConfig.getApiKey(), streamsAPIConfig.getPrivateKey());
 		Feed feed = streamClient.newFeed("user", friendIds.get(0).toString());
 		FlatActivityServiceImpl<UserActivity> flatActivityService = feed.newFlatActivityService(UserActivity.class); 

@@ -8,9 +8,9 @@
 				<div class="container" id="company_process_div">
 					<div class="loader-container text-center color-white">
 						<div>
-							<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							<img alt="" src="/resources/img/ball.gif" style="width:100px;height:100px;">
 						</div>
-						<div>Creating Profile</div>
+						<div><h3 class="color-white">Adding company profile.Please wait...</h3></div>
 					</div>
 					<div class="row">
 						<div class="board">
@@ -47,7 +47,7 @@
 											<div class="col-md-12">
 												<label for="companyName" class="text-primary">Name</label> 
 												<input type="text"
-													required class="form-control" ng-model="companyName"
+													 class="form-control input-lg" name ="companyName" ng-model="companyName"
 													id="companyName" placeholder="Name">
 											</div>
 										</div>
@@ -55,27 +55,27 @@
 											<div class="col-md-6">
 												<label for="street" class="text-primary">Street</label>
 												 <input type="text"
-													required class="form-control" ng-model="street" id="street"
+													 class="form-control input-lg" name="street" ng-model="street" id="street"
 													placeholder="Street">
 											</div>
 											<div class="col-md-6">
 												<label for="city" class="text-primary">City</label>
-												 <input type="text" required
-													class="form-control" ng-model="city" id="city"
+												 <input type="text" 
+													class="form-control input-lg" name="city" ng-model="city" id="city"
 													placeholder="City">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-6">
 												<label for="state" class="text-primary">State</label>
-												 <input type="text" required
-													class="form-control" ng-model="state" id="state"
+												 <input type="text" 
+													class="form-control input-lg" ng-model="state" id="state" name="state"
 													placeholder="State">
 											</div>
 											<div class="col-md-6">
 												<label for="zip" class="text-primary">ZipCode</label>
-												 <input type="text" required
-													class="form-control" ng-model="zip" id="zip"
+												 <input type="text" 
+													class="form-control input-lg" ng-model="zip" id="zip" name="zip"
 													placeholder="ZipCode">
 											</div>
 										</div>
@@ -83,13 +83,13 @@
 											<div class="col-md-6">
 												<label for="country" class="text-primary">Country</label>
 												 <input type="text"
-													required class="form-control" ng-model="country"
+													 class="form-control input-lg" ng-model="country" name="country"
 													id="country" placeholder="Country">
 											</div>
 											<div class="col-md-6">
 												<label for="phone1" class="text-primary">Phone 1</label>
 												 <input type="text"
-													required class="form-control" ng-model="phone1" id="phone1"
+													 class="form-control input-lg" ng-model="phone1" id="phone1" name="phone1"
 													placeholder="Phone1">
 											</div>
 										</div>
@@ -97,13 +97,13 @@
 											<div class="col-md-6">
 												<label for="phone2" class="text-primary">Phone2</label> 
 												<input type="text"
-													class="form-control" ng-model="phone2" id="phone2"
+													class="form-control input-lg" ng-model="phone2" id="phone2" name="phone2"
 													placeholder="Phone2">
 											</div>
 											<div class="col-md-6">
 												<label for="phone3" class="text-primary">Phone 3</label>
 												 <input type="text"
-													class="form-control" ng-model="phone3" id="phone3"
+													class="form-control input-lg" ng-model="phone3" id="phone3" name="phone3"
 													placeholder="Phone3">
 											</div>
 										</div>
@@ -111,13 +111,13 @@
 											<div class="col-md-6">
 												<label for="email" class="text-primary">Email ID</label> 
 												<input type="email"
-													required class="form-control" ng-model="companyEmail"
+													 class="form-control input-lg" ng-model="companyEmail" name="email"
 													id="email" placeholder="Email ID">
 											</div>
 											<div class="col-md-6">
 												<label for="website" class="text-primary">Website</label>
 												 <input type="text"
-													required class="form-control" ng-model="website"
+													 class="form-control input-lg" ng-model="website" name="website"
 													id="website" placeholder="Website">
 											</div>
 										</div>
@@ -142,12 +142,16 @@
 												<input type="file" file-model="coverPic"
 													class="form-control" />
 											</div>
+											<div class="col-md-12">
+												<span>Recommended size is 1200px * 300px</span>
+											</div>
 										</div>
 										<div class="row" align="center">
 										<div class=" col-md-4  col-sm-3"></div>
 											<div class="col-md-2 col-sm-3">
 											<fieldset>
-												<button type="button" class="previous-button btn btn-primary">Previous</button>
+												<button type="button" class="previous-button btn btn-primary"><span style="margin-right: 10px;"
+														class="icon fa fa-location-arrow fa-rotate-270"></span> Previous</button>
 											</fieldset>
 											</div>
 											<div class="col-md-2 col-sm-3">
@@ -225,11 +229,20 @@
 											</div>
 										</div>
 										<div class="row" align="center">
+											<div class=" col-md-4  col-sm-3"></div>
+											<div class="col-md-2 col-sm-3">
 											<fieldset>
-												<button type="submit" name="review_form"
-													ng-click="createCompany()" class="btn-next btn btn-success">
-													Submit</button>
+												<button type="button" class="previous-button btn btn-primary btn-lg"><span style="margin-right: 10px;"
+														class="icon fa fa-location-arrow fa-rotate-270"></span> Previous</button>
 											</fieldset>
+											</div>
+											<div class="col-md-2 col-sm-3">
+											<fieldset>
+												<button  type="button" name="review_form"
+												ng-click="createCompany()" class="btn btn btn-success btn-lg">
+												Submit</button>
+											</fieldset>
+											</div>
 										</div>
 									</form>
 								</div>
@@ -251,20 +264,84 @@ $( document ).ready(function() {
 			var actived_nav = $('#myTab > li.active');
 			var contentSection = $(".tab-pane.active");
 			
-			var inpObj = document.getElementById(formname);
-			if (inpObj.checkValidity()) { 
-				
-				/* Only works in Firefox/Chrome need polyfill for IE9, Safari. http://afarkas.github.io/webshim/demos/ */ 
-				e.preventDefault();
-				$('#myTab > li').removeClass("disabled");
-				//if(tabname == "#details")
-				//	tabIndex =1;
-				actived_nav.next("li").addClass('active');
-				actived_nav.removeClass('active');
-				contentSection.removeClass("active").addClass("inactive");
-				contentSection.next("div").removeClass("inactive").addClass("active");
-				} 
+				$('#'+formname).validate({
+	    			rules: {
+	    				companyName:{
+	    					required: true,
+	    					specialChar :true
+	    				},
+	    				street: {
+			    			required: true
+		    			},
+		    			state: {
+			    			required: true
+		    			},
+		    			city: {
+			    			required: true
+		    			},
+		    			zip: {
+			    			required: true
+		    			},
+		    			country: {
+			    			required: true
+		    			},
+		    			email: {
+			    			required: true,
+			    			email: true 
+		    			},
+		    			phone1: {
+			    			required: true
+		    			},
+		    			website: {
+			    			required: true
+		    			}
+	    			},
+	    			messages: {
+	    				companyName:{
+	    					required: "Company name cannot be blank!"
+	    				},
+	    				street: {
+			    			required: "Street cannot be blank!"
+		    			},
+		    			state: {
+			    			required: "Street cannot be blank!"
+		    			},
+		    			city: {
+			    			required: "City cannot be blank!"
+		    			},
+		    			zip: {
+			    			required: "Zip code cannot be blank!"
+		    			},
+		    			country: {
+			    			required: "Country cannot be blank!"
+		    			},
+		    			email: {
+			    			required: "Email cannot be blank!",
+			    			email : "Please enter valid email id!"
+		    			},
+		    			phone1: {
+			    			required: "Phone1 cannot be blank!"
+		    			},
+		    			website: {
+			    			required: "Website cannot be blank!"
+		    			}
+	    			},
+	    			submitHandler: function(form){
+	    				
+	    				/* Only works in Firefox/Chrome need polyfill for IE9, Safari. http://afarkas.github.io/webshim/demos/ */ 
+	    				e.preventDefault();
+	    				$('#myTab > li').removeClass("disabled");
+	    				//if(tabname == "#details")
+	    				//	tabIndex =1;
+	    				actived_nav.next("li").addClass('active');
+	    				actived_nav.removeClass('active');
+	    				contentSection.removeClass("active").addClass("inactive");
+	    				contentSection.next("div").removeClass("inactive").addClass("active");
+	    			}
+	   			 
+				});
 			}); 
+	
 	$(".previous-button").click(function(){
 		var actived_nav = $('#myTab > li.active');
 		var contentSection = $(".tab-pane.active");

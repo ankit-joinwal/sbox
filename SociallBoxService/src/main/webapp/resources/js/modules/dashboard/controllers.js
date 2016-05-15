@@ -3,11 +3,12 @@
 var app = angular.module('Dashboard');
 
 app.controller('DashboardController',
-				['$window','$scope', '$rootScope', '$routeParams','$location','AuthenticationService','DashboardService',
-                function ($window,$scope, $rootScope, $routeParams,$location,AuthenticationService,DashboardService) {
+				['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','DashboardService',
+                function ($window,$scope, $rootScope, $routeParams,$location,dialogs,AuthenticationService,DashboardService) {
 	
 	console.log("Inside DashboardController");
-	
+	 var dialogOpts = {windowClass:'dialog-custom'};
+	 
 	$scope.editProfile = function(){
 		$window.location.href = "/eo/home#/profile";
 	};
@@ -39,6 +40,10 @@ app.controller('DashboardController',
 	};
 	
 	$scope.getProfileData = function(){
+		if(!navigator.cookieEnabled){
+			AuthenticationService.clearProfile();
+    		$window.location.href = "/eo/login";
+		}
 		AuthenticationService.isUserLoggedIn()
 		.then(function(response){
 			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
@@ -74,7 +79,7 @@ app.controller('DashboardController',
 			})
 			.catch(function(dashboardResponse){
 				$('#dashboard').removeClass('loader');
-				alert('Unable to get details from server');
+				dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
 			});
 		});
 		
@@ -135,7 +140,7 @@ app.controller('DashboardController',
 			   	$("#monthlyUsers").removeClass('loader');
 			})
 			.catch(function(dashboardResponse){
-				alert('Unable to get details from server');
+				dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
 			});
 		});
 	};
@@ -170,7 +175,7 @@ app.controller('DashboardController',
 			      $scope.isUserMessagesLoading = false;
 			})
 			.catch(function(dashboardResponse){
-				alert('Unable to get details from server');
+				dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
 			});
 		})
 		.catch(function(dashboardResponse){

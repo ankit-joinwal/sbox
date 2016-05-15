@@ -73,6 +73,7 @@ public interface Constants {
 	String DOUBLE_COLON = "::";
 	String BLANK = "";
 	String ZERO = "0";
+	String HYPHEN = "-";
 	Integer RECORDS_PER_PAGE = 20;
 	Integer RECORDS_PER_PAGE_UI = 10;
 	String SUCCESS_STATUS = "Success";
@@ -110,6 +111,7 @@ public interface Constants {
 	String COMPANY_REJECTED_MESSAGE = "eo.company.rejected.message";
 	String EVENT_APPROVED_MESSAGE = "eo.event.approved.message";
 	String EVENT_REJECTED_MESSAGE = "eo.event.rejected.message";
+	String EO_EVENT_CREATED_MESSAGE = "eo.event.created.message";
 	//S3 Config Properties
 	String AWS_EVENTS_ROOT_FOLDER_KEY = "aws.s3.events.root.path";
 	String AWS_MEETUPS_ROOT_FOLDER_KEY = "aws.s3.meetups.root.path";	
@@ -212,4 +214,7 @@ public interface Constants {
 	String ERROR_INVALID_EVENT_STATUS = "error.invalid.event.status";
 	String EO_ERROR_EVENT_CANNOT_BE_LIVE = "eo.error.event.cannot.be.live";
 	String EO_ERROR_EVENT_CANNOT_BE_CANCELLED = "eo.error.event.cannot.be.cancelled";
+	String EO_ERROR_INVALID_ADMIN = "eo.error.invalid.admin";
+	String EO_ERROR_COMPANY_NOT_LINKED = "eo.error.company.not.linked";
+	String EO_ERROR_COMPANY_NOT_APPROVED = "eo.error.company.not.approved";
 }

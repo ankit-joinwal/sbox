@@ -82,16 +82,17 @@ angular.module('Admin')
 	};
 	
 	$scope.approveProfile = function(profileId){
+		
 		$scope.msg = null;
 		var profileIds = [];
 		profileIds.push(profileId);
 		AdminService.approveCompanyProfile(profileIds)
 		.then(function(approveResponse){
 			console.log(JSON.stringify(approveResponse.data));
-			AdminService.getPendingProfiles()
+			AdminService.getPendingProfiles(1)
 			.then(function(response){
 				$scope.pending_profiles = response.data.data;
-				alert('Profile approved succesfully')
+				alert('Profile approved succesfully');
 				$window.location.href = "/nimda/home#/organizers";
 				
 			});
@@ -114,6 +115,9 @@ angular.module('Admin')
 	    var pageNum ;
 	    
 	    pageNum = Math.floor(start/number) +1;
+	    if(pageNum==null){
+	    	pageNum = 1;
+	    }
 	    
 		AdminService.getEOProfiles(pageNum)
 		.then(function(response){
@@ -330,7 +334,7 @@ angular.module('Admin')
 		.then(function(approveResponse){
 			console.log(JSON.stringify(approveResponse.data));
 			
-			AdminService.getPendingEvents()
+			AdminService.getPendingEvents(1)
 			.then(function(response){
 				$scope.pending_events = response.data.data;
 				alert('Event approved succesfully')

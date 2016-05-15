@@ -3,9 +3,9 @@
 		
 		<div class="loader-container text-center color-white">
 			<div>
-				<i class="fa fa-spinner fa-pulse fa-3x"></i>
+				<img alt="" src="/resources/img/ball.gif" style="width:100px;height:100px;">
 			</div>
-			<div>Loading</div>
+			<div><h3 class="color-white">Loading...</h3></div>
 		</div>
 	
 		<div class="row" ng-cloak 
@@ -67,9 +67,9 @@
 							<div id="monthlyUsers" class="card-body no-padding loader">
 								<div class="loader-container text-center color-white">
 									<div>
-										<i class="fa fa-spinner fa-pulse fa-3x"></i>
+										<img alt="" src="/resources/img/ball.gif" style="width:100px;height:100px;">
 									</div>
-									<div>Loading</div>
+									<div><h3 class="color-white">Loading...</h3></div>
 								</div>
 								<canvas id="bar-chart" class="chart"></canvas>
 							</div>
@@ -79,7 +79,7 @@
 			</div>
 			<div class="col-sm-6 col-xs-12">
 
-				<div class="card card-info" style="max-height:390px;scroll:auto;">
+				<div class="card card-info">
 					<div class="card-header">
 						<div class="card-title">
 							<div class="title">
@@ -88,13 +88,16 @@
 						</div>
 						<div class="clear-both"></div>
 					</div>
-					<div id="messages" class="card-body no-padding">
+					<div id="messages" class="card-body no-padding" style="max-height: 330px;overflow-y: scroll;">
 						
 						<table st-table="userMessages" st-pipe="getUserMessages" class="table table-striped">
 						 		<tbody ng-show="!isUserMessagesLoading">
 								 	<tr ng-repeat="message in userMessages">
-	                                    <td>{{message.message}}</td>
-	                                    <td>{{message.time}}</td>
+	                                    <td>
+	                                    	<p class="user-message">{{message.message}} - {{message.time}}</p>
+	                                    	
+	                                    </td>
+	                                    
 	                                </tr>
                                 </tbody>
                                 <tbody ng-show="isUserMessagesLoading">

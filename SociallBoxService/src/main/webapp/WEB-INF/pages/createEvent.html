@@ -1,5 +1,5 @@
 
-<div class="container-fluid" ng-controller="EventsController">
+<div class="container-fluid" ng-controller="EventsController" ng-init="initCreateEvent()">
 	<div class="side-body">
 		<div class="page-title">
 			<span class="title">Create New Event</span>
@@ -9,9 +9,9 @@
 				<div class="container" id="event_process_div">
 					<div class="loader-container text-center color-white">
 						<div>
-							<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							<img alt="" src="/resources/img/ball.gif" style="width:100px;height:100px;">
 						</div>
-						<div>Creating Event...</div>
+						<div><h3 class="color-white">Creating your event...</h3></div>
 					</div>
 					<div class="row">
 						<div class="board">
@@ -48,8 +48,8 @@
 											<div class="col-md-12">
 												<label for="eventTitle" class="text-primary">Event Title</label> 
 												<input type="text"
-													required class="form-control" ng-model="eventTitle"
-													id="eventTitle" placeholder="Event Title">
+													 class="form-control input-lg" ng-model="eventTitle"
+													id="eventTitle" placeholder="Event Title" name="eventTitle">
 											</div>
 										</div>
 										<div class="row">
@@ -64,25 +64,30 @@
 										<div class="row">
 											<div class="col-md-12">
 												<label for="eventLocation" class="text-primary">Event Location</label>
-												 <input type="text" required
-													class="form-control" ng-model="eventLocation"  googleplace id="eventLocation"
+												 <input type="text"  name="eventLocation" id="eventLocation"
+													class="form-control input-lg" ng-model="eventLocation"  googleplace id="eventLocation"
 													placeholder="Location">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-4" ng-controller="DateTimeController as ctrl">
 								   
-								        		<div class="dateStartLabel"><label for="startDate" class="text-primary" >Event Start Date & Time</label></div>	
-								        		<input type="text" style="width:200px;" required id="startDate" class="form-control" datetime-picker="dd/MM/yyyy HH:mm a" ng-model="ctrl.dates.startDate" is-open="ctrl.open.startDate" />
-								                <button type="button" class="btn btn-default dateButton" ng-click="ctrl.openCalendar($event, 'startDate')"><i class="fa fa-calendar"></i></button>
+								        		<div class="dateStartLabel">
+								        			<label for="startDate" class="text-primary" >Event Start Date & Time</label>
+								        		</div>	
+								        		<input type="text" style="width:200px;"  id="startDate" name="startDate" class="form-control" datetime-picker="dd/MM/yyyy HH:mm a" ng-model="ctrl.dates.startDate" is-open="ctrl.open.startDate" />
+								                <button type="button" class="btn btn-success dateButton" ng-click="ctrl.openCalendar($event, 'startDate')"><i class="fa fa-calendar"></i></button>
 								     
 											</div>
-											<div class="col-md-8" ng-controller="DateTimeController as ctrl">
+											<div class="col-md-4" ng-controller="DateTimeController as ctrl">
 										
-									        	<div class="dateEndLabel"><label for="endDate"  class="text-primary">Event End Date & Time</label></div>
-									            <input type="text" style="width:200px;" required  class="form-control" id="endDate" datetime-picker="dd/MM/yyyy HH:mm a" ng-model="ctrl.dates.endDate" is-open="ctrl.open.endDate" />
-									            <button type="button" class="btn btn-default dateButton" ng-click="ctrl.openCalendar($event, 'endDate')"><i class="fa fa-calendar"></i></button>
-									     
+									        	<div class="dateEndLabel">
+									        		<label for="endDate"  class="text-primary">Event End Date & Time</label>
+									        	</div>
+									            <input type="text" style="width:200px;" required  class="form-control" id="endDate" name="endDate" datetime-picker="dd/MM/yyyy HH:mm a" ng-model="ctrl.dates.endDate" is-open="ctrl.open.endDate" />
+									            <button type="button" class="btn btn-success dateButton" ng-click="ctrl.openCalendar($event, 'endDate')"><i class="fa fa-calendar"></i></button>
+											</div>
+											<div class="col-md-4">
 											</div>
 										</div>
 										
@@ -92,7 +97,7 @@
 												
 												  <div ng-repeat= "tag in allTags" class="tags">
 												  	<div class="col-md-3">
-												  	<button type="button" class="btn btninactive" ng-click="toggleTag($event)" id="{{tag.name}}" code="{{tag.name}}">{{tag.description}}</button>
+												  	<button type="button" class="btn btninactive" ng-click="toggleTag($event)" id="{{tag.name}}" desc="{{tag.description}}">{{tag.description}}</button>
 												  	</div>
 												  </div>
 										     	
@@ -125,15 +130,17 @@
 										<div class="row">
 											<div class="col-md-12">
 												<label for="companyName">Please select a event image</label>
-												<input type="file" file-model="eventPic"
+												<input type="file" file-model="eventPic" name="eventPic"
 													class="form-control" />
 											</div>
+											
 										</div>
 										<div class="row" align="center">
 										<div class=" col-md-4  col-sm-3"></div>
 											<div class="col-md-2 col-sm-3">
 											<fieldset>
-												<button type="button" class="previous-button btn btn-primary">Previous</button>
+												<button type="button" class="previous-button btn btn-primary"><span style="margin-right: 10px;"
+														class="icon fa fa-location-arrow fa-rotate-270"></span> Previous</button>
 											</fieldset>
 											</div>
 											<div class="col-md-2 col-sm-3">
@@ -203,13 +210,14 @@
 										<div class=" col-md-4  col-sm-3"></div>
 											<div class="col-md-2 col-sm-3">
 											<fieldset>
-												<button type="button" class="previous-button btn btn-primary">Previous</button>
+												<button type="button" class="previous-button btn btn-primary btn-lg"><span style="margin-right: 10px;"
+														class="icon fa fa-location-arrow fa-rotate-270"></span> Previous</button>
 											</fieldset>
 											</div>
 											<div class="col-md-2 col-sm-3">
 											<fieldset>
-												<button  type="submit" name="review_form"
-													ng-click="createEvent()" class="btn btn-success">
+												<button  name="review_form"
+													ng-click="createEvent()" class="btn btn-success btn-lg">
 													Submit <span style="margin-left: 10px;"
 														class="icon fa fa-location-arrow"></span>
 												</button>
@@ -235,6 +243,7 @@
     border-color: #337ab7;color:#fff}
   
    #startDate{display: inline-block;vertical-align: middle;width: 364px;}
+   #endDate{display: inline-block;vertical-align: middle;width: 364px;}
     .dateInput{width:364px !important}
     .eventDescription{padding:0}
     .dateButton{margin-left:-5px}
@@ -248,7 +257,6 @@
 <script type="text/javascript">
 $( document ).ready(function() {
 	$('.tags button').on('click', function(e) {
-		alert(12)
 		if($(this).hasClass("btninactive")){
 		   $(this).removeClass("btninactive").addClass("btnactive");
 		}else if($(this).hasClass("btnactive")) {
@@ -270,25 +278,65 @@ $( document ).ready(function() {
 	$('a[title]').tooltip(); 
 	$('.btn-eventnext').on('click', function(e) {
 		
-			var formname = $(this).attr('name'); 
-			var actived_nav = $('#eventTabs > li.active');
-			var contentSection = $(".tab-pane.active");
-			
-			var inpObj = document.getElementById(formname);
-			if (inpObj.checkValidity()) { 
+				var formname = $(this).attr('name'); 
+				var actived_nav = $('#eventTabs > li.active');
+				var contentSection = $(".tab-pane.active");
 				
-				/* Only works in Firefox/Chrome need polyfill for IE9, Safari. http://afarkas.github.io/webshim/demos/ */ 
-				e.preventDefault();
+				var inpObj = document.getElementById(formname);
+				$('#'+formname).validate({
+	    			rules: {
+	    				eventTitle:{
+	    					required: true,
+	    					specialChar :true
+	    				},
+	    				eventLocation: {
+			    			required: true
+		    			},
+		    			startDate:{
+		    				required: true
+		    			},
+		    			endDate : {
+		    				required: true
+		    			},
+		    			eventPic :{
+		    				required: true
+		    			}
+	    			},
+	    			messages: {
+	    				eventTitle:{
+	    					required: "Title cannot be blank !"
+	    				},
+	    				eventLocation: {
+			    			required: "Location cannot be blank !"
+		    			},
+		    			startDate:{
+		    				required: "Start Date cannot be blank !"
+		    			},
+		    			endDate : {
+		    				required: "End Date cannot be blank !"
+		    			},
+		    			eventPic : {
+		    				required: "Event pic is required !"
+		    			}
+	    			},
+	    			submitHandler: function(form){
+	    				
+	    				/* Only works in Firefox/Chrome need polyfill for IE9, Safari. http://afarkas.github.io/webshim/demos/ */ 
+	    				e.preventDefault();
+	    				
+	    				$('#eventTabs > li').removeClass("disabled");
+	    				//if(tabname == "#details")
+	    				//	tabIndex =1;
+	    				actived_nav.next("li").addClass('active');
+	    				actived_nav.removeClass('active');
+	    				contentSection.removeClass("active").addClass("inactive");
+	    				contentSection.next("div").removeClass("inactive").addClass("active");
+	    			}
+	   			 
+				});
 				
-				$('#eventTabs > li').removeClass("disabled");
-				//if(tabname == "#details")
-				//	tabIndex =1;
-				actived_nav.next("li").addClass('active');
-				actived_nav.removeClass('active');
-				contentSection.removeClass("active").addClass("inactive");
-				contentSection.next("div").removeClass("inactive").addClass("active");
-				} 
 			}); 
+	
 	$(".previous-button").click(function(){
 		var actived_nav = $('#eventTabs > li.active');
 		var contentSection = $(".tab-pane.active");

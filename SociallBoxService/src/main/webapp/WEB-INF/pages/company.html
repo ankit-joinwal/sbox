@@ -1,12 +1,13 @@
 <div class="container-fluid" ng-controller="CompanyController" ng-init="initCompanyPage()">
-	<div class="side-body loader" id="company-profile-div">
-		<div class="loader-container text-center color-white">
-			<div>
-				<i class="fa fa-spinner fa-pulse fa-3x"></i>
+	<div class="side-bod" >
+		
+		<div class="panel panel-default" ng-init="initCompanyProfile()" id="company-profile-div">
+			<div class="loader-container text-center color-white">
+				<div>
+					<img alt="" src="/resources/img/ball.gif" style="width:100px;height:100px;">
+				</div>
+				<div><h3 class="color-white">Loading...</h3></div>
 			</div>
-			<div>Loading</div>
-		</div>
-		<div class="panel panel-default" ng-init="initCompanyProfile()">
 			<div class="fb-profile">
 				<div class="container-fluid company-profile-img">
 					<div class="row">

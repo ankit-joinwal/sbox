@@ -3,13 +3,41 @@
 var app = angular.module('Events',['textAngular']);
 
 app.controller('EventsController',
-		['$window','$scope', '$rootScope', '$routeParams','$location','AuthenticationService','EventService',
-        function ($window,$scope, $rootScope, $routeParams,$location,AuthenticationService,EventService) {
+		['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','EventService',
+        function ($window,$scope, $rootScope, $routeParams,$location,dialogs,AuthenticationService,EventService) {
 		
 		   $scope.eventDetails = '';
-			
+		   var dialogOpts = {windowClass:'dialog-custom'};
+		   
+		   
 			$scope.initNewEvent = function(){
 				$window.location.href = "/eo/home#/events/new";
+			};
+			$scope.validateEO = function(){
+				AuthenticationService.getUserProfile()
+				.then(function(profileResponse){
+					var profile = profileResponse.data;
+					
+					if(profile.status == 'APPROVED'){
+						$scope.canCreateEvent = true;
+					}else{
+						$scope.canCreateEvent = false;
+					}
+				});
+			};
+			
+			$scope.initCreateEvent = function(){
+				$('#event_process_div').addClass('loader');
+				AuthenticationService.getUserProfile()
+				.then(function(profileResponse){
+					var profile = profileResponse.data;
+					
+					if(profile.status != 'APPROVED'){
+						$window.location.href = "/eo/home#/events";
+					}
+					
+					$('#event_process_div').removeClass('loader');
+				});
 			};
 			
 			$scope.toggleTag = function(event) {
@@ -24,6 +52,7 @@ app.controller('EventsController',
 			};
 				
 			$scope.myevents_upcoming = function (tableState){
+				$('#event_home').addClass('loader');
 				$scope.isUpEventsLoading = true;
 				var pagination = tableState.pagination;
 
@@ -54,8 +83,8 @@ app.controller('EventsController',
 								  event.day = day;
 								  event.month = month;
 							}); 
-							$scope.myEventsData_upcoming =events;
-							var totalPages ;
+								$scope.myEventsData_upcoming =events;
+								var totalPages ;
 							 if(eventResponse.data.total_records%number ==0){
 						    	  totalPages = eventResponse.data.total_records/number ;
 						      }else{
@@ -63,18 +92,30 @@ app.controller('EventsController',
 						      }
 						      tableState.pagination.numberOfPages = totalPages;//set the number of pages so the pagination can update
 						      $scope.isUpEventsLoading = false;
+						      $('#event_home').removeClass('loader');
+							}).catch(function(eventResponse){
+								$scope.isUpEventsLoading = false;
+								$('#event_home').removeClass('loader');
+								if(eventResponse.data.exception.message !=null){
+									dialogs.error('Error',eventResponse.data.exception.message,dialogOpts);
+								}else{
+									dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+								}
 							});
+						
 					
 					}).catch(function(response){
 						 $scope.isUpEventsLoading = false;
 						console.log("Inside event service controller Response :"+response.status);
+						$('#event_home').addClass('loader');
 						$window.location.href = "/eo/login";
-			
+						
 					});
 					
 				}).catch(function(response){
 					 $scope.isUpEventsLoading = false;
 					console.log("Inside event service controller Response :"+response.status);
+					$('#event_home').addClass('loader');
 					$window.location.href = "/eo/login";
 		
 				});
@@ -156,12 +197,16 @@ app.controller('EventsController',
 					})
 					.catch(function(response){
 						console.log('Inside EventsController.getEventDetails Response :'+response.status);
-						$window.location.href = "/eo/home";
+						if(response.data.exception.message !=null){
+							dialogs.error('Error',response.data.exception.message,dialogOpts);
+						}else{
+							dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+						}
 					});
 				})
 				.catch(function(profileResponse){
 					console.log('Inside EventsController.getEventDetails Response :'+profileResponse.status);
-					$window.location.href = "/eo/home";
+					dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
 				});
 			};
 			
@@ -254,19 +299,23 @@ app.controller('EventsController',
 					   	 $("#dailyUsers").removeClass('loader');
 					   	
 					   	/*Users chart end */
-					   	
-					   	
 					   
 					   	/*Users chart end*/
 					})
 					.catch(function(response){
 						console.log('Inside EventsController.getEventStats Response :'+response.status);
-						$window.location.href = "/eo/home";
+						if(response.data.exception.message !=null){
+							dialogs.error('Error',response.data.exception.message,dialogOpts);
+						}else{
+							dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+						}
+						 $("#dailyUsers").removeClass('loader');
 					});
 				})
 				.catch(function(profileResponse){
 					console.log('Inside EventsController.getEventStats.getUserProfile Response :'+profileResponse.status);
-					$window.location.href = "/eo/home";
+					 $("#dailyUsers").removeClass('loader');
+					dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
 				});
 			};
 			
@@ -277,8 +326,11 @@ app.controller('EventsController',
 				})
 				.catch(function(response){
 					console.log("Inside event service controller to get all tags Response :"+response.status);
-					alert('Unable to get tags for event');
-		
+					if(response.data.exception.message !=null){
+						dialogs.error('Error',response.data.exception.message,dialogOpts);
+					}else{
+						dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+					}
 				});
 			}
 			
@@ -288,9 +340,10 @@ app.controller('EventsController',
 				
 				//$scope.tagNames = [];
 				var tags = [],isFree,startDate,endDate;
-				
+				var tagDisplayNames = [];
 				var eventDescription = $('#event-details').html();
-				 $scope.eventDetails = eventDescription;
+				
+				$scope.eventDetails = eventDescription.replace(/"/g, "");;
 					var  htmlString = $.parseHTML($scope.eventDetails);
 					$( '#reviewEventDescription').html( htmlString );
 				
@@ -310,8 +363,9 @@ app.controller('EventsController',
 					if (buttonClass.indexOf( "btnactive") > -1){
 						
 						var tagName = $(this).attr('id');
-						
+						var tagDesc = $(this).text();
 						tags.push('"'+tagName+'"');
+						tagDisplayNames.push(tagDesc);
 					};
 				});
 				
@@ -324,11 +378,13 @@ app.controller('EventsController',
 					
 				   $("#reviewEventStartDate").text(startDate);
 				   $("#reviewEventEndDate").text(endDate);
-				   
-				   for(var i =0;i<tags.length;i++){
-						$(".reviewTagNames").append('<button type="button" class="btn btnactive">'+tags[i]+'</button>');
+				   $('.reviewTagNames').html('');
+				   for(var i =0;i<tagDisplayNames.length;i++){
+					   var tagName = tagDisplayNames[i];
+					   
+						$(".reviewTagNames").append('<button type="button" class="btn btnactive">'+tagName+'</button>');
 					};
-					
+					$(".reviewFreeButton").html('');
 					if (isFree == "true")
 					$(".reviewFreeButton").append('<button type="button" class="btn btnactive">Yes</button>');
 					else
@@ -337,8 +393,7 @@ app.controller('EventsController',
 			}; 
 			
 			$scope.createEvent = function(){
-				AuthenticationService.isUserLoggedIn()
-				.then(function(response){
+				
 					
 					AuthenticationService.getUserProfile()
 						.then(function(profileResponse){
@@ -387,37 +442,109 @@ app.controller('EventsController',
 							var eventId = eventResponse.data.data.id;
 							console.log('Event Id :'+eventId);
 							var eventPic = $scope.eventPic;
-					        console.log('event Pic :' );
-					        console.dir(eventPic);
+					       
 					        if(eventPic != null){
 					        	EventService.uploadEventPhoto(eventId,eventPic)
 						        .then(function(uploadResponse){
 						        	if(uploadResponse.status == 201){
 							        	console.log('Uploaded event Pic');
-							        	$window.location.href = "/eo/home#/events";
+							        	var dlg = dialogs.notify('Success!','Event created succefully. You can make it live once it is approved by admin.',dialogOpts)
+							        	dlg.result.then(function(btn){
+							        		$window.location.href = "/eo/home#/events";
+							        	});
+							            
 						        	}
-						         })
-						        .catch(function(uploadResponse){
-									console.log('Error in uploading event photo. Response :'+uploadResponse.status);
-								});
+						         });
 					        }
-					        
-					        $window.location.href = "/eo/home#/events";
 						})
 						.catch(function(eventResponse){
-							console.log('Error in creating company profile . Response :'+createResponse.status);
+							if(eventResponse.data.exception.message !=null){
+								dialogs.error('Error while creating event',eventResponse.data.exception.message,dialogOpts);
+							}else{
+								dialogs.error('Error while creating event','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+							}
+							$("#event_process_div").removeClass("loader");
 						});
 						
 					}).catch(function(profileResponse){
-						console.log("Inside event service controller Response :"+profileResponse.status);
-						$window.location.href = "/eo/login";
-			
+						dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
+						$("#event_process_div").removeClass("loader");
 					});
-				})
-				.catch(function(response){
-					console.log('Inside EventController.createEvent to create event. Response :'+response.status);
-					console.log('Inside EventController.createEvent to create event. Response :'+response.status);
+				
+			};
+			
+			$scope.initEditEvent = function(){
+				var eventId = $routeParams.eventId;
+				
+			};
+			
+			$scope.publish = function(eventId){
+				$('#event_home').addClass('loader');
+				AuthenticationService.isUserLoggedIn()
+				.then(function(response){
+					AuthenticationService.getUserProfile()
+					.then(function(profileResponse){
+						var profile = profileResponse.data;
+						var userId = profile.userId;
+						
+						EventService.makeEventLive(eventId,userId)
+						.then(function(eventResponse){
+							$('#makeLiveBtn').hide();
+							var dlg = dialogs.notify('Success',eventResponse.data.data,dialogOpts)
+				        	dlg.result.then(function(btn){
+				        		$scope.isUpEventsLoading = true;
+				        		var pageNum = 1;
+				        		
+				        		EventService.myevents_upcoming(userId,pageNum)
+								.then(function(eventResponse){
+									var events = eventResponse.data.data;
+									$.each(events, function(key,event) {
+										  var startDate = event.start_date;
+										  var startDateArr = startDate.split(" ");
+										  var day = startDateArr[1];
+										  var month = startDateArr[0];
+										  event.day = day;
+										  event.month = month;
+									}); 
+										$scope.myEventsData_upcoming =events;
+										var totalPages ;
+									 if(eventResponse.data.total_records%number ==0){
+								    	  totalPages = eventResponse.data.total_records/number ;
+								      }else{
+								    	  totalPages = Math.floor(eventResponse.data.total_records/number) +1 ;
+								      }
+								      tableState.pagination.numberOfPages = totalPages;//set the number of pages so the pagination can update
+								      $scope.isUpEventsLoading = false;
+								      $('#event_home').removeClass('loader');
+									}).catch(function(eventResponse){
+										$scope.isUpEventsLoading = false;
+										$('#event_home').removeClass('loader');
+										if(eventResponse.data.exception.message !=null){
+											dialogs.error('Error',eventResponse.data.exception.message,dialogOpts);
+										}else{
+											dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+										}
+									});
+								
+				        	});
+						})
+						.catch(function(response){
+							if(response.data.exception.message !=null){
+								dialogs.error('Error',response.data.exception.message,dialogOpts);
+							}else{
+								dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+							}
+							$('#event_home').removeClass('loader');
+						});
+					}).catch(function(profileResponse){
+						dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
+						$('#event_home').removeClass('loader');
+					});
+					
+				}).catch(function(response){
+					console.log("Inside event service controller Response :"+response.status);
 					$window.location.href = "/eo/login";
+		
 				});
 			};
 			
@@ -434,17 +561,23 @@ app.controller('EventsController',
 						.then(function(eventResponse){
 							$('#makeLiveBtn').hide();
 							$('#pageContainer').removeClass('loader');
-							alert(eventResponse.data.data);
-							
+							var dlg = dialogs.notify('Success',eventResponse.data.data,dialogOpts)
+				        	dlg.result.then(function(btn){
+				        		$window.location.href = "/eo/home#/events";
+				        		
+				        	});
 						})
 						.catch(function(response){
-							console.log('Inside EventsController.makeLive Response :'+response.status);
-							$window.location.href = "/eo/home#/events";
+							if(response.data.exception.message !=null){
+								dialogs.error('Error',response.data.exception.message,dialogOpts);
+							}else{
+								dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+							}
+							$('#pageContainer').removeClass('loader');
 						});
 					}).catch(function(profileResponse){
-						console.log("Inside event service controller Response :"+profileResponse.status);
-						$window.location.href = "/eo/login";
-			
+						dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
+						$('#pageContainer').removeClass('loader');
 					});
 					
 				}).catch(function(response){
@@ -455,9 +588,9 @@ app.controller('EventsController',
 			};
 			
 			$scope.cancelEvent = function(eventId){
-				var r = confirm("Are you sure you want to cancel event?");
-				if (r == true) {
-					$('#pageContainer').addClass('loader');
+				var dlg = dialogs.confirm('Please Confirm','Are you sure you want to cancel event?',dialogOpts);
+				dlg.result.then(function(btn){
+					$('#event_home').addClass('loader');
 					AuthenticationService.isUserLoggedIn()
 					.then(function(response){
 						AuthenticationService.getUserProfile()
@@ -468,17 +601,24 @@ app.controller('EventsController',
 							EventService.cancelEvent(eventId,userId)
 							.then(function(eventResponse){
 								$('#cancelEventBtn').hide();
-								$('#pageContainer').removeClass('loader');
-								alert(eventResponse.data.data);
+								$('#event_home').removeClass('loader');
+								var dlg = dialogs.notify('Info','Event is cancelled successfully !',dialogOpts)
+					        	dlg.result.then(function(btn){
+					        		$window.location.href = "/eo/home#/events";
+					        	});
 							})
 							.catch(function(response){
-								console.log('Inside EventsController.cancelEvent Response :'+response.status);
-								$window.location.href = "/eo/home#/events";
+								if(response.data.exception.message !=null){
+									dialogs.error('Error',response.data.exception.message,dialogOpts);
+								}else{
+									dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+								}
+								$('#event_home').removeClass('loader');
 							});
 						}).catch(function(profileResponse){
 							console.log("Inside event service controller Response :"+profileResponse.status);
-							$window.location.href = "/eo/login";
-				
+							$('#event_home').removeClass('loader');
+							dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);				
 						});
 						
 					}).catch(function(response){
@@ -486,6 +626,9 @@ app.controller('EventsController',
 						$window.location.href = "/eo/login";
 			
 					});
-				} 
+				},function(btn){
+					
+				});
+				
 			};
 		}]);

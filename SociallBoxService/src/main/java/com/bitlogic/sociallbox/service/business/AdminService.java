@@ -29,4 +29,5 @@ public interface AdminService {
 	
 	@PreAuthorize("hasRole('"+Constants.ROLE_TYPE_ADMIN+"')")
 	public void rejectEvents(List<String> eventIds);
+	
 }

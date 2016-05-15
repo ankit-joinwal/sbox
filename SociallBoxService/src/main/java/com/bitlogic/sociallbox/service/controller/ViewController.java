@@ -101,6 +101,12 @@ public class ViewController extends BaseController{
          return new ModelAndView("eventDetails");
      }
 	 
+	 @RequestMapping(value="/eo/events/edit",method = RequestMethod.GET)
+     public ModelAndView getEditEventPage() {
+		
+         return new ModelAndView("editEvent");
+     }
+	 
 	 
 	 @RequestMapping(value="/nimda/events/details",method = RequestMethod.GET)
      public ModelAndView getEventsDetailsPageForAdmin() {

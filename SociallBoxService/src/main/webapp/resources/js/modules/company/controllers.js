@@ -3,31 +3,21 @@
 var app = angular.module('Company');
 
 app.controller('CompanyController',
-		['$window','$scope', '$rootScope', '$routeParams','$location','AuthenticationService','CompanyService',
-        function ($window,$scope, $rootScope, $routeParams,$location,AuthenticationService,CompanyService) {
-			
+		['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','CompanyService',
+        function ($window,$scope, $rootScope, $routeParams,$location,dialogs,AuthenticationService,CompanyService) {
+			 var dialogOpts = {windowClass:'dialog-custom'};
 			$scope.initCompanyPage = function(){
-				AuthenticationService.isUserLoggedIn()
-				.then(function(response){
-					console.log('Inside CompanyController.isUserLoggedIn Response :'+response.status);
+				$('#company-profile-div').addClass('loader')
 					AuthenticationService.getUserProfile()
 					.then(function(profileResponse){
 						var profile = profileResponse.data;
-						$scope.userName = profile.name;
-						$scope.emailId = profile.emailId;
-						$scope.profilePic = profile.profilePic;
-						$scope.userId = profile.userId;
 						
 						if(profile.status == 'COMPANY_NOT_LINKED'){
 							$window.location.href = "/eo/home#/company/new";
 						}
+						$('#company-profile-div').removeClass('loader')
 					});
 					
-				})
-				.catch(function(response){
-					console.log('Inside CompanyController.isUserLoggedIn Response :'+response.status);
-					$window.location.href = "/eo/login";
-				});
 			};
 			
 			$scope.initCompanyProfile = function(){
@@ -93,48 +83,27 @@ app.controller('CompanyController',
 						var companyId = createResponse.data.data.company_profile.id;
 						
 						var coverPic = $scope.coverPic;
-				        console.log('Cover Pic :' );
-				        console.dir(coverPic);
 				        var picType = 'coverPic';
 				        if(coverPic != null){
 					        CompanyService.uploadCompanyPhoto(userId,companyId,coverPic,picType)
 					        .then(function(uploadResponse){
-					        	if(uploadResponse.status == 201){
-						        	console.log('Uploaded Cover Pic');
-						        	
-					        	}
+					        	
 					        	AuthenticationService.setUserProfile(createResponse.data.data.id,createResponse.data.data.name,
 			        					createResponse.data.data.email_id,createResponse.data.data.profile_id,
 			        					createResponse.data.data.profile_pic,createResponse.data.data.status,
 			        					profile.password,createResponse.data.data.company_profile)
 					        	.then(function(){
-					        		$window.location.href = "/eo/company";
+					        		$window.location.href = "/eo/home#/company";
 					        	});
-					        	/*var profilePic = $scope.profilePic;
-						        console.log('Profile Pic :' );
-						        console.dir(profilePic);
-						        
-						        if(profilePic != null){
-						        	picType = 'profilePic';
-						        	 CompanyService.uploadCompanyPhoto(userId,companyId,profilePic,picType)
-								        .then(function(uploadResponse){
-								        	console.log('Uploaded Profile Pic')
-								        })
-								        .catch(function(uploadResponse){
-											console.log('Error in upload company profile photo. Response :'+uploadResponse.status);
-										});
-						        }*/
-					        })
-					        .catch(function(uploadResponse){
-								console.log('Error in upload company photo. Response :'+uploadResponse.status);
-							});
+					        	
+					        });
 				        }else{
 				        	AuthenticationService.setUserProfile(createResponse.data.data.id,createResponse.data.data.name,
 		        					createResponse.data.data.email_id,createResponse.data.data.profile_id,
 		        					createResponse.data.data.profile_pic,createResponse.data.data.status,
 		        					profile.password,createResponse.data.data.company_profile)
 				        	.then(function(){
-				        		$window.location.href = "/eo/company";
+				        		$window.location.href = "/eo/home#/company";
 				        		
 				        	});
 				        }
@@ -142,7 +111,12 @@ app.controller('CompanyController',
 				        
 					})
 					.catch(function(createResponse){
-						console.log('Error in creating company profile . Response :'+createResponse.status);
+						if(createResponse.data.exception.message !=null){
+							dialogs.error('Error',createResponse.data.exception.message,dialogOpts);
+						}else{
+							dialogs.error('Error','An unpexpected error has occured. Please reach out to contact@sociallbox.com',dialogOpts);
+						}
+						$("#company_process_div").removeClass("loader");
 					});
 				})
 				.catch(function(response){

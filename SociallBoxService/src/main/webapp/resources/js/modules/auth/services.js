@@ -50,6 +50,12 @@ var app = angular.module('Authentication')
 	 					 deferred.reject(response);
 	 					 return deferred.promise;
 	                 }
+	             })
+	             .catch(function(response){
+	            	 
+	            	 service.clearProfile();
+ 					 deferred.reject(response);
+ 					 return deferred.promise;
 	             });
     	 };
     	 
@@ -109,8 +115,13 @@ var app = angular.module('Authentication')
 		 					 deferred.reject(response);
 		 					 return deferred.promise;
 		                 }
+	             })
+	             .catch(function(response){
+	            	 
+	            	 service.clearProfile();
+ 					 deferred.reject(response);
+ 					 return deferred.promise;
 	             });
-    		 
     	 };
     	 
     	 //Service Function to check if user is logged in or not
@@ -286,7 +297,7 @@ var app = angular.module('Authentication')
 				    		        })
 				    		        .then(function(uploadResponse) {
 				    		        	if (uploadResponse.status == 201) {
-					 	                	
+					 	                	response.data.data.profile_pic = uploadResponse.data.data;
 					 	                 	deferred.resolve(response);
 					 	 					return deferred.promise;
 				    		        	}else{
@@ -304,9 +315,9 @@ var app = angular.module('Authentication')
 	 	 					 return deferred.promise;
 	 	                 }
 	 	             });
-    		}).catch(function(tokenResponse){
-    			//If unable to get auth token, then redirect to login page
-    			console.log('Inside AuthService.editUserProfile to gen token.Response :'+tokenResponse.status);
+    		}).catch(function(response){
+    			deferred.reject(response);
+				return deferred.promise;
     		});
  		};
  		

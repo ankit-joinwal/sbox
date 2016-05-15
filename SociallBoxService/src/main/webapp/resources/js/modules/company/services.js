@@ -31,18 +31,16 @@ app.factory('CompanyService',
 	 	 	            }
 	 	    		 }).then(function(response) {
 	 	                 if (response.status == 201) {
-	 	                	
 	 	                 	deferred.resolve(response);
 	 	 					return deferred.promise;
 	 	                 }else{
-	 	                	 
 	 	 					 deferred.reject(response);
 	 	 					 return deferred.promise;
 	 	                 }
 	 	             });
 	    		}).catch(function(response){
-	    			//If unable to get auth token, then redirect to login page
-	    			console.log('Inside CompanyService.createCompanyProfile to gen token.Response :'+response.status);
+	    			deferred.reject(response);
+ 					 return deferred.promise;
 	    		});
 	    	};
 	    	
@@ -81,8 +79,6 @@ app.factory('CompanyService',
 			 	 					 return deferred.promise;
 			    	    		});
 			    		}).catch(function(tokenResponse){
-			    			//If unable to get auth token, then redirect to login page
-			    			console.log('Inside CompanyService.uploadCompanyPhoto to gen token.Response :'+tokenResponse.status);
 			    			deferred.reject(response);
 			 				return deferred.promise;
 			    		});

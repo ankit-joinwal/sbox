@@ -1,429 +1,497 @@
 <style>
-
-#search input{width:150px}
-	#search button{
-	margin-left:-5px;
-	}
-	.flat-blue .btn.btn-primary {
-    background-color: #5bc0de;
-    color: #FFF;
-    border-color: #5bc0de;
+#search input {
+	width: 150px
 }
- 
- .float-right {
- 	float : right;'
- }
 
-      #search:hover input, #search input:focus {
-            width: 250px;
-           
-            -webkit-transition: all 0.7s ease-in-out;
-        -moz-transition: all 0.7s ease-in-out;
-        -o-transition: all 0.7s ease-in-out;
-        transition: all 0.7s ease-in-out;
-        }
+#search button {
+	margin-left: -5px;
+}
+
+.flat-blue .btn.btn-primary {
+	background-color: #5bc0de;
+	color: #FFF;
+	border-color: #5bc0de;
+}
+
+.float-right {
+	float: right;
+	'
+}
+
+#search:hover input,#search input:focus {
+	width: 250px;
+	-webkit-transition: all 0.7s ease-in-out;
+	-moz-transition: all 0.7s ease-in-out;
+	-o-transition: all 0.7s ease-in-out;
+	transition: all 0.7s ease-in-out;
+}
 
 /* Tabs panel */
 .tabbable-panel {
-  border:1px solid #CCC;
-  padding:10px;
+	border: 1px solid #CCC;
+	padding: 10px;
+	margin-top:-50px;
 }
 
 /* Default mode */
-.tabbable-line > .nav-tabs {
-  border: none;
-  margin: 0px;
-  background-color: #fff;
-}
-.tabbable-line > .nav-tabs > li {
-  margin-right: 2px;
-}
-.tabbable-line > .nav-tabs > li > a {
-  border: 0;
-  margin-right: 0;
-  color: #737373;
+.tabbable-line>.nav-tabs {
+	border: none;
+	margin: 0px;
+	background-color: #fff;
 }
 
-.tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
-  border-bottom: 4px solid #fbcdcf;
-}
-.tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
-  border: 0;
-  background: none !important;
-  color: #333333;
+.tabbable-line>.nav-tabs>li {
+	margin-right: 2px;
 }
 
-.tabbable-line > .nav-tabs > li.active {
-  border-bottom: 4px solid #f3565d;
-  position: relative;
-}
-.tabbable-line > .nav-tabs > li.active > a {
-  border: 0;
-  color: #333333;
+.tabbable-line>.nav-tabs>li>a {
+	border: 0;
+	margin-right: 0;
+	color: #737373;
 }
 
-.tabbable-line > .tab-content {
-  margin-top: -3px;
-  background-color: #fff;
-  border: 0;
-  border-top: 1px solid #eee;
-  padding: 15px 0;
+.tabbable-line>.nav-tabs>li.open,.tabbable-line>.nav-tabs>li:hover {
+	border-bottom: 4px solid #fbcdcf;
 }
 
-
-.row > [class*="col-"] {
-    margin-bottom: 0px;
+.tabbable-line>.nav-tabs>li.open>a,.tabbable-line>.nav-tabs>li:hover>a {
+	border: 0;
+	background: none !important;
+	color: #333333;
 }
+
+.tabbable-line>.nav-tabs>li.active {
+	border-bottom: 4px solid #f3565d;
+	position: relative;
+}
+
+.tabbable-line>.nav-tabs>li.active>a {
+	border: 0;
+	color: #333333;
+}
+
+.tabbable-line>.tab-content {
+	margin-top: -3px;
+	background-color: #fff;
+	border: 0;
+	border-top: 1px solid #eee;
+	padding: 15px 0;
+}
+
+.row>[class*="col-"] {
+	margin-bottom: 0px;
+}
+
 .board {
-    margin: 25px auto;}
-    .table>tbody>tr>td{vertical-align:middle;}
+	width: 100%;
+	margin: 60px auto;
+	height: 100%;
+	background: #fff;
+	/*box-shadow: 10px 10px #ccc,-10px 20px #ddd;*/
+}
 
-   
-    
-    .event-list {
-		list-style: none;
-		font-family: 'Lato', sans-serif;
-		margin: 0px;
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+
+.event-list {
+	list-style: none;
+	font-family: 'Lato', sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+.event-list>li {
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0px 0px 5px rgb(51, 51, 51);
+	box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+	padding: 0px;
+	margin: 0px 0px 20px;
+}
+
+.event-list>li>time {
+	display: inline-block;
+	width: 100%;
+	color: rgb(255, 255, 255);
+	background-color: #34d1da;
+	padding: 5px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.event-list>li:nth-child(even)>time {
+	background-color: #1a888e;
+}
+
+.event-list>li>time>span {
+	display: none;
+}
+
+.event-list>li>time>.day {
+	display: block;
+	font-size: 56pt;
+	font-weight: 100;
+	line-height: 1;
+}
+
+.event-list>li time>.month {
+	display: block;
+	font-size: 24pt;
+	font-weight: 900;
+	line-height: 1;
+}
+
+.event-list>li>img {
+	width: 100%;
+}
+
+.event-list>li>.info {
+	padding-top: 5px;
+	text-align: center;
+}
+
+.event-list>li>.info>.title {
+	font-size: 17pt;
+	font-weight: 700;
+	margin: 0px;
+}
+
+.event-list>li>.info>.desc {
+	font-size: 13pt;
+	font-weight: 300;
+	margin: 0px;
+}
+
+.event-list>li>.info>ul,.event-list>li>.social>ul {
+	display: table;
+	list-style: none;
+	margin: 10px 0px 0px;
+	padding: 0px;
+	width: 100%;
+	text-align: center;
+}
+
+
+.event-list>li>.info>.btn {
+	margin:10px;
+}
+.event-list>li>.social>ul {
+	margin: 0px;
+}
+
+.event-list>li>.info>ul>li,.event-list>li>.social>ul>li {
+	display: table-cell;
+	cursor: pointer;
+	color: rgb(30, 30, 30);
+	font-size: 11pt;
+	font-weight: 300;
+	padding: 3px 0px;
+}
+
+.event-list>li>.info>ul>li>a {
+	display: block;
+	width: 100%;
+	color: rgb(30, 30, 30);
+	text-decoration: none;
+}
+
+.event-list>li>.social>ul>li {
+	padding: 0px;
+}
+
+.event-list>li>.social>ul>li>a {
+	padding: 3px 0px;
+}
+
+.event-list>li>.info>ul>li:hover,.event-list>li>.social>ul>li:hover {
+	color: rgb(30, 30, 30);
+	background-color: rgb(200, 200, 200);
+}
+
+.facebook a,.twitter a,.google-plus a {
+	display: block;
+	width: 100%;
+	color: rgb(75, 110, 168) !important;
+}
+
+.twitter a {
+	color: rgb(79, 213, 248) !important;
+}
+
+.google-plus a {
+	color: rgb(221, 75, 57) !important;
+}
+
+.facebook:hover a {
+	color: rgb(255, 255, 255) !important;
+	background-color: rgb(75, 110, 168) !important;
+}
+
+.twitter:hover a {
+	color: rgb(255, 255, 255) !important;
+	background-color: rgb(79, 213, 248) !important;
+}
+
+.google-plus:hover a {
+	color: rgb(255, 255, 255) !important;
+	background-color: rgb(221, 75, 57) !important;
+}
+
+@media ( min-width : 768px) {
+	.event-list>li {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 120px;
 		padding: 0px;
 	}
-	.event-list > li {
-		background-color: rgb(255, 255, 255);
-		box-shadow: 0px 0px 5px rgb(51, 51, 51);
-		box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
-		padding: 0px;
-		margin: 0px 0px 20px;
-	}
-	.event-list > li > time {
+	.event-list>li>time,.event-list>li>img {
 		display: inline-block;
-		width: 100%;
-		color: rgb(255, 255, 255);
-		background-color: #34d1da;
-		padding: 5px;
-		text-align: center;
-		text-transform: uppercase;
 	}
-	.event-list > li:nth-child(even) > time {
-		background-color: #1a888e;
+	.event-list>li>time,.event-list>li>img {
+		width: 120px;
+		float: left;
 	}
-	.event-list > li > time > span {
-		display: none;
+	.event-list>li>.info {
+		overflow: hidden;
 	}
-	.event-list > li > time > .day {
-		display: block;
-		font-size: 56pt;
-		font-weight: 100;
-		line-height: 1;
-	}
-	.event-list > li time > .month {
-		display: block;
-		font-size: 24pt;
-		font-weight: 900;
-		line-height: 1;
-	}
-	.event-list > li > img {
-		width: 100%;
-	}
-	.event-list > li > .info {
-		padding-top: 5px;
-		text-align: center;
-	}
-	.event-list > li > .info > .title {
-		font-size: 17pt;
-		font-weight: 700;
-		margin: 0px;
-	}
-	.event-list > li > .info > .desc {
-		font-size: 13pt;
-		font-weight: 300;
-		margin: 0px;
-	}
-	.event-list > li > .info > ul,
-	.event-list > li > .social > ul {
-		display: table;
-		list-style: none;
-		margin: 10px 0px 0px;
+	.event-list>li>time,.event-list>li>img {
+		width: 120px;
+		height: 120px;
 		padding: 0px;
-		width: 100%;
-		text-align: center;
-	}
-	.event-list > li > .social > ul {
 		margin: 0px;
 	}
-	.event-list > li > .info > ul > li,
-	.event-list > li > .social > ul > li {
-		display: table-cell;
-		cursor: pointer;
-		color: rgb(30, 30, 30);
-		font-size: 11pt;
-		font-weight: 300;
-        padding: 3px 0px;
+	.event-list>li>.info {
+		position: relative;
+		height: 120px;
+		text-align: left;
+		padding-right: 40px;
 	}
-    .event-list > li > .info > ul > li > a {
+	.event-list>li>.info>.title,.event-list>li>.info>.desc {
+		padding: 0px 10px;
+	}
+	.event-list>li>.info>ul {
+		position: absolute;
+		left: 0px;
+		bottom: 0px;
+	}
+	.event-list>li>.social {
+		position: absolute;
+		top: 0px;
+		right: 0px;
 		display: block;
-		width: 100%;
-		color: rgb(30, 30, 30);
-		text-decoration: none;
-	} 
-    .event-list > li > .social > ul > li {    
-        padding: 0px;
-    }
-    .event-list > li > .social > ul > li > a {
-        padding: 3px 0px;
-	} 
-	.event-list > li > .info > ul > li:hover,
-	.event-list > li > .social > ul > li:hover {
-		color: rgb(30, 30, 30);
-		background-color: rgb(200, 200, 200);
+		width: 40px;
 	}
-	.facebook a,
-	.twitter a,
-	.google-plus a {
+	.event-list>li>.social>ul {
+		border-left: 1px solid rgb(230, 230, 230);
+	}
+	.event-list>li>.social>ul>li {
 		display: block;
-		width: 100%;
-		color: rgb(75, 110, 168) !important;
+		padding: 0px;
 	}
-	.twitter a {
-		color: rgb(79, 213, 248) !important;
+	.event-list>li>.social>ul>li>a {
+		display: block;
+		width: 40px;
+		padding: 10px 0px 9px;
 	}
-	.google-plus a {
-		color: rgb(221, 75, 57) !important;
-	}
-	.facebook:hover a {
-		color: rgb(255, 255, 255) !important;
-		background-color: rgb(75, 110, 168) !important;
-	}
-	.twitter:hover a {
-		color: rgb(255, 255, 255) !important;
-		background-color: rgb(79, 213, 248) !important;
-	}
-	.google-plus:hover a {
-		color: rgb(255, 255, 255) !important;
-		background-color: rgb(221, 75, 57) !important;
-	}
-
-	@media (min-width: 768px) {
-		.event-list > li {
-			position: relative;
-			display: block;
-			width: 100%;
-			height: 120px;
-			padding: 0px;
-		}
-		.event-list > li > time,
-		.event-list > li > img  {
-			display: inline-block;
-		}
-		.event-list > li > time,
-		.event-list > li > img {
-			width: 120px;
-			float: left;
-		}
-		.event-list > li > .info {
-			overflow: hidden;
-		}
-		.event-list > li > time,
-		.event-list > li > img {
-			width: 120px;
-			height: 120px;
-			padding: 0px;
-			margin: 0px;
-		}
-		.event-list > li > .info {
-			position: relative;
-			height: 120px;
-			text-align: left;
-			padding-right: 40px;
-		}	
-		.event-list > li > .info > .title, 
-		.event-list > li > .info > .desc {
-			padding: 0px 10px;
-		}
-		.event-list > li > .info > ul {
-			position: absolute;
-			left: 0px;
-			bottom: 0px;
-		}
-		.event-list > li > .social {
-			position: absolute;
-			top: 0px;
-			right: 0px;
-			display: block;
-			width: 40px;
-		}
-        .event-list > li > .social > ul {
-            border-left: 1px solid rgb(230, 230, 230);
-        }
-		.event-list > li > .social > ul > li {			
-			display: block;
-            padding: 0px;
-		}
-		.event-list > li > .social > ul > li > a {
-			display: block;
-			width: 40px;
-			padding: 10px 0px 9px;
-		}
-	}
-    
+}
 </style>
 
-<div class="container-fluid" ng-controller="EventsController" >
+<div class="container-fluid" ng-controller="EventsController">
 	<div class="side-body">
-		<div class="page-title">
-			<span class="title">My Events</span>
-		</div>
+			<div class="row">
+				<div class="col-md-12" align="right" ng-init="validateEO()">
+					<button type="submit" ng-if="canCreateEvent"
+						ng-click="initNewEvent()" class="btn btn-success btn-lg">Create
+						New Event</button>
+				</div>
+			</div>
 		<div class="row">
-			<section style="background: #efefe9;">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-4">
-						</div>
-       					 <div class="col-md-4" >
-       					 	<button type="submit" ng-click="initNewEvent()" class="btn btn-success btn-lg">Create New Event</button>
-					   	</div>
-					</div>
-					<div class="row">
-						<div class="board">
-							
-								<div class="tabbable-panel">
-									<div class="tabbable-line">
-										<ul class="nav nav-tabs" id="eventTab">
-											<li class="active">
-												<a href="tab_upcoming" data-toggle="tab">UPCOMING EVENTS </a>
-											</li>
-											<li>
-												<a href="tab_past" data-toggle="tab">PAST EVENTS </a>
-											</li>
-										</ul>
-								    <div class="tab-content" id="event_home">
-								    <div class="loader-container text-center color-white">
-										<div>
-											<i class="fa fa-spinner fa-pulse fa-3x"></i>
-										</div>
-										<div>Loading...</div>
-									</div>
-								    <div class="tab-pane active" id="tab_upcoming" >
-								    	<div class="row">
-								    		<div class=" eventSection">
-								    			<table st-table="myEventsData_upcoming" st-pipe="myevents_upcoming" class="table table-striped">
-												   <tbody ng-show="!isUpEventsLoading">
-												   		<div>
-												   		<ul class="event-list">
-													      <li ng-repeat= "event in myEventsData_upcoming">
-													        <time>
-																<span class="day">{{event.day}}</span>
-																<span class="month">{{event.month}}</span>
-															</time>
-															<img alt="No Image Available" src="{{event.display_image.url}}" />
-															<div class="info">
-																<button type="button" ng-click="goToEventDetails(event.id)" class="btn btn-success float-right">View Details</button>
-																<label class="text-primary title">{{event.title}}</label>
-																<h3 class="desc">{{event.event_detail.location.locality}}</h3>
-																
-																<p ng-show="(event.status == 'APPROVED')" class="desc">Status : <span class="label label-primary">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'PENDING_APPROVAL')" class="desc">Status : <span class="label label-info">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'LIVE')" class="desc">Status : <span class="label label-success">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'REJECTED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'CANCELLED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
-															</div>
-													        </li>
-														</ul>
-														</div>
-												    </tbody>
-												     <tbody ng-show="isUpEventsLoading">
-														<tr>
-															<td colspan="5" class="text-center">Loading ... </td>
-														</tr>
-													</tbody>
-													<tfoot>
-														<tr>
-															<td class="text-center" st-pagination="" st-items-by-page="10" colspan="5">
-															</td>
-														</tr>
-													</tfoot>
-												  </table>
-								    		</div>
-									    </div>
-									   </div> 
-									
-										<div class="tab-pane" id="tab_past"  >
-											<div class="row">
-								    		<div class="eventSection">
-								    			<table st-table="myEventsData_past" st-pipe="myevents_past" class="table table-striped">
-												    
-												  <tbody ng-show="!isPastEventsLoading">
-												      
-												      <div>
-												   		<ul class="event-list">
-													      <li ng-repeat= "event in myEventsData_past">
-													        <time>
-																<span class="day">{{event.day}}</span>
-																<span class="month">{{event.month}}</span>
-															</time>
-															<img alt="No Image Available" src="{{event.display_image.url}}" />
-															<div class="info">
-																<button type="button" ng-click="goToEventDetails(event.id)" class="btn btn-success float-right">View Details</button>
-																<label class="text-primary title">{{event.title}}</label>
-																<h3 class="desc">{{event.event_detail.location.locality}}</h3>
-																
-																<p ng-show="(event.status == 'APPROVED')" class="desc">Status : <span class="label label-primary">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'PENDING_APPROVAL')" class="desc">Status : <span class="label label-info">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'LIVE')" class="desc">Status : <span class="label label-success">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'REJECTED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
-																<p ng-show="(event.status == 'CANCELLED')" class="desc">Status : <span class="label label-danger">{{event.status}}</span></p>
-															</div>
-													        </li>
-														</ul>
-														</div>
-												    </tbody>
-												    <tbody ng-show="isPastEventsLoading">
-														<tr>
-															<td colspan="5" class="text-center">Loading ... </td>
-														</tr>
-													</tbody>
-													<tfoot>
-														<tr>
-															<td class="text-center" st-pagination="" st-items-by-page="10" colspan="5">
-															</td>
-														</tr>
-													</tfoot>
-												  </table>
-								    		</div>
-							
-									    </div>
-								
-												</div>
-						
-								 </div>
+			<div class="board">
+				<div class="tabbable-panel">
+					<div class="tabbable-line">
+						<ul class="nav nav-tabs" id="eventTab">
+							<li class="active"><a href="tab_upcoming" data-toggle="tab">UPCOMING
+									EVENTS </a></li>
+							<li><a href="tab_past" data-toggle="tab">PAST EVENTS </a></li>
+						</ul>
+						<div class="tab-content" id="event_home">
+							<div class="loader-container text-center color-white">
+								<div>
+									<img alt="" src="/resources/img/ball.gif"
+										style="width: 100px; height: 100px;">
+								</div>
+								<div>
+									<h3 class="color-white">Loading your events...</h3>
 								</div>
 							</div>
-							
-						
+							<div class="tab-pane active" id="tab_upcoming">
+								<div class="row">
+									<div class=" eventSection">
+										<table st-table="myEventsData_upcoming"
+											st-pipe="myevents_upcoming" class="table table-striped">
+											<tbody ng-show="!isUpEventsLoading">
+												<div>
+													<ul class="event-list">
+														<li ng-repeat="event in myEventsData_upcoming"><time>
+																<span class="day">{{event.day}}</span> <span
+																	class="month">{{event.month}}</span>
+															</time> <img alt="No Image Available"
+															src="{{event.display_image.url}}" />
+															<div class="info">
+															<button type="button" id="cancelEventBtn" ng-hide="(event.status == 'PENDING_APPROVAL' || event.status == 'CANCELLED')"
+																	ng-click="cancelEvent(event.id)" class="btn btn-danger float-right">
+																	Cancel Event</button>
+																<button type="button"
+																	ng-click="goToEventDetails(event.id)"
+																	class="btn btn-info float-right">View
+																	Details</button>
+																	<button type="button" ng-hide="(!(event.status == 'APPROVED') || (event.status == 'LIVE'))"
+																		ng-click="publish(event.id)" id="makeLiveBtn" class="btn btn-success float-right">
+																		Publish Event</button>
+																
+																	
+																<label class="text-primary title">{{event.title}}</label>
+																<h3 class="desc">{{event.event_detail.location.locality}}</h3>
+
+																<p ng-show="(event.status == 'APPROVED')" class="desc">
+																	Status : <span class="label label-primary">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'PENDING_APPROVAL')"
+																	class="desc">
+																	Status : <span class="label label-info">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'LIVE')" class="desc">
+																	Status : <span class="label label-success">PUBLISHED</span>
+																</p>
+																<p ng-show="(event.status == 'REJECTED')" class="desc">
+																	Status : <span class="label label-danger">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'CANCELLED')" class="desc">
+																	Status : <span class="label label-danger">{{event.status}}</span>
+																</p>
+															</div></li>
+													</ul>
+												</div>
+											</tbody>
+											<tbody ng-show="isUpEventsLoading">
+												<tr>
+													<td colspan="5" class="text-center">Loading ...</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td class="text-center" st-pagination=""
+														st-items-by-page="10" colspan="5"></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+
+							<div class="tab-pane" id="tab_past">
+								<div class="row">
+									<div class="eventSection">
+										<table st-table="myEventsData_past" st-pipe="myevents_past"
+											class="table table-striped">
+
+											<tbody ng-show="!isPastEventsLoading">
+
+												<div>
+													<ul class="event-list">
+														<li ng-repeat="event in myEventsData_past"><time>
+																<span class="day">{{event.day}}</span> <span
+																	class="month">{{event.month}}</span>
+															</time> <img alt="No Image Available"
+															src="{{event.display_image.url}}" />
+															<div class="info">
+																<button type="button"
+																	ng-click="goToEventDetails(event.id)"
+																	class="btn btn-success float-right">View
+																	Details</button>
+																<label class="text-primary title">{{event.title}}</label>
+																<h3 class="desc">{{event.event_detail.location.locality}}</h3>
+
+																<p ng-show="(event.status == 'APPROVED')" class="desc">
+																	Status : <span class="label label-primary">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'PENDING_APPROVAL')"
+																	class="desc">
+																	Status : <span class="label label-info">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'LIVE')" class="desc">
+																	Status : <span class="label label-success">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'REJECTED')" class="desc">
+																	Status : <span class="label label-danger">{{event.status}}</span>
+																</p>
+																<p ng-show="(event.status == 'CANCELLED')" class="desc">
+																	Status : <span class="label label-danger">{{event.status}}</span>
+																</p>
+															</div></li>
+													</ul>
+												</div>
+											</tbody>
+											<tbody ng-show="isPastEventsLoading">
+												<tr>
+													<td colspan="5" class="text-center">Loading ...</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td class="text-center" st-pagination=""
+														st-items-by-page="10" colspan="5"></td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
 					</div>
 				</div>
-					
-				</div>
-			</section>
+
+
+			</div>
 		</div>
+
+
 	</div>
 </div>
 <script type="text/javascript">
-$( document ).ready(function() {
-$('#eventTab li').on('click', function(e) {
-	
-	var active_tab = $("#eventTab li.active a").attr("href"); 
-	
-		e.preventDefault();
-		if(active_tab == "tab_upcoming"){
-			$(this).removeClass("active");
-			$(this).next().addClass("active");
-			$(".tab-content ").find("#tab_upcoming").removeClass("active").addClass("inactive");
-			$(".tab-content").find("#tab_past").removeClass("inactive").addClass("active");
-		}else if(active_tab == "tab_past"){
-			$(this).removeClass("active");
-			$(this).prev().addClass("active");
-			$(".tab-content").find("#tab_upcoming").removeClass("inactive").addClass("active");
-			$(".tab-content").find("#tab_past").removeClass("active").addClass("inactive");
-		}
-	});
-});
+	$(document).ready(
+			function() {
+				$('#eventTab li').on(
+						'click',
+						function(e) {
+
+							var active_tab = $("#eventTab li.active a").attr(
+									"href");
+
+							e.preventDefault();
+							if (active_tab == "tab_upcoming") {
+								$(this).removeClass("active");
+								$(this).next().addClass("active");
+								$(".tab-content ").find("#tab_upcoming")
+										.removeClass("active").addClass(
+												"inactive");
+								$(".tab-content").find("#tab_past")
+										.removeClass("inactive").addClass(
+												"active");
+							} else if (active_tab == "tab_past") {
+								$(this).removeClass("active");
+								$(this).prev().addClass("active");
+								$(".tab-content").find("#tab_upcoming")
+										.removeClass("inactive").addClass(
+												"active");
+								$(".tab-content").find("#tab_past")
+										.removeClass("active").addClass(
+												"inactive");
+							}
+						});
+			});
 </script>

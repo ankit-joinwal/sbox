@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +18,8 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +39,7 @@ import com.bitlogic.sociallbox.data.model.EventType;
 import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.UserEventActivity;
 import com.bitlogic.sociallbox.data.model.UserFavouriteEvents;
+import com.bitlogic.sociallbox.data.model.UserMessage;
 import com.bitlogic.sociallbox.data.model.UserSocialActivity;
 import com.bitlogic.sociallbox.data.model.UserSocialActivity.ActivityType;
 import com.bitlogic.sociallbox.data.model.ext.google.GooglePlace;
@@ -110,6 +114,9 @@ public class EventServiceImpl extends LoggingService implements EventService,
 	
 	@Autowired
 	private FeedServiceClient feedServiceClient;
+	
+	@Autowired
+	private MessageSource msgSource;
 
 	@Override
 	public Event create(String userEmail, CreateEventRequest createEventRequest) {
@@ -194,6 +201,16 @@ public class EventServiceImpl extends LoggingService implements EventService,
 		 * (eventDetails,mockEventDetails.getAddressComponents()));
 		 * this.eventDAO.saveEvent(created);
 		 */
+		String messageKey =  EO_EVENT_CREATED_MESSAGE ;
+		Locale currentLocale = LocaleContextHolder.getLocale();
+		String message = msgSource.getMessage(messageKey, null,
+				currentLocale);
+		UserMessage userMessage = new UserMessage();
+		userMessage.setCreateDt(new Date());
+		userMessage.setIsRead(Boolean.FALSE);
+		userMessage.setMessage(String.format(message,event.getTitle()));
+		userMessage.setUser(organizerAdmin);
+		this.userDAO.addMessageForUser(userMessage);
 		return created;
 	}
 

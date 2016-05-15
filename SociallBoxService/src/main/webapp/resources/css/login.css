@@ -43,7 +43,6 @@
 	background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
 }
 .panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
-	padding: 18px 20px;
     border: 1px solid #ddd;
     font-size: 16px;
     border-radius: 10px;
@@ -106,4 +105,7 @@
 	color: #fff;
 	background-color: #1CA347;
 	border-color: #1CA347;
+}
+.error{
+	color:#de5149;
 }

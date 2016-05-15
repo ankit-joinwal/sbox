@@ -363,7 +363,9 @@ a:hover {
   margin-left: 260px; }
 /* Company Profile CSS Start*/
 .company-profile-img{
-	 
+	margin: 5% 1% 1% 4%;
+    z-index: 9;
+    width: 95%;
 }
 .fb-profile img.fb-image-lg{
     z-index: 0;
@@ -374,7 +376,7 @@ a:hover {
 
 .fb-company-profile
 {
-    margin: 0px 10px 0px 50px;
+  	 margin: 0% 1% 1% 5%;
     z-index: 9;
     width: 90%; 
 
@@ -768,6 +770,32 @@ th {
 	cursor:pointer;
 }
 
+.user-message{
+	font-family: inherit;
+}
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal { 
+	display: block;
+}
+
+/* Custom dialog/modal headers */
+
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-confirm { background-color: #333333; }
+	.dialog-header-error span, .dialog-header-error h4,
+	.dialog-header-wait span, .dialog-header-wait h4,
+	.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
+/* Ease Display */
+.dialog-custom{top:10%;}
+.pad { padding: 25px; }
+
+.error{
+	color:#de5149;
+}
 /* small screen */
 @media (max-width: 768px) {
 .fb-profile-text>h1{

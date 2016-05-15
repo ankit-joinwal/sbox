@@ -26,7 +26,7 @@
     list-style-type: none;
 }
 .board > div.board-inner {
-    background: #fafafa url(http://subtlepatterns.com/patterns/geometry2.png);
+    background: #de5149;
     background-size: 30%;
 }
 p.narrow {

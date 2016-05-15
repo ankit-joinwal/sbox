@@ -2,6 +2,7 @@ package com.bitlogic.sociallbox.service.business.impl;
 
 import java.io.ByteArrayInputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.EOAdminStatus;
 import com.bitlogic.sociallbox.data.model.Event;
+import com.bitlogic.sociallbox.data.model.EventImage;
 import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
@@ -39,6 +41,7 @@ import com.bitlogic.sociallbox.data.model.UserSocialDetail;
 import com.bitlogic.sociallbox.data.model.requests.AddCompanyToProfileRequest;
 import com.bitlogic.sociallbox.data.model.requests.CreateEventOrganizerRequest;
 import com.bitlogic.sociallbox.data.model.requests.UpdateEOAdminProfileRequest;
+import com.bitlogic.sociallbox.data.model.requests.UpdateEventRequest;
 import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
 import com.bitlogic.sociallbox.data.model.response.EODashboardResponse;
 import com.bitlogic.sociallbox.data.model.response.EODashboardResponse.AttendeesInMonth;
@@ -60,6 +63,7 @@ import com.bitlogic.sociallbox.service.exception.ServiceException;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
 import com.bitlogic.sociallbox.service.transformers.EOToEOResponseTransformer;
 import com.bitlogic.sociallbox.service.transformers.EventTransformer;
+import com.bitlogic.sociallbox.service.transformers.MultipartToEventImageTransformer;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory.TransformerTypes;
 import com.bitlogic.sociallbox.service.utils.LoggingService;
@@ -235,7 +239,8 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 				String fileName = multipartFile.getOriginalFilename();
 				logInfo(LOG_PREFIX, "File to process : {} ", fileName);
 				logInfo(LOG_PREFIX, "File size : {} ", multipartFile.getSize());
-
+				
+				fileName = fileName.replaceAll(ONE_WHITESPACE, HYPHEN);
 				ByteArrayInputStream imageStream = new ByteArrayInputStream(
 						multipartFile.getBytes());
 
@@ -272,6 +277,64 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
     		 throw new ServiceException(IMAGE_SERVICE_NAME, RestErrorCodes.ERR_052, ex.getMessage());
     	   }
 		return user.getProfilePic();
+	}
+	
+	@Override
+	public void updateEventImage(Long userId, List<MultipartFile> images,String eventId) {
+		String LOG_PREFIX = "EOAdminServiceImpl-storeEventImages";
+		List<EventImage> imagesToSave = new ArrayList<>();
+		
+		Event event = this.eventDAO.getEventWithoutImage(eventId);
+		if (event == null) {
+			logError(LOG_PREFIX, "Event not found with id {}", eventId);
+			throw new ClientException(RestErrorCodes.ERR_003,
+					ERROR_INVALID_EVENT_IN_REQUEST);
+		}
+		int displayOrder = 1;
+		for (MultipartFile multipartFile : images) {
+			String fileName = multipartFile.getOriginalFilename();
+			logInfo(LOG_PREFIX,"File to process : {} ", fileName);
+			logInfo(LOG_PREFIX,"File size : {} ", multipartFile.getSize());
+			MultipartToEventImageTransformer transformer = (MultipartToEventImageTransformer) TransformerFactory
+					.getTransformer(TransformerTypes.MULTIPART_TO_EVENT_IMAGE_TRANFORMER);
+			try {
+				ByteArrayInputStream imageStream = new ByteArrayInputStream(
+						multipartFile.getBytes());
+				Map<String, ?> uploadedImageInfo = ImageService.uploadImageToEvent(eventId, 
+								imageStream,
+								multipartFile.getContentType(),
+								multipartFile.getBytes().length, 
+								fileName);
+				
+				if (uploadedImageInfo == null
+						|| !uploadedImageInfo
+								.containsKey(Constants.IMAGE_URL_KEY)) {
+					throw new ServiceException(IMAGE_SERVICE_NAME,
+							RestErrorCodes.ERR_052,
+							"Unable to upload image.Please try later");
+				}
+				String imageURL = (String) uploadedImageInfo
+						.get(Constants.IMAGE_URL_KEY);
+
+				EventImage eventImage = transformer.transform(multipartFile);
+				eventImage.setEvent(event);
+				eventImage.setDisplayOrder(displayOrder);
+				eventImage.setUrl(imageURL);
+
+				imagesToSave.add(eventImage);
+				displayOrder = displayOrder + 1;
+			} catch (ServiceException serviceException) {
+				logError(LOG_PREFIX,"Error occurred while processing event image",
+						serviceException);
+			} catch (Exception ex) {
+				logError(LOG_PREFIX,"Error occurred while processing event image", ex);
+			}
+		}
+
+		if (!imagesToSave.isEmpty()) {
+			event.setEventImages(null);
+			this.eventDAO.saveEventImages(imagesToSave);
+		}
 	}
 	
 	@Override
@@ -578,12 +641,12 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		List<Event> events = new ArrayList<>();
 		Map<String,Object> responseMap = new HashMap<String,Object>();
 		EventOrganizerAdmin organizerAdmin = this.eventOrganizerDAO.getEOAdminProfileByUserId(userId);
-		if(organizerAdmin==null){
-			responseMap.put("EVENTS", events);
-			responseMap.put("TOTAL_RECORDS", events.size());
-			return responseMap;
+		if(organizerAdmin==null ){
+			throw new ClientException(RestErrorCodes.ERR_004, EO_ERROR_COMPANY_NOT_LINKED);
 		}
-		
+		if(organizerAdmin.getStatus()!= EOAdminStatus.APPROVED){
+			throw new ClientException(RestErrorCodes.ERR_004, EO_ERROR_COMPANY_NOT_APPROVED);
+		}
 		
 		return this.eventOrganizerDAO.getEventsForOrganizer(timeline, status, page, organizerAdmin.getId());
 	}
@@ -669,5 +732,68 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		}
 		
 		return datesStrings;
+	}
+	
+	 @Override
+	public void updateEvent(Long userId,UpdateEventRequest updateEventRequest) {
+
+		 String LOG_PREFIX = "EOAdminServiceImpl-getEventStatistics";
+		 Event event = this.eventDAO.getEvent(updateEventRequest.getEventId());
+		 if(event == null){
+			 throw new ClientException(RestErrorCodes.ERR_001, ERROR_INVALID_EVENT_IN_REQUEST);
+		 }
+		 
+		 EventOrganizerAdmin admin = this.eventOrganizerDAO.getEOAdminProfileByUserId(userId);
+		 
+		 if(admin==null || event.getEventDetails().getOrganizerAdmin().getId() != admin.getId()){
+			 throw new UnauthorizedException(RestErrorCodes.ERR_002, EO_ERROR_INVALID_ADMIN);
+		 }
+		 
+		if(StringUtils.isNotBlank(updateEventRequest.getDescription()) && !StringUtils.equals(event.getDescription(),updateEventRequest.getDescription())){
+			event.setDescription(updateEventRequest.getDescription());
+		}
+		
+		if(updateEventRequest.getLocation()!=null && updateEventRequest.getLocation().getName()!=null){
+			if(!StringUtils.equals(event.getEventDetails().getLocation().getName(),updateEventRequest.getLocation().getName())){
+				event.getEventDetails().setLocation(updateEventRequest.getLocation());
+			}
+		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				Constants.MEETUP_DATE_FORMAT);
+		if(StringUtils.isNotBlank(updateEventRequest.getStartDate())){
+			
+			String startDate = dateFormat.format(event.getStartDate());
+			if(!StringUtils.equals(startDate,updateEventRequest.getStartDate())){
+				try {
+					event.setStartDate(dateFormat.parse(updateEventRequest.getStartDate()));
+				} catch (ParseException e) {
+					logError(LOG_PREFIX, "Error while parsing event dates {}",
+							updateEventRequest);
+					throw new ClientException(RestErrorCodes.ERR_001,
+							ERROR_DATE_INVALID_FORMAT);
+				}
+			}
+		}
+		
+		if(StringUtils.isNotBlank(updateEventRequest.getEndDate())){
+			
+			String endDate = dateFormat.format(event.getEndDate());
+			if(!StringUtils.equals(endDate,updateEventRequest.getEndDate())){
+				try {
+					event.setEndDate(dateFormat.parse(updateEventRequest.getEndDate()));
+				} catch (ParseException e) {
+					logError(LOG_PREFIX, "Error while parsing event dates {}",
+							updateEventRequest);
+					throw new ClientException(RestErrorCodes.ERR_001,
+							ERROR_DATE_INVALID_FORMAT);
+				}
+			}
+		}
+		
+		if(updateEventRequest.getIsFree()!=null){
+			if(event.getIsFreeEvent()!=updateEventRequest.getIsFree()){
+				event.setIsFreeEvent(updateEventRequest.getIsFree());
+			}
+		}
 	}
 }

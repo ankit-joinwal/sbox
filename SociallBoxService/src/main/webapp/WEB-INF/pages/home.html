@@ -12,18 +12,13 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/select2.min.css">
     <!-- CSS App -->
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/themes/flat-blue.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/newCompany.css">
 </head>
 
-<body class="flat-blue" ng-app="sociallbox" >
+<body class="flat-blue" ng-app="sociallbox">
 
 	<div class="app-container">
 		<div class="row content-container">
@@ -34,7 +29,7 @@
 							<i class="fa fa-bars icon"></i>
 						</button>
 						<ol class="breadcrumb navbar-breadcrumb">
-							<li class="active">Dashboard</li>
+							<li class="active"><span id="page_info">Dashboard</span></li>
 						</ol>
 						<button type="button"
 							class="navbar-right-expand-toggle pull-right visible-xs">
@@ -42,15 +37,16 @@
 						</button>
 					</div>
 					<ul class="nav navbar-nav navbar-right">
-						<button type="button"
+						<button type="button" 
 							class="navbar-right-expand-toggle pull-right visible-xs">
 							<i class="fa fa-times icon"></i>
 						</button>
-
+						
 						<li class="dropdown profile" ng-controller="DashboardController"
-							ng-init="getProfileData()"><a class="a-prevent-default"
+							ng-init="getProfileData()">
+							<a class="a-prevent-default" ng-cloak
 							class="dropdown-toggle" data-toggle="dropdown" role="button"
-							aria-expanded="false">{{userName}} <span class="caret"></span></a>
+							aria-expanded="false">Welcome {{userName}}<span class="caret"></span></a>
 							<ul class="dropdown-menu animated fadeInDown">
 								<li class="profile-img" ng-cloak><img src="{{profilePic}}"
 									class="profile-img"></li>
@@ -58,15 +54,18 @@
 									<div class="profile-info">
 										<h4 class="username">{{userName}}</h4>
 										<p>{{emailId}}</p>
-										<div class="btn-group margin-bottom-2x" role="group">
-											<button type="button" ng-click="editProfile()" class="btn btn-default">
+										<div class="margin-bottom-2x" role="group">
+											<button type="button" ng-click="editProfile()" class="btn btn-success">
 												<i class="fa fa-user"></i> Profile
 											</button>
-											<button type="button" ng-controller ="AuthController" ng-click= "logout()"  class="btn btn-default">
+											<button type="button" ng-controller ="AuthController" ng-click= "logout()"  class="btn btn-success">
 												<i class="fa fa-sign-out"></i> Logout
 											</button>
 										</div>
+										
 									</div>
+								</li>
+								<li><p>Contact Us - contact@sociallbox.com</p>
 								</li>
 							</ul></li>
 					</ul>
@@ -89,17 +88,17 @@
 							</button>
 						</div>
 						<ul class="nav navbar-nav" id="sideBar">
-							<li class="active"><a href="/eo/home#/dashboard">
+							<li class="active" id="Dashboard"><a href="/eo/home#/dashboard">
 									<span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
 							</a></li>
-							<li><a href="/eo/home#/company" target="_self">
+							<li id="Company"><a href="/eo/home#/company" target="_self">
 									<span class="icon fa fa-university"></span><span class="title">Company
 										Profile</span>
 							</a></li>
-							<li><a href="/eo/home#/events"> <span
+							<li id="Events"><a href="/eo/home#/events"> <span
 									class="icon fa fa-calendar"></span><span class="title">Events</span>
 							</a></li>
-							<li><a href="/eo/home#/profile"> <span
+							<li id="Profile"><a href="/eo/home#/profile"> <span
 									class="icon fa fa-user"></span><span class="title">My
 										Profile</span>
 							</a></li>
@@ -119,6 +118,7 @@
 	
             <!-- Javascript Libs -->
             <script type="text/javascript" src="/resources/js/lib/jquery.min.js"></script>
+            <script type="text/javascript" src="/resources/js/lib/jquery.validate.min.js"></script>
             <script type="text/javascript" src="/resources/js/lib/bootstrap.min.js"></script>
             <script type="text/javascript" src="/resources/js/lib/angular.js"></script>
 		    <script type="text/javascript" src="/resources/js/lib/angular-route.js"></script>
@@ -127,15 +127,8 @@
  			<script type="text/javascript" src='/resources/js/lib/ta/textAngular-sanitize.min.js'></script>
 			<script type="text/javascript" src='/resources/js/lib/ta/textAngular.min.js'></script>
             <script type="text/javascript" src="/resources/js/lib/Chart.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/bootstrap-switch.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/jquery.matchHeight-min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/jquery.dataTables.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/dataTables.bootstrap.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/select2.full.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/ace/ace.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/ace/mode-html.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/ace/theme-github.js"></script>
             <script type="text/javascript" src="/resources/js/lib/ui-bootstrap-tpls.js"></script>
+            <script type="text/javascript" src="/resources/js/lib/dialogs.min.js"></script>
             <script type="text/javascript" src="/resources/js/lib/datetime-picker.js"></script>
            <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDCarvmNmNn4i76GBZIxBcNnV6bLiFEKbw&language=en&libraries=places"></script>
            <script type="text/javascript" src="/resources/js/lib/smart-table.min.js"></script>
@@ -159,8 +152,13 @@
             		   $('ul#sideBar li').click(function(e) 
             		   { 
             			   $('ul#sideBar li').removeClass("active");
-            		   $(this).addClass("active");
+            		  	   $(this).addClass("active");
+            		  	   $('#page_info').text($(this).attr('id'));
             		   });
+            		   
+            		   $.validator.addMethod("specialChar", function(value, element) {
+            			     return this.optional(element) || /([0-9a-zA-Z\s-_.,?!#<>])$/.test(value);
+            			  }, "Special characters are not allowed");
             		});
             </script>
            	

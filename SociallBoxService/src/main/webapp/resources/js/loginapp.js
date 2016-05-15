@@ -3,7 +3,7 @@
 angular.module('index', []);
 angular.module('Authentication', []);
 
-var App = angular.module('login',['ngRoute','ngCookies','index','Authentication']);
+var App = angular.module('login',['ngRoute','ui.bootstrap','dialogs.main','ngCookies','index','Authentication']);
 
 App.config(['$routeProvider', function($routeProvider) {
 	$routeProvider

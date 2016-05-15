@@ -29,6 +29,7 @@ import com.bitlogic.sociallbox.data.model.UserMessage;
 import com.bitlogic.sociallbox.data.model.UserTypeBasedOnDevice;
 import com.bitlogic.sociallbox.data.model.requests.AddCompanyToProfileRequest;
 import com.bitlogic.sociallbox.data.model.requests.UpdateEOAdminProfileRequest;
+import com.bitlogic.sociallbox.data.model.requests.UpdateEventRequest;
 import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
 import com.bitlogic.sociallbox.data.model.response.EODashboardResponse;
 import com.bitlogic.sociallbox.data.model.response.EntityCollectionResponse;
@@ -51,6 +52,7 @@ public class EOAdminSecuredController extends BaseController implements Constant
 	private static final String GET_ORGANIZER_ADMIN_INFO_API = "GetOrganizerAdminProfile API";
 	private static final String SIGNIN_ORGANIZER_ADMIN_API = "SigninOrganizerAdmin API";
 	private static final String UPDATE_EO_ADMIN_PROFILE_API = "UpdateEOAdminProfile API";
+	private static final String UPDATE_EVENT_API = "UpdateEventAPI API";
 	private static final String UPDATE_EO_ADMIN_PROFILE_PIC_API = "UpdateEOAdminProfilePic API";
 	private static final String GET_USER_MESSAGES_API = "GetUserMessages API";
 	private static final String MARK_USER_MESSAGE_AS_READ_API = "MarkMessageAsRead API";
@@ -282,6 +284,22 @@ public class EOAdminSecuredController extends BaseController implements Constant
 		entityResponse.setStatus(SUCCESS_STATUS);
 		entityResponse.setData(adminProfile);
 		logRequestEnd(UPDATE_EO_ADMIN_PROFILE_API, UPDATE_EO_ADMIN_PROFILE_API);
+		return entityResponse;
+		
+	}
+	
+	@RequestMapping(value="/{userId}/events/{eventId}",method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE})
+	@ResponseStatus(HttpStatus.OK)
+	public  SingleEntityResponse<String> updateEvent(@PathVariable Long userId,@PathVariable String eventId,
+			@Valid @RequestBody UpdateEventRequest updateEventRequest){
+		logInfo(UPDATE_EVENT_API, SECURED_REQUEST_START_LOG_MESSAGE, UPDATE_EVENT_API);
+		updateEventRequest.setEventId(eventId);
+		this.eventOrganizerAdminService.updateEvent(userId, updateEventRequest);
+		SingleEntityResponse<String> entityResponse = new SingleEntityResponse<String>();
+		entityResponse.setStatus(SUCCESS_STATUS);
+		entityResponse.setData("Event updated succesfully!");
+		logRequestEnd(UPDATE_EVENT_API, UPDATE_EVENT_API);
 		return entityResponse;
 		
 	}
@@ -679,5 +697,6 @@ public class EOAdminSecuredController extends BaseController implements Constant
 		logRequestEnd(GET_ORGANIZER_EVENTS_API, GET_ORGANIZER_ADMIN_INFO_API);
 		return collectionResponse;
 	}
+	
 	
 }

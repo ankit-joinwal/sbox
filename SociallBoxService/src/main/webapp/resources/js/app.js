@@ -9,7 +9,18 @@ angular.module('Events', ['textAngular']);
 angular.module('DateTime', []);
 
 
-var App = angular.module('sociallbox',['ui.bootstrap', 'ui.bootstrap.datetimepicker','smart-table','textAngular','ngRoute','ngCookies','index','Authentication','Dashboard','Company','Events','DateTime']);
+var App = angular.module('sociallbox',['ui.bootstrap',
+                                       'ui.bootstrap.datetimepicker',
+                                       'dialogs.main',
+                                       'smart-table','textAngular',
+                                       'ngRoute',
+                                       'ngCookies',
+                                       'index',
+                                       'Authentication',
+                                       'Dashboard',
+                                       'Company',
+                                       'Events',
+                                       'DateTime']);
 
 App.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
@@ -43,7 +54,7 @@ App.config(['$routeProvider', function($routeProvider) {
 		}).when('/events/:eventId', {
             controller: 'EventsController',
             templateUrl: '/eo/events/details'
-        })
+		})
 		.otherwise({redirectTo:'/'});		
 }]);
 

@@ -12,20 +12,21 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/select2.min.css">
     <!-- CSS App -->
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/login.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/themes/flat-blue.css">
     
 </head>
 
 <body class="flat-blue login-page">
     <div class="container login-container" ng-controller="AuthController">
+    	<div class="row" ng-cloak ng-init="isCookieEnabled()">
+    		<div class="col-md-6 col-md-offset-3" ng-if="!cookiesEnabled">
+		    	<div  class="alert alert-danger">
+				  <strong>Cookies Disabled!</strong> Please enable cookies in your browser for accessing SociallBox.
+				</div>
+			</div>
+		</div>
         <div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
@@ -35,7 +36,7 @@
 								<a  class="active a-prevent-default" id="login-form-link">Login</a>
 							</div>
 							<div class="col-xs-6">
-								<a class="a-prevent-default" id="register-form-link">Register</a>
+								<a class="a-prevent-default" id="register-form-link">Sign Up</a>
 							</div>
 						</div>
 						<hr>
@@ -44,23 +45,23 @@
 						<div class="row" id="login-div">
 							<div class="loader-container text-center color-white">
 								<div>
-									<i class="fa fa-spinner fa-pulse fa-3x"></i>
+									<img alt="" src="/resources/img/ball.gif" style="width:100px;height:100px;">
 								</div>
-								<div>Please wait</div>
+								<div><h3 class="color-white">Please wait...</h3></div>
 							</div>
 							<div class="col-lg-12">
 								<form id="login-form" method="post" role="form" style="display: block;">
 									<div class="form-group">
-										<input type="text" ng-model="loginEmail" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Id" value="">
+										<input type="text" ng-model="loginEmail" name="emailId" id="emailId" tabindex="1" class="form-control input-lg" placeholder="Email Id">
 									</div>
 									<div class="form-group">
-										<input type="password" ng-model="loginPass" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+										<input type="password" ng-model="loginPass" name="password" id="password" tabindex="2" class="form-control input-lg" placeholder="Password">
 									</div>
 									
 									<div class="form-group">
 										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="button" ng-click="login()" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+											<div class="col-sm-6 col-sm-offset-3"  ng-if="cookiesEnabled">
+												<input type="submit" ng-click="login()" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
 											</div>
 										</div>
 									</div>
@@ -68,21 +69,21 @@
 								</form>
 								<form id="register-form"  method="post" role="form" style="display: none;">
 									<div class="form-group">
-										<input type="text" ng-model="username" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+										<input type="text" ng-model="username" name="username" id="username" tabindex="1" class="form-control input-lg" placeholder="Full Name" value="">
 									</div>
 									<div class="form-group">
-										<input type="email" ng-model="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+										<input type="email" ng-model="email" name="emailId" id="emailId" tabindex="1" class="form-control input-lg" placeholder="Email Address" value="">
 									</div>
-									<div class="form-group">
-										<input type="password" ng-model="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+									<div class="form-group" id="reg-pass-div">
+										<input type="password" ng-model="password" name="password" id="password" tabindex="2" class="form-control input-lg" placeholder="Password">
 									</div>
-									<div class="form-group">
-										<input type="password" ng-model="confirmPassword" name="confirmPassword" id="confirmPassword" tabindex="2" class="form-control" placeholder="Confirm Password">
+									<div class="form-group" id="reg-con-pass-div">
+										<input type="password" ng-model="confirmPassword" name="confirmPassword" id="confirmPassword" tabindex="2" class="form-control input-lg" placeholder="Confirm Password">
 									</div>
 									<div class="form-group">
 										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="button" ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-login" value="Register Now">
+											<div class="col-sm-6 col-sm-offset-3"  ng-if="cookiesEnabled">
+												<input type="submit" ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-login" value="Register Now">
 											</div>
 										</div>
 									</div>
@@ -96,6 +97,7 @@
     </div>
      <!-- Javascript Libs -->
     <script type="text/javascript" src="/resources/js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/lib/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/resources/js/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="/resources/js/lib/angular.js"></script>
     <script type="text/javascript" src="/resources/js/lib/angular-route.js"></script>
@@ -105,6 +107,9 @@
     <script type="text/javascript" src="/resources/js/lib/jquery.matchHeight-min.js"></script>
     <script type="text/javascript" src="/resources/js/lib/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="/resources/js/lib/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="/resources/js/lib/ui-bootstrap-tpls.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.js"></script>
+    <script type="text/javascript" src="/resources/js/lib/dialogs.min.js"></script>
     <script type="text/javascript" src="/resources/js/lib/select2.full.min.js"></script>
     <script type="text/javascript" src="/resources/js/lib/ace/ace.js"></script>
     <script type="text/javascript" src="/resources/js/lib/ace/mode-html.js"></script>
@@ -134,6 +139,18 @@
 				$(this).addClass('active');
 				e.preventDefault();
 			});
+			
+			$.validator.addMethod('matchPasswords', function (value, element, param) {
+				var pass = $("#register-form input[name=password]").val();
+				var confirmPass = $("#register-form input[name=confirmPassword]").val();
+				if(pass != confirmPass){
+					return false;
+				}
+				$("#reg-pass-div label[class='error']").hide();
+				$("#reg-pass-div input[name=password]").removeClass('error');
+				return true;
+			}, 'Password and ConfirmPassword do not match!');
+			
 		});
  	</script>
 </body>
