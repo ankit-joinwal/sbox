@@ -23,6 +23,11 @@ public class ViewController extends BaseController{
          return new ModelAndView("index");
      }
     
+	 @RequestMapping(value="/eo",method = RequestMethod.GET)
+     public ModelAndView getEOIndexPage() {
+		
+         return new ModelAndView("eoindex");
+     }
 	 
 	 @RequestMapping(value="/eo/login",method = RequestMethod.GET)
      public ModelAndView getLoginPage() {

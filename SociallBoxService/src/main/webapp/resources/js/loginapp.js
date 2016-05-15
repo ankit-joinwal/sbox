@@ -11,6 +11,10 @@ App.config(['$routeProvider', function($routeProvider) {
 			templateUrl: '/',
 			controller : "IndexController"
 		})
+		.when('/eo', {
+			templateUrl: '/',
+			controller : "IndexController"
+		})
 		.when('/eo/login', {
 			controller : "AuthController",
 			templateUrl: '/eo/login'

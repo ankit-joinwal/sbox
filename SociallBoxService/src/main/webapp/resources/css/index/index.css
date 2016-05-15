@@ -783,7 +783,9 @@ float:left;
 			START RESPONSIVE STYLE
 =====================///////////////////////*/
 
-
+.font-white{
+	color : white;
+}
 @media(min-width:1025px ){
 .logo-area img{display:none;}
 .dHide{display:none}
