@@ -1,45 +1,9 @@
-/**	
-	* Template Name: App Landy
-	* Version: 1.0	
-	* Template Scripts
-	* Author: MarkUps
-	* Author URI: http://www.markups.io/
 
-	Custom JS
-	
-	1. MENU SLIDE
-	2. MENU SMOOTH SCROLLING
-	3. SCREEN SLIDER (SLICK SLIDER)
-	4. FANCYBOX
-	5. TESTIMONIAL SLIDE (SLICK SLIDER)
-	6. PRELOADER
-	7. WOW ANIMATION
-	8. MOBILE MENU CLOSE 
-	9. PRELOADER 
-	10. INSTAGRAM SLIDER (SLICK SLIDER)
-	11. WOW ANIMATION 	
-	
-**/
 
 jQuery(function($){
 
 	var winWidth =$(window).width();
 	var winHeight =$(window).height();
-	potraitModeOnly ();
-	 $(window).resize(function() {
-	 potraitModeOnly ();
-	 });
-	
-		function potraitModeOnly (){
-		if (winWidth > winHeight && winWidth < 1000){
-		$("#bodyContent").css("display","none");
-		$("#myModal").modal('show');
-		}
-		else{
-		$("#bodyContent").css("display","block");
-		}
-	}
-		
 	var lastId,
     topMenu = $("#mainMenuNav");
     topMenuHeight = topMenu.outerHeight()+10,
@@ -89,8 +53,8 @@ jQuery(function($){
     /* ----------------------------------------------------------- */
 	
 	
-	if (winWidth > 480){
-	
+	if (winWidth > 758 ){
+		
 	var discoverAnimateStart =$('#features').offset().top - 250;
 	var discoverSectionHeight =$('#discoverSection').height();
 	var discoverAnimateTotal = discoverAnimateStart + (discoverSectionHeight + 250);
@@ -106,8 +70,12 @@ jQuery(function($){
 	var dealeanimationStart = ultimateanimationTotal-70;
 	var dealSectionHeight =$('#dealSection').height();
 	var dealanimationTotal = dealeanimationStart + (dealSectionHeight + 210);
-	
-	var contactStart = $('#contact').offset().top -800;
+	var contactStart;
+	if (winWidth >1025)
+	 contactStart = 4100;
+	else
+	 contactStart = 3600;
+		
 	
 	$(window).scroll(function(){
 	if($(window).scrollTop() > discoverAnimateStart && $(window).scrollTop() < discoverAnimateTotal){
@@ -142,12 +110,12 @@ jQuery(function($){
 	   $(".dealPhoneImg img").removeClass("animated rollIn").addClass("animated rollOut");
 	   }
 	   
-	   if($(window).scrollTop() > 4100){
+	   if($(window).scrollTop() >contactStart){
 		$(".facebookLogo a img").removeClass("animated bounceOutRight").addClass("animated bounceInLeft");
 		$(".twitterLogo a img").removeClass("animated bounceOutRight").addClass("animated bounceInLeft");
 		$(".pinterestLogo a img").removeClass("animated bounceOutRight").addClass("animated bounceInLeft");
 	   }
-	   else if($(window).scrollTop() < 3980)
+	   else if($(window).scrollTop() < contactStart - 170)
 	   {
 	   $(".facebookLogo a img").removeClass("animated bounceInLeft").addClass("animated bounceOutRight");
 	   $(".twitterLogo a img").removeClass("animated bounceInLeft").addClass("animated bounceOutRight");
@@ -160,7 +128,7 @@ jQuery(function($){
 	}
       
        $(window).scroll(function(){
-	   if (winWidth > 480){
+	   if (winWidth > 700){
         if($(window).scrollTop() >160){
           $(".header-top").addClass('fixedHeader'); 
           $(".logo-area img").css('display','inline-block');   
@@ -252,9 +220,9 @@ $(window).load(function()
 	      settings: {
 		  dots: false,
 	        slidesToShow: 2,
-	        slidesToScroll: 2,
-	        infinite: true,
-	        dots: true
+	        slidesToScroll: 1,
+	        centerPadding: '60px', 
+	        mobileFirst:true,
 	      }
 	    },
 	    {

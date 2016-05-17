@@ -1,17 +1,4 @@
-.fixedHeader{ background: none repeat scroll 0 0 white;   
-	webkit-transition: all 0.5s ease 0s;
-   
-    transition: all 0.5s ease 0s;}
-.header-top {
-	padding: 15px 20px;
-position:fixed;
-top:0;
-width:100%;
- z-index: 100000;
-	overflow:hidden;margin-bottom:50px;
-	left: 0;
-    right: 0;
-}
+
 #menu-mobile.closeMenu{position: absolute;top: 48px;right: 0;width: 0px;z-index: 1000;-webkit-transition: all .25s ease-out;transition: all .25s ease-out;}
 
 #menu-mobile.openMenu{position: absolute;top: 48px;right: 13px;width: 170px;z-index: 1000;-webkit-transition: all .25s ease-out;transition: all .25s ease-out;}
@@ -19,6 +6,7 @@ width:100%;
 .wrapper-nav ul{padding:0px 0px}
 .wrapper-nav  ul li a {text-decoration:none;color:#fff}
 .wrapper-nav  ul li a span{margin-right:8px}
+body {font-family: Helvetica Neue;	overflow-x: hidden !important;}
 
 .wrapper-nav ul li.active {border-top: 1px solid #fd5c63;border-bottom: 1px solid #fd5c63;}
 .imgRotateLeft{ -webkit-transition: all 07s ease 0s;-ms-transition: all 0.7s ease 0s;transition: all .7s ease 0s;-ms-transform: rotate(180deg); -webkit-transform:rotate(180deg);
@@ -53,7 +41,7 @@ width:100%;
 .imgMainHeadingRow h2{color: #fff; font-size: 35px;}
 .imgMainHeadingRow div{text-align:center;margin:10px 0}
 .getStartedButton{background-color: #fd5c63}
-.footer{height:50px;width:100%;background-color:#000}
+.footer{text-align:center;color:#fff;padding:20px 10px 30px;width:100%;background-color:#000}
 #features{background-size: 100% 100%;    background-image: url(../../img/index/bgpattern.png);	padding:10px 70px;margin-bottom:30px}
 .featureMargin{margin:25px 10px}
 .imgCol{text-align:center;padding-top:20px}
@@ -66,9 +54,9 @@ width:100%;
 .pinterestLogo{text-align:left}
 #contact{background-color: #fd5c63;    opacity: 0.9;    padding-bottom: 30px;}
 .title{color:#fff}
-.sectionHeading span:before{content: "";height: 2px;margin-left: 40px;position: absolute;top: 55px;	background-color: #fd5c63;	width:200px}	
-.sectionHeadingFeature:before{content: "";height: 2px;margin-left: 28px;position: absolute; top: 55px;	background-color: #fd5c63;	width:130px}	
-	
+.sectionHeading span:before{content: "";height: 2px;margin-left: 35px;position: absolute;top: 55px;	background-color: #fd5c63;	width:200px}	
+.sectionHeadingFeature:before{content: "";height: 2px;margin-left: 22px;position: absolute; top: 55px;	background-color: #fd5c63;	width:130px}	
+
 	
 @media(min-width:1025px ){
 #imageSection{height:500px}
@@ -106,8 +94,8 @@ width:100%;
 .hwImg img,.mImageScaleFeature{transform:scale(.75)}
 #howItWorks {padding: 10px 15px;}
 .sectionHeading {font-size: 28px; margin: 20px 0 ;}
-.sectionHeading span:before {margin-left: 35px;top: 45px;width: 155px;}
-.sectionHeadingFeature:before { margin-left: 25px;    top: 45px;    width: 100px}
+.sectionHeading span:before {margin-left: 30px;top: 45px;width: 155px;}
+.sectionHeadingFeature:before { margin-left: 20px;    top: 45px;    width: 100px}
 .hwTextDesc {padding :0 20px;font-size: 15px;    line-height: 1.3;}
 .hwTextHead {margin: 0px 0px 5px;    line-height: 1.2;font-size: 22px;}
 .mMarBot{margin-bottom:18px;}	
