@@ -1,4 +1,17 @@
-
+.fixedHeader{ background: none repeat scroll 0 0 white;   
+	webkit-transition: all 0.5s ease 0s;
+   
+    transition: all 0.5s ease 0s;}
+.header-top {
+	padding: 15px 20px;
+position:fixed;
+top:0;
+width:100%;
+ z-index: 100000;
+	overflow:hidden;margin-bottom:50px;
+	left: 0;
+    right: 0;
+}
 #menu-mobile.closeMenu{position: absolute;top: 48px;right: 0;width: 0px;z-index: 1000;-webkit-transition: all .25s ease-out;transition: all .25s ease-out;}
 
 #menu-mobile.openMenu{position: absolute;top: 48px;right: 13px;width: 170px;z-index: 1000;-webkit-transition: all .25s ease-out;transition: all .25s ease-out;}

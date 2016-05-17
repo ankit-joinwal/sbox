@@ -23,6 +23,12 @@ public class ViewController extends BaseController{
          return new ModelAndView("index");
      }
     
+	 @RequestMapping(value="/terms",method = RequestMethod.GET)
+     public ModelAndView getTermsPage() {
+		
+         return new ModelAndView("terms");
+     }
+	 
 	 @RequestMapping(value="/eo",method = RequestMethod.GET)
      public ModelAndView getEOIndexPage() {
 		

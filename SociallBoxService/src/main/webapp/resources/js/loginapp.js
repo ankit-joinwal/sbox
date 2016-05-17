@@ -11,6 +11,10 @@ App.config(['$routeProvider', function($routeProvider) {
 			templateUrl: '/',
 			controller : "IndexController"
 		})
+		.when('/terms', {
+			templateUrl: '/terms',
+			controller : "IndexController"
+		})
 		.when('/eo', {
 			templateUrl: '/',
 			controller : "IndexController"
