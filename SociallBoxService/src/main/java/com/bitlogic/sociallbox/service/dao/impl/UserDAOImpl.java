@@ -21,6 +21,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.MeetupAttendeeEntity;
 import com.bitlogic.sociallbox.data.model.PushNotificationSettingMaster;
 import com.bitlogic.sociallbox.data.model.Role;
@@ -383,5 +384,31 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void createVerificationToken(
+			UserEmailVerificationToken emailVerificationToken) {
+		String sql = "SELECT * FROM USER_EMAIL_VERIFICATION_TOKEN WHERE USER_ID = :userId";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		
+		query.addEntity(UserEmailVerificationToken.class);
+		query.setParameter("userId", emailVerificationToken.getUser().getId());
+		
+		UserEmailVerificationToken existingToken = (UserEmailVerificationToken)query.uniqueResult();
+		
+		if(existingToken == null){
+			getSession().save(emailVerificationToken);
+		}else{
+			existingToken.setToken(emailVerificationToken.getToken());
+			existingToken.setExpiryDate(emailVerificationToken.getExpiryDate());
+		}
+	}
+	@Override
+	public UserEmailVerificationToken getUserEmailVerificationToken(String token) {
+		Criteria criteria = getSession().createCriteria(UserEmailVerificationToken.class)
+							.add(Restrictions.eq("token", token));
+		
+		return (UserEmailVerificationToken)criteria.uniqueResult();
 	}
 }

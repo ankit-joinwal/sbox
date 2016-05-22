@@ -56,6 +56,7 @@ public class EventOrganizerServiceImpl extends LoggingService implements EventOr
 				(Transformer<EventOrganizer, CreateEventOrganizerRequest>) TransformerFactory.getTransformer(TransformerTypes.CREATE_EO_TO_EO_TRANSFORMER);
 		eventOrganizer = transformer.transform(organizerRequest);
 		eventOrganizer.setCreateDt(new Date());
+		eventOrganizer.setIsEmailVerified(Boolean.FALSE);
 		EventOrganizer created = this.eventOrganizerDAO.createEO(eventOrganizer);
 		logInfo(LOG_PREFIX, "EventOrganizer Company created successfully {} ", created);
 		

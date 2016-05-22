@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.CompanyEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.EOAdminStatus;
 import com.bitlogic.sociallbox.data.model.Event;
 import com.bitlogic.sociallbox.data.model.EventImage;
@@ -23,6 +24,7 @@ import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
 import com.bitlogic.sociallbox.data.model.Location;
+import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.response.EventDetailsResponse;
 import com.bitlogic.sociallbox.data.model.response.EventResponse;
 import com.bitlogic.sociallbox.service.dao.AbstractDAO;
@@ -233,5 +235,33 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 		resultMap.put("ADMIN_PROFILES", profiles);
 		resultMap.put("TOTAL_RECORDS", totalRecords);
 		return resultMap;
+	}
+	@Override
+	public void createVerificationToken(
+			CompanyEmailVerificationToken emailVerificationToken) {
+		String sql = "SELECT * FROM COMPANY_EMAIL_VERIFICATION_TOKEN WHERE ORGANIZER_ID = :orgId";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		
+		query.addEntity(CompanyEmailVerificationToken.class);
+		query.setParameter("orgId", emailVerificationToken.getOrganizer().getUuid());
+		
+		CompanyEmailVerificationToken existingToken = (CompanyEmailVerificationToken)query.uniqueResult();
+		
+		if(existingToken == null){
+			getSession().save(emailVerificationToken);
+		}else{
+			existingToken.setToken(emailVerificationToken.getToken());
+			existingToken.setExpiryDate(emailVerificationToken.getExpiryDate());
+		}
+		
+	}
+	
+	@Override
+	public CompanyEmailVerificationToken getCompanyEmailVerificationToken(
+			String token) {
+		Criteria criteria = getSession().createCriteria(CompanyEmailVerificationToken.class)
+							.add(Restrictions.eq("token", token));
+		
+		return (CompanyEmailVerificationToken) criteria.uniqueResult();
 	}
 }

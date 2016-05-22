@@ -43,6 +43,19 @@ public class EventOrganizerProfile {
 	@JsonProperty("website")
 	private String website;
 	
+	@JsonProperty("email_verified")
+	private Boolean isEmailVerified;
+	
+	
+	
+	public Boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
+	}
+
 	public String getProfilePic() {
 		return profilePic;
 	}

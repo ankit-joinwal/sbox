@@ -3,8 +3,8 @@
 angular.module('Authentication')
 
 
-.controller('AuthController',['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService',
-    function ($window,$scope, $rootScope, $routeParams,$location,dialogs,AuthenticationService) {
+.controller('AuthController',['$window','$scope', '$compile','$rootScope', '$routeParams','$location','dialogs','AuthenticationService',
+    function ($window,$scope,$compile, $rootScope, $routeParams,$location,dialogs,AuthenticationService) {
 	 var dialogOpts = {windowClass:'dialog-custom'};
 		$scope.isCookieEnabled = function(){
 			$scope.cookiesEnabled = navigator.cookieEnabled;
@@ -65,7 +65,7 @@ angular.module('Authentication')
     				})
     				.catch(function(authResponse){
     					$('#login-div').removeClass('loader');
-    					$('#register-submit').after(
+    					$('#register-form').after(
     					        '<div class="alert alert-danger alert-dismissable">'+
     				            '<button type="button" class="close" ' + 
     				                    'data-dismiss="alert" aria-hidden="true">' + 
@@ -137,6 +137,33 @@ angular.module('Authentication')
     		
     	};
     	
+    	/*$scope.verifyEoEmail = function(){
+    		if ( $location.search().hasOwnProperty( 'token' ) ) {
+    			$('#verifyContainer').addClass('loader');
+    			 var token = $location.search()['token'];
+    			 AuthenticationService.verifyEmail(token)
+    			 .then(function(verifyResponse){
+    				 $('#verifyContainer').removeClass('loader');
+    				 var dlg = dialogs.notify('Success!','Email verified succesfully!',dialogOpts);
+    				 dlg.result.then(function(btn){
+ 		        		$window.location.href = "/eo/login";
+ 		        	});
+    			 })
+    			 .catch(function(verifyResponse){
+    				 $('#verifyContainer').removeClass('loader');
+    				 var dlg = dialogs.error('Error',verifyResponse.data.exception.message,dialogOpts);
+    		        	dlg.result.then(function(btn){
+    		        		$window.location.href = "/eo/login";
+    		        	});
+    			 });
+    		}else{
+    			var dlg = dialogs.error('Error','Invalid request! Verification link is broken !',dialogOpts)
+	        	dlg.result.then(function(btn){
+	        		$window.location.href = "/eo/login";
+	        	});
+    		}
+    	};*/
+    	
     	$scope.logout = function(){
     		AuthenticationService.clearProfile();
     		$window.location.href = "/eo/login";
@@ -147,14 +174,64 @@ angular.module('Authentication')
 			.then(function(profileResponse){
 				var profile = profileResponse.data;
 				$scope.userName = profile.name;
+				
 				$scope.emailId = profile.emailId;
 				$scope.profilePic = profile.profilePic;
 				$scope.userId = profile.userId;
 				$scope.encPassword = profile.password;
 				$scope.newPassword = null;
-				$scope.newUserName = null;
+				$scope.newUserName = profile.name;
+				$scope.email_verified = profile.email_verified;
+				if(profile.email_verified == false){
+					var message = 'Email verification is pending. Email verification link has been sent to your registered email id. Click <a class="a-prevent-default" ng-click="resendVerifyEmail()" ><b>here</b></a> to send verification link again.';
+					var messageBox =  '<div id="alert-box" class="alert alert-info alert-dismissable">'+
+									            '<button type="button" class="close" ' + 
+							                    'data-dismiss="alert" aria-hidden="true">' + 
+							                '&times;' + 
+							            '</button>' + 
+							            message + 
+							         '</div>';
+					var template = angular.element(messageBox);
+					// Step 2: compile the template
+					var linkFn = $compile(template);
+					// Step 3: link the compiled template with the scope.
+					var element = linkFn($scope);
+					// Step 4: Append to DOM (optional)
+					$("#profile_form").before(element);
+				};
 			});
     	} ;
+    	
+    	$scope.resendVerifyEmail = function(){
+    		$('#alert-box').hide();
+    		AuthenticationService.getUserProfile()
+    		.then(function(profileResponse){
+    			var profile = profileResponse.data;
+    			var userId = profile.userId;
+    			
+    			AuthenticationService.resendVerifyEmail(userId)
+    			.then(function(response){
+    				$('#profile_form').after(
+    	    		        '<div id="alert-box" class="alert alert-info alert-dismissable">'+
+    	    	            '<button type="button" class="close" ' + 
+    	    	                    'data-dismiss="alert" aria-hidden="true">' + 
+    	    	                '&times;' + 
+    	    	            '</button>' + 
+    	    	            'Email verification link sent successfully!' + 
+    	    	         '</div>');
+    			})
+    			.catch(function(response){
+    				$('#profile_form').after(
+    				        '<div id="alert-box" class="alert alert-danger alert-dismissable">'+
+    			            '<button type="button" class="close" ' + 
+    			                    'data-dismiss="alert" aria-hidden="true">' + 
+    			                '&times;' + 
+    			            '</button>' + 
+    			            'Unable to send verification mail. Please check your registered email id. Or try again after some time.' + 
+    			         '</div>');
+    			});
+    		});
+    	};
     	
     	$scope.editPtofile = function(){
     		$("#user-profile-container").addClass('loader');

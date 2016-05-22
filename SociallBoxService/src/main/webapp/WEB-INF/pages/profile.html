@@ -6,7 +6,7 @@
 		<div><h3 class="color-white">Updating profile...</h3></div>
 	</div>
 	
-	<div class="row">
+	<div class="row" >
 		<div class="card hovercard">
 			<div class="card-background">
 				<img class="card-bkimg" alt=""
@@ -22,52 +22,58 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="panel pane-default">
+		<div class="col-md-6">
+		
+		</div>
+	</div>
+	<div class="row">
+		<div class="panel pane-default" >
 			<form class="form-horizontal" id="profile_form"
 										name="profile_form" role="form">
 			<div class="container">
-				<div class="row">
+				<div class="row" >
 					<div class="col-md-6">
 						<h3>Edit your profile</h3>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<label for="newProfilePic">Change Profile Photo</label>
 						<input type="file" id="newProfilePic" file-model="newProfilePic"
 							class="form-control" />
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<label for="userName" class="text-primary">Name</label>
 						 <input type="text"
 							class="form-control" ng-model="newUserName"
-							id="userName" placeholder="{{userName}}">
+							id="userName" placeholder="{{newUserName}}">
 					</div>
 				</div>	
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<label for="emailId" class="text-primary">Email Id</label>
 						 <input type="text"
 							class="form-control disabled" disabled ng-model="emailId"
-							id="emailId" placeholder="{{userName}}">
+							id="emailId" placeholder="{{emailId}}">
 					</div>
+					
 				</div>	
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<label for="newPassword" class="text-primary">Password</label>
 						 <input type="password"
 							class="form-control" ng-model="newPassword"
 							id="newPassword" placeholder="*******">
 					</div>
 				</div>	
-				<div class="row" align="center">
-					<fieldset>
+				<div class="row" align="left">
+					<div class="col-md-6">
 						<button type="submit" 
 							ng-click="editPtofile()" class="btn-next btn btn-success">
 							Save Changes</button>
-					</fieldset>
+					</div>
 				</div>	
 			</div>
 			</form>

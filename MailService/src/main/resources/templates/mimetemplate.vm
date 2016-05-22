@@ -1,0 +1,14 @@
+<html>
+    <body>
+    	<div align='left'>
+    		<img src='cid:sblogo'>
+    	</div>
+        <h3>Hi, I have shared an item with you.</h3>
+		
+        <div>
+            Please click on below link to access it :
+			${link}
+			
+        </div>
+    </body>
+</html>

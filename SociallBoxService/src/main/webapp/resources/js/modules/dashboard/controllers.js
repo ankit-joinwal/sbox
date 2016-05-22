@@ -3,14 +3,46 @@
 var app = angular.module('Dashboard');
 
 app.controller('DashboardController',
-				['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','DashboardService',
-                function ($window,$scope, $rootScope, $routeParams,$location,dialogs,AuthenticationService,DashboardService) {
+				['$window','$scope','$compile', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','DashboardService',
+                function ($window,$scope,$compile, $rootScope, $routeParams,$location,dialogs,AuthenticationService,DashboardService) {
 	
 	console.log("Inside DashboardController");
 	 var dialogOpts = {windowClass:'dialog-custom'};
 	 
 	$scope.editProfile = function(){
 		$window.location.href = "/eo/home#/profile";
+	};
+	
+	$scope.resendVerifyEmail = function(){
+		$('#alert-box').hide();
+		AuthenticationService.getUserProfile()
+		.then(function(profileResponse){
+			var profile = profileResponse.data;
+			var userId = profile.userId;
+			
+			AuthenticationService.resendVerifyEmail(userId)
+			.then(function(response){
+				$('#loader-container').after(
+				        '<div id="alert-box" class="alert alert-info alert-dismissable">'+
+			            '<button type="button" class="close" ' + 
+			                    'data-dismiss="alert" aria-hidden="true">' + 
+			                '&times;' + 
+			            '</button>' + 
+			            'Email verification link sent successfully!' + 
+			         '</div>');
+			})
+			.catch(function(response){
+				$('#loader-container').after(
+				        '<div id="alert-box" class="alert alert-danger alert-dismissable">'+
+			            '<button type="button" class="close" ' + 
+			                    'data-dismiss="alert" aria-hidden="true">' + 
+			                '&times;' + 
+			            '</button>' + 
+			            'Unable to send verification mail. Please check your registered email id. Or try again after some time.' + 
+			         '</div>');
+			});
+		});
+		
 	};
 	
 	$scope.initCompanyPage = function(){
@@ -44,6 +76,7 @@ app.controller('DashboardController',
 			AuthenticationService.clearProfile();
     		$window.location.href = "/eo/login";
 		}
+		
 		AuthenticationService.isUserLoggedIn()
 		.then(function(response){
 			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
@@ -54,6 +87,45 @@ app.controller('DashboardController',
 				$scope.emailId = profile.emailId;
 				$scope.profilePic = profile.profilePic;
 				$scope.userId = profile.userId;
+				$scope.email_verified = profile.email_verified;
+				if(profile.email_verified == false){
+					
+					var message = 'Email verification is pending. Email verification link has been sent to your registered email id. Click <a class="a-prevent-default" ng-click="resendVerifyEmail()" ><b>here</b></a> to send verification link again.';
+					var messageBox =  '<div id="alert-box" class="alert alert-info alert-dismissable">'+
+									            '<button type="button" class="close" ' + 
+							                    'data-dismiss="alert" aria-hidden="true">' + 
+							                '&times;' + 
+							            '</button>' + 
+							            message + 
+							         '</div>';
+					var template = angular.element(messageBox);
+					// Step 2: compile the template
+					var linkFn = $compile(template);
+					// Step 3: link the compiled template with the scope.
+					var element = linkFn($scope);
+					// Step 4: Append to DOM (optional)
+					$("#loader-container").after(element);
+				};
+				
+				if(profile.companyProfile != null){
+					if(profile.companyProfile.email_verified == false){
+						var message = 'Email verification is pending for '+profile.companyProfile.name+'. Email verification link has been sent to company registered email id. Click <a class="a-prevent-default" ng-click="resendCompanyVerifyEmail()" ><b>here</b></a> to send verification link again.';
+						var messageBox =  '<div id="alert-box1" class="alert alert-info alert-dismissable">'+
+										            '<button type="button" class="close" ' + 
+								                    'data-dismiss="alert" aria-hidden="true">' + 
+								                '&times;' + 
+								            '</button>' + 
+								            message + 
+								         '</div>';
+						var template = angular.element(messageBox);
+						// Step 2: compile the template
+						var linkFn = $compile(template);
+						// Step 3: link the compiled template with the scope.
+						var element = linkFn($scope);
+						// Step 4: Append to DOM (optional)
+						$("#loader-container").after(element);
+					}
+				}
 			});
 			
 		})
@@ -63,7 +135,37 @@ app.controller('DashboardController',
 		});
 	};
 	
-	
+	$scope.resendCompanyVerifyEmail = function(){
+		$('#alert-box1').hide();
+		AuthenticationService.getUserProfile()
+		.then(function(profileResponse){
+			var profile = profileResponse.data;
+			var orgId = profile.companyProfile.id;
+			
+			AuthenticationService.resendCompanyVerifyEmail(orgId)
+			.then(function(response){
+				$('#loader-container').after(
+				        '<div id="alert-box1" class="alert alert-info alert-dismissable">'+
+			            '<button type="button" class="close" ' + 
+			                    'data-dismiss="alert" aria-hidden="true">' + 
+			                '&times;' + 
+			            '</button>' + 
+			            'Email verification link sent successfully!' + 
+			         '</div>');
+			})
+			.catch(function(response){
+				$('#loader-container').after(
+				        '<div id="alert-box1" class="alert alert-danger alert-dismissable">'+
+			            '<button type="button" class="close" ' + 
+			                    'data-dismiss="alert" aria-hidden="true">' + 
+			                '&times;' + 
+			            '</button>' + 
+			            'Unable to send verification mail. Please check your registered email id. Or try again after some time.' + 
+			         '</div>');
+			});
+		});
+		
+	};
 	
 	$scope.initDashboardCards = function(){
 		var userId ;

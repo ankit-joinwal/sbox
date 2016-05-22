@@ -3,8 +3,8 @@
 var app = angular.module('Company');
 
 app.controller('CompanyController',
-		['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','CompanyService',
-        function ($window,$scope, $rootScope, $routeParams,$location,dialogs,AuthenticationService,CompanyService) {
+		['$window','$scope', '$compile','$rootScope', '$routeParams','$location','dialogs','AuthenticationService','CompanyService',
+        function ($window,$scope, $compile,$rootScope, $routeParams,$location,dialogs,AuthenticationService,CompanyService) {
 			 var dialogOpts = {windowClass:'dialog-custom'};
 			$scope.initCompanyPage = function(){
 				$('#company-profile-div').addClass('loader')
@@ -30,7 +30,57 @@ app.controller('CompanyController',
 					$scope.userId = profile.userId;
 					$scope.companyProfile = profile.companyProfile;
 					$("#company-profile-div").removeClass("loader");
+					
+					if(profile.companyProfile.email_verified == false){
+						var message = 'Email verification is pending for '+profile.companyProfile.name+'. Email verification link has been sent to company registered email id. Click <a class="a-prevent-default" ng-click="resendCompanyVerifyEmail()" ><b>here</b></a> to send verification link again.';
+						var messageBox =  '<div id="alert-box" class="alert alert-info alert-dismissable">'+
+										            '<button type="button" class="close" ' + 
+								                    'data-dismiss="alert" aria-hidden="true">' + 
+								                '&times;' + 
+								            '</button>' + 
+								            message + 
+								         '</div>';
+						var template = angular.element(messageBox);
+						// Step 2: compile the template
+						var linkFn = $compile(template);
+						// Step 3: link the compiled template with the scope.
+						var element = linkFn($scope);
+						// Step 4: Append to DOM (optional)
+						$("#companyNameDiv").before(element);
+					}
 				});
+			};
+			
+			$scope.resendCompanyVerifyEmail = function(){
+				$('#alert-box').hide();
+				AuthenticationService.getUserProfile()
+				.then(function(profileResponse){
+					var profile = profileResponse.data;
+					var orgId = profile.companyProfile.id;
+					
+					AuthenticationService.resendCompanyVerifyEmail(orgId)
+					.then(function(response){
+						$('#companyNameDiv').before(
+						        '<div id="alert-box" class="alert alert-info alert-dismissable">'+
+					            '<button type="button" class="close" ' + 
+					                    'data-dismiss="alert" aria-hidden="true">' + 
+					                '&times;' + 
+					            '</button>' + 
+					            'Email verification link sent successfully!' + 
+					         '</div>');
+					})
+					.catch(function(response){
+						$('#companyNameDiv').before(
+						        '<div id="alert-box" class="alert alert-danger alert-dismissable">'+
+					            '<button type="button" class="close" ' + 
+					                    'data-dismiss="alert" aria-hidden="true">' + 
+					                '&times;' + 
+					            '</button>' + 
+					            'Unable to send verification mail. Please check your registered email id. Or try again after some time.' + 
+					         '</div>');
+					});
+				});
+				
 			};
 			
 			$scope.createCompany = function(){

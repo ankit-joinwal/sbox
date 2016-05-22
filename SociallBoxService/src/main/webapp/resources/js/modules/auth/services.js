@@ -34,7 +34,7 @@ var app = angular.module('Authentication')
 	                	//Store User Profile in cookies and return
 	                	var encPassword = MD5.genMD5(password);
 	                 	service.setUserProfile(response.data.data.id,response.data.data.name,response.data.data.email_id,
-	                 							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,null)
+	                 							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,null,response.data.data.email_verified)
 	                 	.then(function(userProfileResponse){
 							if(userProfileResponse.status == 200){
 								console.log('AuthenticationService.registerUser : Succesfully stored user profile in cookies');
@@ -57,6 +57,88 @@ var app = angular.module('Authentication')
  					 deferred.reject(response);
  					 return deferred.promise;
 	             });
+    	 };
+    	 
+    	 service.resendVerifyEmail = function(userId){
+    		 var deferred = $q.defer();
+    		 console.log('Inside AuthenticationService.resendVerifyEmail');
+    		 return service.getAuthToken()
+     		.then(function(tokenResponse){
+     			//Extract epoch time and token from response
+     			var epoch = tokenResponse.epoch;
+     			var token = tokenResponse.token;
+     			return $http({
+	 				method:'POST',
+	 				url: '/api/secured/users/organizers/admins/'+userId+'/resendVerifyEmail',
+	 	            data: {},
+	 	            headers: {
+	 	                    "Content-Type"		: 	"application/json",
+	 						"accept"			:	"application/json",
+	 	                    "X-Login-Ajax-call"	: 	'true',
+	 	                    "Authorization"		:	token , 
+	 	                    "X-Auth-Date" 		: 	epoch
+	 	            }
+	    		 }).then(function(response) {
+	                 if (response.status == 200) {
+	                 	deferred.resolve(response);
+	 					return deferred.promise;
+	                 }else{
+	                	 //Clear Profile from cookies
+	 					 deferred.reject(response);
+	 					 return deferred.promise;
+	                 }
+	             })
+	             .catch(function(response){
+	            	 
+	            	 service.clearProfile();
+ 					 deferred.reject(response);
+ 					 return deferred.promise;
+	             });
+     		}).catch(function(response){
+    			deferred.reject(response);
+				return deferred.promise;
+    		});
+    	 };
+    	 
+    	 service.resendCompanyVerifyEmail = function(orgId){
+    		 var deferred = $q.defer();
+    		 console.log('Inside AuthenticationService.resendCompanyVerifyEmail');
+    		 return service.getAuthToken()
+     		.then(function(tokenResponse){
+     			//Extract epoch time and token from response
+     			var epoch = tokenResponse.epoch;
+     			var token = tokenResponse.token;
+     			return $http({
+	 				method:'POST',
+	 				url: '/api/secured/users/organizers/admins/'+orgId+'/resendCompanyVerifyEmail',
+	 	            data: {},
+	 	            headers: {
+	 	                    "Content-Type"		: 	"application/json",
+	 						"accept"			:	"application/json",
+	 	                    "X-Login-Ajax-call"	: 	'true',
+	 	                    "Authorization"		:	token , 
+	 	                    "X-Auth-Date" 		: 	epoch
+	 	            }
+	    		 }).then(function(response) {
+	                 if (response.status == 200) {
+	                 	deferred.resolve(response);
+	 					return deferred.promise;
+	                 }else{
+	                	 //Clear Profile from cookies
+	 					 deferred.reject(response);
+	 					 return deferred.promise;
+	                 }
+	             })
+	             .catch(function(response){
+	            	 
+	            	 service.clearProfile();
+ 					 deferred.reject(response);
+ 					 return deferred.promise;
+	             });
+     		}).catch(function(response){
+    			deferred.reject(response);
+				return deferred.promise;
+    		});
     	 };
     	 
     	 service.encryptPass = function(password){
@@ -99,7 +181,7 @@ var app = angular.module('Authentication')
 		                 if (response.status == 200) {
 		                	//Store profile in cookies and return
 		                	 service.setUserProfile(response.data.data.id,response.data.data.name,response.data.data.email_id,
-          							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,response.data.data.company_profile)
+          							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,response.data.data.company_profile,response.data.data.email_verified)
 				          	 .then(function(userProfileResponse){
 									if(userProfileResponse.status == 200){
 										console.log('AuthenticationService.signin : Succesfully stored user profile in cookies');
@@ -193,7 +275,7 @@ var app = angular.module('Authentication')
  		 };
  		 
     	 //Service Function to Set User Profile in cookies
-    	 service.setUserProfile = function(userId,name,emailId,profileId,profilePic,status,encPassword,companyProfile){
+    	 service.setUserProfile = function(userId,name,emailId,profileId,profilePic,status,encPassword,companyProfile,email_verified){
     		 var deferred = $q.defer();
     		 //Clear current profile from cookies
     		 $rootScope.userProfile = {};
@@ -209,7 +291,8 @@ var app = angular.module('Authentication')
 						profileId: profileId,
 						profilePic : profilePic,
 						status : status,
-						password : encPassword
+						password : encPassword,
+						email_verified : email_verified
 						
 				};
  			 }else{
@@ -223,6 +306,7 @@ var app = angular.module('Authentication')
  						profilePic : profilePic,
  						status : status,
  						password : encPassword,
+ 						email_verified : email_verified,
  						companyProfile : companyProfile
  						
  				};

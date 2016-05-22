@@ -8,14 +8,13 @@
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-    <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap.min.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/lib/animate.min.css">
     <!-- CSS App -->
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/themes/flat-blue.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/newCompany.css">
 </head>
 
 <body class="flat-blue" ng-app="sociallbox">
@@ -48,7 +47,7 @@
 							class="dropdown-toggle" data-toggle="dropdown" role="button"
 							aria-expanded="false">Welcome {{userName}}<span class="caret"></span></a>
 							<ul class="dropdown-menu animated fadeInDown">
-								<li class="profile-img" ng-cloak><img src="{{profilePic}}"
+								<li class="profile-img" ng-cloak><img ng-cloak src="{{profilePic}}"
 									class="profile-img"></li>
 								<li>
 									<div class="profile-info">
@@ -76,11 +75,7 @@
 					<div class="side-menu-container">
 						<div class="navbar-header">
 							<a class="navbar-brand" href="#">
-								<div class="icon">
-									<img src="/resources/img/sociallbox.png"
-										style="height: 50px" alt="SociallBox">
-								</div>
-								<div class="title">SociallBox</div>
+								<div class="col-md-7 col-sm-12 col-xs-12 mImageScale"><img src="/resources/img/index/brandnamenlogo.png"></div>
 							</a>
 							<button type="button"
 								class="navbar-expand-toggle pull-right visible-xs">
@@ -108,59 +103,102 @@
 				</nav>
 			</div>
 			<!-- Main Content -->
-			<div ng-view></div>
+			<div id="mainContent" ng-view></div>
 			
 			
 		</div>
 	</div>
 
-
-	
             <!-- Javascript Libs -->
-            <script type="text/javascript" src="/resources/js/lib/jquery.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/jquery.validate.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/bootstrap.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/angular.js"></script>
-		    <script type="text/javascript" src="/resources/js/lib/angular-route.js"></script>
-		    <script type="text/javascript" src="/resources/js/lib/angular-cookies.js"></script>
-		     <script type="text/javascript" src='/resources/js/lib/ta/textAngular-rangy.min.js'></script>
- 			<script type="text/javascript" src='/resources/js/lib/ta/textAngular-sanitize.min.js'></script>
-			<script type="text/javascript" src='/resources/js/lib/ta/textAngular.min.js'></script>
-            <script type="text/javascript" src="/resources/js/lib/Chart.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/ui-bootstrap-tpls.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/dialogs.min.js"></script>
-            <script type="text/javascript" src="/resources/js/lib/datetime-picker.js"></script>
-           <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDCarvmNmNn4i76GBZIxBcNnV6bLiFEKbw&language=en&libraries=places"></script>
-           <script type="text/javascript" src="/resources/js/lib/smart-table.min.js"></script>
-            <!-- Javascript -->
-            <script type="text/javascript" src="/resources/js/dashboard.js"></script>
-            <script type="text/javascript" src="/resources/js/loginapp.js"></script>
-            <script type="text/javascript" src="/resources/js/app.js"></script>
-            <script type="text/javascript" src="/resources/js/dateTimePicker.js"></script>
-    		<script type="text/javascript" src="/resources/js/modules/index/controllers.js"></script>
-   			<script type="text/javascript" src="/resources/js/modules/auth/controllers.js"></script>
-   			<script type="text/javascript" src="/resources/js/modules/auth/services.js"></script>
-            <script type="text/javascript" src="/resources/js/modules/dashboard/controllers.js"></script>
-            <script type="text/javascript" src="/resources/js/modules/dashboard/services.js"></script>
-            <script type="text/javascript" src="/resources/js/modules/company/controllers.js"></script>
-            <script type="text/javascript" src="/resources/js/modules/company/services.js"></script>
-              <script type="text/javascript" src="/resources/js/modules/events/controllers.js"></script>
-             <script type="text/javascript" src="/resources/js/modules/events/services.js"></script>
-            <script>
-            $(document).ready(function() 
-            		{
-            		   $('ul#sideBar li').click(function(e) 
-            		   { 
-            			   $('ul#sideBar li').removeClass("active");
-            		  	   $(this).addClass("active");
-            		  	   $('#page_info').text($(this).attr('id'));
-            		   });
-            		   
-            		   $.validator.addMethod("specialChar", function(value, element) {
-            			     return this.optional(element) || /([0-9a-zA-Z\s-_.,?!#<>])$/.test(value);
-            			  }, "Special characters are not allowed");
-            		});
-            </script>
+            <!-- jQuery library -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-route.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.min.js"></script>
+	<script type="text/javascript"
+		src='/resources/js/lib/ta/textAngular-rangy.min.js'></script>
+	<script type="text/javascript"
+		src='/resources/js/lib/ta/textAngular-sanitize.min.js'></script>
+	<script type="text/javascript"
+		src='/resources/js/lib/ta/textAngular.min.js'></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="/resources/js/lib/dialogs.min.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/lib/datetime-picker.js"></script>
+	<script
+		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDCarvmNmNn4i76GBZIxBcNnV6bLiFEKbw&language=en&libraries=places"></script>
+	<script type="text/javascript"
+		src="/resources/js/lib/smart-table.min.js"></script>
+	<!-- Javascript -->
+	<script type="text/javascript" src="/resources/js/loginapp.js"></script>
+	<script type="text/javascript" src="/resources/js/app.js"></script>
+	<script type="text/javascript" src="/resources/js/dateTimePicker.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/auth/controllers.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/auth/services.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/dashboard/controllers.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/dashboard/services.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/company/controllers.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/company/services.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/events/controllers.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/modules/events/services.js"></script>
+	<script>
+		$(document).ready(
+				function() {
+					$('ul#sideBar li').click(function(e) {
+						$('ul#sideBar li').removeClass("active");
+						$(this).addClass("active");
+						$('#page_info').text($(this).attr('id'));
+					});
+
+					$.validator.addMethod("specialChar", function(value,
+							element) {
+						return this.optional(element)
+								|| /([0-9a-zA-Z\s-_.,?!#<>])$/.test(value);
+					}, "Special characters are not allowed");
+
+					$(".navbar-expand-toggle").click(
+							function() {
+								$(".app-container").toggleClass("expanded");
+								return $(".navbar-expand-toggle").toggleClass(
+										"fa-rotate-90");
+							});
+					return $(".navbar-right-expand-toggle").click(
+							function() {
+								$(".navbar-right").toggleClass("expanded");
+								return $(".navbar-right-expand-toggle")
+										.toggleClass("fa-rotate-90");
+							});
+
+					return $(".side-menu .nav .dropdown").on(
+							'show.bs.collapse',
+							function() {
+								return $(".side-menu .nav .dropdown .collapse")
+										.collapse('hide');
+							});
+
+				});
+	</script>
            	
 </body>
 

@@ -14,14 +14,18 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.EventTag;
 import com.bitlogic.sociallbox.data.model.EventType;
 import com.bitlogic.sociallbox.data.model.Role;
 import com.bitlogic.sociallbox.data.model.SmartDevice;
+import com.bitlogic.sociallbox.data.model.SocialBoxConfig;
 import com.bitlogic.sociallbox.data.model.SocialDetailType;
 import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.UserMessage;
@@ -29,7 +33,6 @@ import com.bitlogic.sociallbox.data.model.UserRoleType;
 import com.bitlogic.sociallbox.data.model.UserSetting;
 import com.bitlogic.sociallbox.data.model.UserSocialDetail;
 import com.bitlogic.sociallbox.data.model.UserTypeBasedOnDevice;
-import com.bitlogic.sociallbox.data.model.notifications.Notification;
 import com.bitlogic.sociallbox.data.model.response.UserEventInterest;
 import com.bitlogic.sociallbox.data.model.response.UserFriend;
 import com.bitlogic.sociallbox.data.model.response.UserRetailEventInterest;
@@ -46,8 +49,10 @@ import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
 import com.bitlogic.sociallbox.service.transformers.Transformer;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory.TransformerTypes;
+import com.bitlogic.sociallbox.service.utils.EmailUtils;
 import com.bitlogic.sociallbox.service.utils.LoggingService;
 import com.bitlogic.sociallbox.service.utils.LoginUtil;
+import com.bitlogic.sociallbox.service.utils.PasswordUtils;
 
 @Service("userService")
 @Transactional
@@ -70,6 +75,15 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 	
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private SocialBoxConfig socialBoxConfig;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@Autowired
+	private  MessageSource messageSource;
 
 	public UserDAO getUserDAO() {
 		return userDAO;
@@ -285,6 +299,8 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 			Role appUserRole = this.userDAO.getRoleType(UserRoleType.APP_USER);
 			userRoles.add(appUserRole);
 			user.setUserroles(userRoles);
+			user.setIsEnabled(Boolean.TRUE);
+			user.setPassword(PasswordUtils.encryptPass(user.getPassword()));
 			User createdUser = this.userDAO.createNewWebUser(user);
 			for (UserSocialDetail socialDetail : user.getSocialDetails()) {
 				socialDetail.setUser(createdUser);
@@ -595,5 +611,35 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public void createEmailVerification(
+			UserEmailVerificationToken emailVerificationToken) {
+		String LOG_PREFIX = "UserServiceImpl-createEmailVerification";
+		Date now = new Date();
+		emailVerificationToken.setCreateDate(now);
+		logInfo(LOG_PREFIX, "Creating email verification token for user {} ", emailVerificationToken.getUser().getName());
+		this.userDAO.createVerificationToken(emailVerificationToken);
+		EmailUtils.sendEmailVerification(restTemplate, emailVerificationToken, socialBoxConfig,this.messageSource);
+		logInfo(LOG_PREFIX, "Email verification sent succesfully to user");
+		
+	}
+	
+	@Override
+	public void verifyEmail(String token) {
+		String LOG_PREFIX = "UserServiceImpl-verifyEmail";
+		Date now = new Date();
+		UserEmailVerificationToken emailVerificationToken = this.userDAO.getUserEmailVerificationToken(token);
+		if(emailVerificationToken==null){
+			throw new ClientException(RestErrorCodes.ERR_005, ERROR_EMAIL_VERIFICATION_TOKEN_NOT_FOUND);
+		}
+		if(now.compareTo(emailVerificationToken.getExpiryDate())>0){
+			logInfo(LOG_PREFIX, "Verification token {} expired ", token);
+			throw new ClientException(RestErrorCodes.ERR_005, ERROR_EMAIL_VERIFICATION_TOKEN_EXPIRED);
+		}
+		
+		User user = emailVerificationToken.getUser();
+		user.setIsEmailVerified(Boolean.TRUE);
 	}
 }

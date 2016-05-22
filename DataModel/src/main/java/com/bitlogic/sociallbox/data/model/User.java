@@ -121,7 +121,18 @@ public class User implements Serializable,Cloneable {
 	 @JsonIgnore
 	 private Set<User> friendOf;
 	 
-	 public String getProfilePic(){
+	 @Column(name="EMAIL_VERIFIED",length=5)
+	 private Boolean isEmailVerified;
+	 
+	 public Boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
+	}
+
+	public String getProfilePic(){
 		 if(this.socialDetails!=null){
 			 for(UserSocialDetail socialDetail : socialDetails){
 				 if(socialDetail.getSocialDetailType() == SocialDetailType.USER_PROFILE_PIC){

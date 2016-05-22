@@ -32,6 +32,8 @@
 									</th>
 									<th>Website
 									</th>
+									<th>Email Verified
+									</th>
 									<th>Contact No
 									</th>
 									<th>Status
@@ -49,6 +51,10 @@
                                     <td>{{profile.create_dt | date:'EEE,d MMM yyyy hh:mm a'}}</td>
                                     <td>{{profile.name}}</td>
                                     <td>{{profile.company_profile.website}}</td>
+                                     <td>
+                                    	<span ng-if="profile.company_profile.email_verified" class="label label-primary">YES</span>
+                                    	<span ng-if="!profile.company_profile.email_verified" class="label label-danger">NO</span>
+                                    </td>
                                     <td>{{profile.company_profile.phone1}}</td>
                                     <td>{{profile.status}}</td>
                                     <td><button type="button" ng-click="goToCompanyDetails(profile.profile_id)" class="btn btn-info">Details</button></td>

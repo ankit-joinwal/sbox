@@ -3,9 +3,11 @@ package com.bitlogic.sociallbox.service.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.bitlogic.sociallbox.data.model.CompanyEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
+import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.response.EventResponse;
 
 
@@ -31,4 +33,7 @@ public interface EventOrganizerDAO {
 	
 	public Map<String, Object> getAllOrganizers(Integer page);
 	
+	public void createVerificationToken(CompanyEmailVerificationToken emailVerificationToken);
+	
+	public CompanyEmailVerificationToken getCompanyEmailVerificationToken(String token);
 }

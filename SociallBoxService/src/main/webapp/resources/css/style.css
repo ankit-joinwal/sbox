@@ -177,7 +177,7 @@ a:hover {
       padding: 15px; }
       .navbar .dropdown.profile .dropdown-menu .profile-info .username {
         font-size: 1.8em; }
-
+.mImageScale{ transform: scale(.8);}
 .app-container {
   min-height: 100%;
   position: relative;

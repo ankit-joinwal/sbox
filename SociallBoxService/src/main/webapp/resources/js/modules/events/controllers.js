@@ -425,8 +425,8 @@ app.controller('EventsController',
 																		' "location"		: {'+
 																		'						"name" 	: "' +locationName+'" ,'+
 																		'						"locality" 		: "' +locality+'" ,'+
-																		'						"longitude" 	: "' +locLat+'" ,'+
-																		'						"lattitude"	: "' +locLng+'" '+
+																		'						"longitude" 	: "' +locLng+'" ,'+
+																		'						"lattitude"	: "' +locLat+'" '+
 																		'				 	  }'+
 																		' },'+
 												'	"tags" 		     : [' +tags + '],'+
@@ -448,7 +448,7 @@ app.controller('EventsController',
 						        .then(function(uploadResponse){
 						        	if(uploadResponse.status == 201){
 							        	console.log('Uploaded event Pic');
-							        	var dlg = dialogs.notify('Success!','Event created succefully. You can make it live once it is approved by admin.',dialogOpts)
+							        	var dlg = dialogs.notify('Success!','Event created succefully. You can make it live once it is approved by admin.',dialogOpts);
 							        	dlg.result.then(function(btn){
 							        		$window.location.href = "/eo/home#/events";
 							        	});

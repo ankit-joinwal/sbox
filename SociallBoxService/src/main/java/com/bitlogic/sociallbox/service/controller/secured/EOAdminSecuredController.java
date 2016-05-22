@@ -52,6 +52,8 @@ public class EOAdminSecuredController extends BaseController implements Constant
 	private static final String GET_ORGANIZER_ADMIN_INFO_API = "GetOrganizerAdminProfile API";
 	private static final String SIGNIN_ORGANIZER_ADMIN_API = "SigninOrganizerAdmin API";
 	private static final String UPDATE_EO_ADMIN_PROFILE_API = "UpdateEOAdminProfile API";
+	private static final String RESEND_EMAIL_VERIFY_API = "ResendEmailVerification API";
+	private static final String RESEND_COMPANY_EMAIL_VERIFY_API = "ResendCompanyEmailVerification API";
 	private static final String UPDATE_EVENT_API = "UpdateEventAPI API";
 	private static final String UPDATE_EO_ADMIN_PROFILE_PIC_API = "UpdateEOAdminProfilePic API";
 	private static final String GET_USER_MESSAGES_API = "GetUserMessages API";
@@ -284,6 +286,34 @@ public class EOAdminSecuredController extends BaseController implements Constant
 		entityResponse.setStatus(SUCCESS_STATUS);
 		entityResponse.setData(adminProfile);
 		logRequestEnd(UPDATE_EO_ADMIN_PROFILE_API, UPDATE_EO_ADMIN_PROFILE_API);
+		return entityResponse;
+		
+	}
+	
+	@RequestMapping(value="/{userId}/resendVerifyEmail",method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE})
+	@ResponseStatus(HttpStatus.OK)
+	public  SingleEntityResponse<String> resendVerifyEmail(@PathVariable Long userId){
+		logInfo(RESEND_EMAIL_VERIFY_API, SECURED_REQUEST_START_LOG_MESSAGE, RESEND_EMAIL_VERIFY_API);
+		this.eventOrganizerAdminService.resendEmailVerification(userId);
+		SingleEntityResponse<String> entityResponse = new SingleEntityResponse<String>();
+		entityResponse.setStatus(SUCCESS_STATUS);
+		entityResponse.setData("Email verification link sent sucessfully.");
+		logRequestEnd(RESEND_EMAIL_VERIFY_API, RESEND_EMAIL_VERIFY_API);
+		return entityResponse;
+		
+	}
+	
+	@RequestMapping(value="/{orgId}/resendCompanyVerifyEmail",method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE})
+	@ResponseStatus(HttpStatus.OK)
+	public  SingleEntityResponse<String> resendCompanyVerifyEmail(@PathVariable String orgId){
+		logInfo(RESEND_COMPANY_EMAIL_VERIFY_API, SECURED_REQUEST_START_LOG_MESSAGE, RESEND_COMPANY_EMAIL_VERIFY_API);
+		this.eventOrganizerAdminService.resendCompanyEmailVerification(orgId);
+		SingleEntityResponse<String> entityResponse = new SingleEntityResponse<String>();
+		entityResponse.setStatus(SUCCESS_STATUS);
+		entityResponse.setData("Email verification link sent sucessfully.");
+		logRequestEnd(RESEND_COMPANY_EMAIL_VERIFY_API, RESEND_COMPANY_EMAIL_VERIFY_API);
 		return entityResponse;
 		
 	}
@@ -636,6 +666,8 @@ public class EOAdminSecuredController extends BaseController implements Constant
 		logRequestEnd(CANCEL_EVENT_API, CANCEL_EVENT_API);
 		return entityResponse;
 	}
+	
+	
 	
 	@RequestMapping(value="/{userId}/events/{eventId}/statistics",method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE})

@@ -1,17 +1,35 @@
 package com.bitlogic.sociallbox.service.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.bitlogic.sociallbox.data.model.requests.VerificationToken;
+import com.bitlogic.sociallbox.service.business.EOAdminService;
+import com.bitlogic.sociallbox.service.business.UserService;
 
 @Controller
 @RequestMapping("/")
 public class ViewController extends BaseController{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ViewController.class);
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private EOAdminService eoAdminService;
 	
 	@Override
 	public Logger getLogger() {
@@ -28,6 +46,11 @@ public class ViewController extends BaseController{
 		
          return new ModelAndView("terms");
      }
+	 @RequestMapping(value="/privacy",method = RequestMethod.GET)
+     public ModelAndView getPrivacyPage() {
+		
+         return new ModelAndView("privacy");
+     }
 	 
 	 @RequestMapping(value="/eo",method = RequestMethod.GET)
      public ModelAndView getEOIndexPage() {
@@ -40,6 +63,12 @@ public class ViewController extends BaseController{
 		
          return new ModelAndView("login");
      }
+	 
+	/* @RequestMapping(value="/eo/verifyEmail",method = RequestMethod.GET)
+     public ModelAndView getEmailVerificationPage() {
+		
+         return new ModelAndView("verifyEmail");
+     }*/
 	 
 	 @RequestMapping(value="/nimda/login",method = RequestMethod.GET)
      public ModelAndView getAdminLoginPage() {
@@ -123,5 +152,23 @@ public class ViewController extends BaseController{
      public ModelAndView getEventsDetailsPageForAdmin() {
          return new ModelAndView("eventDetailsForAdmin");
      }
+	 
+	@RequestMapping(value = "/eo/verifyEmail", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.OK)
+	public RedirectView verifyEmail(
+			@RequestParam(required = true, value = "token") String token) {
+		this.userService.verifyEmail(token);
+		return new RedirectView("/eo/login");
+	}
+	
+	@RequestMapping(value = "/eo/company/verifyEmail", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.OK)
+	public RedirectView verifyCompanyEmail(
+			@RequestParam(required = true, value = "token") String token) {
+		this.eoAdminService.verifyCompanyEmail(token);
+		return new RedirectView("/eo/login");
+	}
 	 
 }

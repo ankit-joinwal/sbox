@@ -22,8 +22,8 @@ public class EOAdminProfile extends UserPublicProfile{
 		this.setEmailId(user.getEmailId());
 		this.setStatus(eoAdmin==null ? EOAdminStatus.COMPANY_NOT_LINKED : eoAdmin.getStatus());
 		this.setProfileId(eoAdmin ==null ? null : eoAdmin.getId());
+		this.setIsEmailVerified(user.getIsEmailVerified());
 		if(eoAdmin!=null){
-			
 			setCreateDt(dateFormat.format(eoAdmin.getCreateDt()));
 		}
 	}
@@ -46,6 +46,17 @@ public class EOAdminProfile extends UserPublicProfile{
 	@JsonProperty("status")
 	private EOAdminStatus status;
 	
+	@JsonProperty("email_verified")
+	private Boolean isEmailVerified;
+	
+	public Boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
+	}
+
 	public String getCreateDt() {
 		return createDt;
 	}

@@ -66,15 +66,41 @@ public class SpringConfiguration extends LoggingService {
 		String notificationServiceURL = environment.getRequiredProperty(Constants.NOTIFICATION_SERVICE_URL);
 		String feedServiceURL = environment.getRequiredProperty(Constants.FEED_SERVICE_URL);
 		String meetupsBaseURL = environment.getRequiredProperty(Constants.MEETUPS_BASE_URL_PROPERTY);
+		String mailServiceURL = environment.getRequiredProperty(Constants.SB_MAIL_SERVICE_URL_PROP);
+		String emailVerificationSender = environment.getRequiredProperty(Constants.SB_EO_VERIFY_SENDER_EMAIL);
+		String emailVerificationCC = environment.getRequiredProperty(Constants.SB_EO_VERIFY_EMAIL_CC);
+		String emailVerificationBCC = environment.getRequiredProperty(Constants.SB_EO_VERIFY_EMAIL_BCC);
+		String emailVerifySenderName = environment.getRequiredProperty(Constants.SB_EO_VERIFY_SENDER_NAME);
+		String isaUserName = environment.getRequiredProperty(Constants.SB_ISA_USERNAME);
+		String isaPass = environment.getRequiredProperty(Constants.SB_ISA_PASSWORD);
+		String verifyEmailUrl = environment.getRequiredProperty(Constants.SB_EO_EMAIL_VERIFY_LINK);
+		String verifyCompanyEmailUrl = environment.getRequiredProperty(Constants.SB_COMPANY_EMAIL_VERIFY_LINK);
 		logger.info("###           SocialBoxConfig       ###");
 		logInfo(LOG_PREFIX, "NOTIFICATION_SERVICE_URL : {}", notificationServiceURL);
 		logInfo(LOG_PREFIX, "MEETUPS_BASE_URL_PROPERTY : {}", meetupsBaseURL);
 		logInfo(LOG_PREFIX, "FEED_SERVICE_URL : {}", feedServiceURL);
+		logInfo(LOG_PREFIX, "SB_MAIL_SERVICE_URL_PROP : {}", mailServiceURL);
+		logInfo(LOG_PREFIX, "SB_EO_VERIFY_SENDER_EMAIL PROP : {}", emailVerificationSender);
+		logInfo(LOG_PREFIX, "SB_EO_VERIFY_EMAIL_CC {} ", emailVerificationCC);
+		logInfo(LOG_PREFIX, "SB_EO_VERIFY_EMAIL_BCC {} ", emailVerificationBCC);
+		logInfo(LOG_PREFIX, "SB_EO_VERIFY_SENDER_NAME {} ", emailVerifySenderName);
+		logInfo(LOG_PREFIX, "SB_EO_EMAIL_VERIFY_LINK {} ", verifyEmailUrl);
+		logInfo(LOG_PREFIX, "SB_COMPANY_EMAIL_VERIFY_LINK {} ", verifyCompanyEmailUrl);
 		logger.info("###########################################");
 		
 		boxConfig.setNotificationServiceURL(notificationServiceURL);
 		boxConfig.setFeedServiceURL(feedServiceURL);
 		boxConfig.setMeetupsBaseUrl(meetupsBaseURL);
+		boxConfig.setEmailServiceURL(mailServiceURL);
+		boxConfig.setEmailVerifySender(emailVerificationSender);
+		boxConfig.setEmailVerifyCC(emailVerificationCC);
+		boxConfig.setEmailVerifyBCC(emailVerificationBCC);
+		boxConfig.setEmailVerifySenderName(emailVerifySenderName);
+		boxConfig.setIsaUserName(isaUserName);
+		boxConfig.setIsaPassword(isaPass);
+		boxConfig.setVerifyEmailUrl(verifyEmailUrl);
+		boxConfig.setVerifyCompanyEmailUrl(verifyCompanyEmailUrl);
+		
 		return boxConfig;
 	}
 	@Bean(name="gapiConfig")

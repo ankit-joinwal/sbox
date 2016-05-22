@@ -62,10 +62,21 @@ public class EventOrganizer {
 	@Column(name="IS_ENABLED",nullable=false,length=5)
 	private Boolean isEnabled;
 	
+	@Column(name="EMAIL_VERIFIED",length=5)
+	private Boolean isEmailVerified;
+	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="organizer")
 	@JsonIgnore
 	private Set<EventOrganizerAdmin> organizerAdmins = new HashSet<EventOrganizerAdmin>();
 	
+	public Boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
+	}
+
 	public String getWebsite() {
 		return website;
 	}

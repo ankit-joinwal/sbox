@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.Role;
 import com.bitlogic.sociallbox.data.model.SmartDevice;
 import com.bitlogic.sociallbox.data.model.User;
@@ -51,5 +52,7 @@ public interface UserService {
 	
 	public String markMessageAsRead(Long userId,Long messageId);
 	
+	public void createEmailVerification(UserEmailVerificationToken emailVerificationToken);
 	
+	public void verifyEmail(String token);	
 }

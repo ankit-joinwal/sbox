@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.User;
+import com.bitlogic.sociallbox.data.model.requests.VerificationToken;
 import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
 import com.bitlogic.sociallbox.data.model.response.SingleEntityResponse;
 import com.bitlogic.sociallbox.service.business.EOAdminService;
@@ -33,6 +35,7 @@ public class EOAdminPublicController extends BaseController implements Constants
 	public Logger getLogger() {
 		return LOGGER;
 	}
+	
 	
 	@Autowired
 	private EOAdminService eventOrganizerAdminService;
@@ -82,10 +85,13 @@ public class EOAdminPublicController extends BaseController implements Constants
 			MediaType.APPLICATION_JSON_VALUE}, consumes = {
 			MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.CREATED)
-	public SingleEntityResponse<EOAdminProfile> signup(@Valid @RequestBody User user){
+	public SingleEntityResponse<EOAdminProfile> signup(@Valid @RequestBody User user,WebRequest request){
 		logRequestStart(SIGNUP_ORGANIZER_ADMIN_API, PUBLIC_REQUEST_START_LOG, SIGNUP_ORGANIZER_ADMIN_API);
 		logInfo(SIGNUP_ORGANIZER_ADMIN_API, "User id = {}", user.getEmailId());
-		EOAdminProfile profile = this.eventOrganizerAdminService.signup(user);
+		String appUrl = request.getContextPath();
+		EOAdminProfile profile = this.eventOrganizerAdminService.signup(user,appUrl);
+		
+		
 		SingleEntityResponse<EOAdminProfile> entityResponse = new SingleEntityResponse<EOAdminProfile>();
 		entityResponse.setStatus(SUCCESS_STATUS);
 		entityResponse.setData(profile);
@@ -93,5 +99,16 @@ public class EOAdminPublicController extends BaseController implements Constants
 		return entityResponse;
 	}
 	
+	
+	@RequestMapping(value="/verifyEmail",method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.OK)
+	public SingleEntityResponse<String> verifyEmail(@Valid @RequestBody VerificationToken token){
+		this.userService.verifyEmail(token.getToken());
+		SingleEntityResponse<String> entityResponse = new SingleEntityResponse<>();
+		entityResponse.setStatus(SUCCESS_STATUS);
+		entityResponse.setData("Email verified successfully");
+		return entityResponse;
+	}
 	
 }

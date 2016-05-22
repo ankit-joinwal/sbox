@@ -19,6 +19,7 @@
 		<module>../ImageService</module>
 		<module>../NotificationService</module>
 		<module>../FeedService</module>
+		<module>../MailService</module>
 		<module>../SociallBoxService</module>
   </modules> 
  

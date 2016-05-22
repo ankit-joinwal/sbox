@@ -18,13 +18,16 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.CompanyEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.EOAdminStatus;
 import com.bitlogic.sociallbox.data.model.Event;
 import com.bitlogic.sociallbox.data.model.EventImage;
@@ -32,6 +35,7 @@ import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
 import com.bitlogic.sociallbox.data.model.Role;
+import com.bitlogic.sociallbox.data.model.SocialBoxConfig;
 import com.bitlogic.sociallbox.data.model.SocialDetailType;
 import com.bitlogic.sociallbox.data.model.SocialSystem;
 import com.bitlogic.sociallbox.data.model.User;
@@ -61,11 +65,14 @@ import com.bitlogic.sociallbox.service.exception.EntityNotFoundException;
 import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.ServiceException;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
+import com.bitlogic.sociallbox.service.model.CompanyRegistrationEvent;
+import com.bitlogic.sociallbox.service.model.UserRegistrationEvent;
 import com.bitlogic.sociallbox.service.transformers.EOToEOResponseTransformer;
 import com.bitlogic.sociallbox.service.transformers.EventTransformer;
 import com.bitlogic.sociallbox.service.transformers.MultipartToEventImageTransformer;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory.TransformerTypes;
+import com.bitlogic.sociallbox.service.utils.EmailUtils;
 import com.bitlogic.sociallbox.service.utils.LoggingService;
 import com.bitlogic.sociallbox.service.utils.LoginUtil;
 import com.bitlogic.sociallbox.service.utils.PasswordUtils;
@@ -90,13 +97,25 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 	@Autowired
 	private EventOrganizerDAO eventOrganizerDAO;
 	
+	@Autowired
+	private SocialBoxConfig socialBoxConfig;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@Autowired
+	private  MessageSource messageSource;
+	
 	@Override
 	public Logger getLogger() {
 		return LOGGER;
 	}
 	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@Override
-	public EOAdminProfile signup(User user) {
+	public EOAdminProfile signup(User user,String appUrl) {
 		String LOG_PREFIX = "EOAdminServiceImpl-signup";
 		
 		LoginUtil.validateOrganizerAdmin(user);
@@ -110,6 +129,7 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 			Date now = new Date();
 			user.setCreateDt(now);
 			user.setIsEnabled(Boolean.TRUE);
+			user.setIsEmailVerified(Boolean.FALSE);
 			Set<Role> userRoles = new HashSet<>();
 			Role appUserRole = this.userDAO.getRoleType(UserRoleType.EVENT_ORGANIZER);
 			userRoles.add(appUserRole);
@@ -130,6 +150,13 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 				message.setMessage(formattedMsg);
 				message.setUser(createdUser);
 				this.userDAO.addMessageForUser(message);
+			}
+			
+			try{
+				eventPublisher.publishEvent(new UserRegistrationEvent
+		          (createdUser, Locale.US, appUrl));
+			}catch(Exception ex){
+				logError(LOG_PREFIX, "Error occured while sending email verification link to user {}", createdUser.getName());
 			}
 			adminProfile = new EOAdminProfile(null, null, createdUser);
 			logInfo(LOG_PREFIX, "User Signup Successful");
@@ -161,7 +188,6 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 					adminProfile = new EOAdminProfile(eventOrganizerProfile, eventOrganizerAdmin, userInDB);
 				}
 			}
-			
 		}else{
 			logError(LOG_PREFIX, "User not found for Email Id {}", emailId);
 			throw new UnauthorizedException(RestErrorCodes.ERR_002, ERROR_USER_INVALID);
@@ -450,6 +476,12 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 			message.setMessage(formattedMsg);
 			message.setUser(eoAdminUser);
 			this.userDAO.addMessageForUser(message);
+		}
+		
+		try{
+			eventPublisher.publishEvent(new CompanyRegistrationEvent(organizer, Locale.US, ""));
+		}catch(Exception ex){
+			logError(LOG_PREFIX, "Error occured while sending email verification link to company {}", organizer.getName(),ex);
 		}
 		return adminProfile;
 	}
@@ -795,5 +827,55 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 				event.setIsFreeEvent(updateEventRequest.getIsFree());
 			}
 		}
+	}
+	 
+
+	@Override
+	public void resendEmailVerification(Long userId) {
+		User user = this.userDAO.getUserById(userId);
+		if(user==null){
+			throw new ClientException(RestErrorCodes.ERR_003, ERROR_USER_INVALID);
+		}
+		eventPublisher.publishEvent(new UserRegistrationEvent
+		          (user, Locale.US, ""));
+	}
+	
+	@Override
+	public void resendCompanyEmailVerification(String orgId) {
+		EventOrganizer organizer = this.eventOrganizerDAO.getEODetails(orgId);
+		if(organizer==null){
+			throw new ClientException(RestErrorCodes.ERR_003, ERROR_ORGANIZER_NOT_FOUND);
+		}
+		eventPublisher.publishEvent(new CompanyRegistrationEvent(organizer, Locale.US, ""));
+	}
+	
+	@Override
+	public void createCompanyEmailVerification(
+			CompanyEmailVerificationToken emailVerificationToken) {
+		String LOG_PREFIX = "EOAdminServiceImpl-createCompanyEmailVerification";
+		Date now = new Date();
+		emailVerificationToken.setCreateDate(now);
+		logInfo(LOG_PREFIX, "Creating email verification token for company {} ", emailVerificationToken.getOrganizer().getName());
+		this.eventOrganizerDAO.createVerificationToken(emailVerificationToken);
+		EmailUtils.sendCompanyEmailVerification(restTemplate, emailVerificationToken, socialBoxConfig,this.messageSource);
+		logInfo(LOG_PREFIX, "Email verification sent succesfully to company");
+	}
+	
+	@Override
+	public void verifyCompanyEmail(String token) {
+		String LOG_PREFIX = "EOAdminServiceImpl-verifyCompanyEmail";
+		Date now = new Date();
+		CompanyEmailVerificationToken verificationToken = this.eventOrganizerDAO.getCompanyEmailVerificationToken(token);
+		if(verificationToken==null){
+			throw new ClientException(RestErrorCodes.ERR_005, ERROR_EMAIL_VERIFICATION_TOKEN_NOT_FOUND);
+		}
+		if(now.compareTo(verificationToken.getExpiryDate())>0){
+			logInfo(LOG_PREFIX, "Verification token {} expired ", token);
+			throw new ClientException(RestErrorCodes.ERR_005, ERROR_EMAIL_VERIFICATION_TOKEN_EXPIRED);
+		}
+		EventOrganizer organizer = verificationToken.getOrganizer();
+		organizer.setIsEmailVerified(Boolean.TRUE);
+		
+				
 	}
 }

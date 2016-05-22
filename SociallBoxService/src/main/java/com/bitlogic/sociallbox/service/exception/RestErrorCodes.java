@@ -5,6 +5,7 @@ public enum RestErrorCodes {
 	ERR_002, //Unauthorized
 	ERR_003,//Invalid Request
 	ERR_004, //Company not linked
+	ERR_005,//Verification Token not found
 	ERR_010 , //Google API Errors
 	ERR_020, //Entity Not Found
 	ERR_050, //Server Error in service,

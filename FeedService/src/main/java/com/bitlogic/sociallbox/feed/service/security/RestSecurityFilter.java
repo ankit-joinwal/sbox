@@ -82,8 +82,11 @@ public class RestSecurityFilter extends GenericFilterBean{
         
         Long timestamp = null;
         try{
+        	if(dateHeader==null){
+        		throw new Exception("Date header missing in request");
+        	}
         	timestamp = Long.parseLong(dateHeader);
-        }catch(NumberFormatException exception){
+        }catch(Exception exception){
         	 SecurityContextHolder.clearContext();
              authenticationEntryPoint.commence(request, response, new AuthenticationException("Date header not in proper format",exception) {
 

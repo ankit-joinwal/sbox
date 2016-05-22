@@ -5,7 +5,8 @@ angular.module('Authentication', []);
 
 var App = angular.module('login',['ngRoute','ui.bootstrap','dialogs.main','ngCookies','index','Authentication']);
 
-App.config(['$routeProvider', function($routeProvider) {
+App.config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
+	
 	$routeProvider
 		.when('/', {
 			templateUrl: '/',
@@ -13,6 +14,10 @@ App.config(['$routeProvider', function($routeProvider) {
 		})
 		.when('/terms', {
 			templateUrl: '/terms',
+			controller : "IndexController"
+		})
+		.when('/policy', {
+			templateUrl: '/policy',
 			controller : "IndexController"
 		})
 		.when('/eo', {

@@ -51,7 +51,8 @@ App.config(['$routeProvider', function($routeProvider) {
 		.when('/events/new', {
 			controller : "EventsController",
 			templateUrl: '/eo/events/new'
-		}).when('/events/:eventId', {
+		})
+		.when('/events/:eventId', {
             controller: 'EventsController',
             templateUrl: '/eo/events/details'
 		})

@@ -35,6 +35,8 @@ body {font-family: Helvetica Neue;	overflow-x: hidden !important;}
 .sectionHeadingFeature{font-size:35px;margin:20px 0 10px;text-align:center;}
 .hwImg,.hwTextHead,.hwTextDesc{text-align:center;}
 #howItWorks{padding:40px 120px}
+#terms{padding:40px 120px}
+#policy{padding:40px 120px}
 .hwTextHead{margin:10px;font-size: 23px; color: #626262;}
 .hwTextDesc{color: #838282;font-size:16px;padding:0 50px}
 .imgMainHeadingRow{margin: 240px auto;text-align: center;}
@@ -54,10 +56,30 @@ body {font-family: Helvetica Neue;	overflow-x: hidden !important;}
 .pinterestLogo{text-align:left}
 #contact{background-color: #fd5c63;    opacity: 0.9;    padding-bottom: 30px;}
 .title{color:#fff}
-.sectionHeading span:before{content: "";height: 2px;margin-left: 35px;position: absolute;top: 55px;	background-color: #fd5c63;	width:200px}	
+.sectionHeading span:before{content: "";height: 2px;margin-left: 35px;position: absolute;top: 55px;	background-color: #fd5c63;	width:200px}
+.sectionHeadingTerms span:before{content: "";height: 2px;margin-left: 18px;position: absolute;top: 55px;	background-color: #fd5c63;	width:200px}	
 .sectionHeadingFeature:before{content: "";height: 2px;margin-left: 22px;position: absolute; top: 55px;	background-color: #fd5c63;	width:130px}	
-
-	
+.panel-red {
+  border-color: #FF5A5F;
+}
+.panel-red > .panel-heading {
+  color: #fff;
+  background-color: #FF5A5F;
+  border-color: #FF5A5F;
+}
+.panel-red > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #FF5A5F;
+}
+.panel-red > .panel-heading .badge {
+  color: #FF5A5F;
+  background-color: #fff;
+}
+.panel-red > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #FF5A5F;
+}
+.text-red {
+    color: #FF5A5F;
+}
 @media(min-width:1025px ){
 #imageSection{height:500px}
 .dHide{display:none}
@@ -74,6 +96,8 @@ body {font-family: Helvetica Neue;	overflow-x: hidden !important;}
 .imgMainHeadingRow {margin: 100px auto;left: 10%;}
 .circularArrow {top:390px;}
 #howItWorks {padding: 20px 120px;}
+#terms{}
+#policy{}
 .hItWorksContentSection >div{margin-bottom:30px}
 #features {padding:10px }
 
@@ -93,6 +117,8 @@ body {font-family: Helvetica Neue;	overflow-x: hidden !important;}
 .circularArrow {top:305px;left: 44.8%;}
 .hwImg img,.mImageScaleFeature{transform:scale(.75)}
 #howItWorks {padding: 10px 15px;}
+#terms{padding: 0px 20px;}
+#policy{padding: 0px 20px;}
 .sectionHeading {font-size: 28px; margin: 20px 0 ;}
 .sectionHeading span:before {margin-left: 30px;top: 45px;width: 155px;}
 .sectionHeadingFeature:before { margin-left: 20px;    top: 45px;    width: 100px}

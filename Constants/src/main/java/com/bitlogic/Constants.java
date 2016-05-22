@@ -54,6 +54,8 @@ public interface Constants {
 	String LONGITUDE_KEY = "LONGITUDE";
 	String SHOPPING_EVENT_TYPE_NAME = "shop";
 	String LOCATION_HEADER = "Location";
+	String AUTH_DATE_HEADER = "X-Auth-Date";
+	
 
 	//Common Constants
 	String QUESTIONMARK = "?";
@@ -64,6 +66,7 @@ public interface Constants {
 	String UNAME_DELIM = "~";
 	String DEVICE_PREFIX = "SD";
 	String WEB_USER_PREFIX = "W";
+	String ISA_PREFIX = "ISA";
 	String URL_PATH_SEPARATOR = "/";
 	String TRUE = "true";
 	String KILOMETRES = " Kms";
@@ -94,6 +97,7 @@ public interface Constants {
 	String GEO_SERVICE_NAME = "SociallBoxService";
 	String IMAGE_SERVICE_NAME = "ImageService";
 	String NOTIFICATION_SERVICE_NAME = "NotificationService";
+	String EMAIL_SERVICE_NAME = "MailService";
 	//User Roles
 	String ROLE_TYPE_ADMIN = "ADMIN";
 	String ROLE_TYPE_APP_USER = "APP_USER";
@@ -153,17 +157,40 @@ public interface Constants {
 	String STREAMS_PRIVATE_KEY_PROP = "streams.private.key";
 	String FEED_SERVICE_URL = "sb.feed.service.url";
 	
+	//Mail Service Constants
+	String SB_MAIL_SERVICE_HOST_PROP = "sb.mail.host";
+	String SB_MAIL_SERVICE_PORT_PROP = "sb.mail.port";
+	String SB_MAIL_SERVICE_USERNAME_PROP = "sb.mail.username";
+	String SB_MAIL_SERVICE_PASSWORD_PROP = "sb.mail.password";
+	String SB_MAIL_SERVICE_URL_PROP = "sb.mail.service.url";
+	String SB_EO_VERIFY_SENDER_EMAIL  = "sb.eo.verify.sender.email";
+	String SB_EO_VERIFY_EMAIL_CC = "sb.eo.verify.email.cc";
+	String SB_EO_VERIFY_EMAIL_BCC = "sb.eo.verify.email.bcc";
+	String EMAIL_VERIFICATION_SUBJECT = "sb.eo.verify.email.subject";
+	String SB_EO_VERIFY_SENDER_NAME = "sb.eo.verify.sender.name";
+	String EMAIL_VERIF_TEMPLATE_NAME = "verifyEmailTemplate.vm";
+	String EMAIL_LOGO_PATH = "images/sociallboxlogo.png";
+	String EMAIL_VERIFY_LINK_PARAM = "link";
+	String SB_EO_EMAIL_VERIFY_LINK = "sb.eo.email.verify.link";
+	String SB_COMPANY_EMAIL_VERIFY_LINK = "sb.company.email.verify.link";
+	
+	//Inter Service Constants 
+	String SB_ISA_USERNAME = "sb.isa.username";
+	String SB_ISA_PASSWORD = "sb.isa.password";
+	
 	//Error Message Keys
 	String ERROR_ID_MANDATORY = "error.id.mandatory";
 	String ERROR_NAME_MANDATORY = "error.name.mandatory";
 	String ERROR_EMAIL_MANDATORY = "error.email.mandatory";
 	String ERROR_GAPI_CLIENT_REQUEST = "error.gapi.client.request";
 	String ERROR_NOTIFICATION_CLIENT_REQUEST = "error.notification.client.request";
+	String ERROR_EMAIL_CLIENT_REQUEST = "error.email.client.request";
 	String ERROR_FEED_CLIENT_REQUEST = "error.feed.client.request";
 	String ERROR_GAPI_WEBSERVICE_ERROR = "error.gapi.webservice.error";
 	String ERROR_ZAPI_CLIENT_REQUEST = "error.zapi.client.request";
 	String ERROR_ZAPI_WEBSERVICE_ERROR = "error.zapi.webservice.error";
 	String ERROR_NOTIFICATION_WEBSERVICE_ERROR = "error.notification.webservice.error";
+	String ERROR_EMAIL_WEBSERVICE_ERROR = "error.mail.webservice.error";
 	String ERROR_FEED_WEBSERVICE_ERROR = "error.feed.webservice.error";
 	String ERROR_LOGIN_SOCIAL_DETAILS_MISSING = "error.login.social.details.missing";
 	String ERROR_LOGIN_INVALID_DEVICES_IN_REQ = "error.login.invalid.devices.in.req";
@@ -217,4 +244,6 @@ public interface Constants {
 	String EO_ERROR_INVALID_ADMIN = "eo.error.invalid.admin";
 	String EO_ERROR_COMPANY_NOT_LINKED = "eo.error.company.not.linked";
 	String EO_ERROR_COMPANY_NOT_APPROVED = "eo.error.company.not.approved";
+	String ERROR_EMAIL_VERIFICATION_TOKEN_NOT_FOUND = "error.email.verification.token.not.found";
+	String ERROR_EMAIL_VERIFICATION_TOKEN_EXPIRED = "error.email.verification.token.expired";
 }

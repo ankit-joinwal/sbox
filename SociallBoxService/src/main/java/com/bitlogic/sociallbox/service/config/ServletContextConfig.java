@@ -1,11 +1,11 @@
 package com.bitlogic.sociallbox.service.config;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.velocity.VelocityView;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 
@@ -35,7 +35,10 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations(
-				"/resources/");
+		registry.addResourceHandler("/resources/**")
+				.addResourceLocations("/resources/")
+				.setCachePeriod(86400)
+				  .resourceChain(true)
+				  .addResolver(new GzipResourceResolver());
 	}
 }

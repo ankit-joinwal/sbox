@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html ng-app="login">
-
 <head>
     <title>SociallBox | Login</title>
     <link rel="icon" type="image/png" href="/resources/img/favicon.ico">
@@ -8,20 +7,15 @@
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-    <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/lib/animate.min.css">
+    <!-- Bootstrap -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/login.css">
-    
 </head>
-
-<body class="flat-blue login-page">
+<body class="login-page">
     <div class="container login-container" ng-controller="AuthController">
     	<div class="row" ng-cloak ng-init="isCookieEnabled()">
-    		<div class="col-md-6 col-md-offset-3" ng-if="!cookiesEnabled">
+    		<div class="col-md-6 col-md-offset-3" ng-show="!cookiesEnabled">
 		    	<div  class="alert alert-danger">
 				  <strong>Cookies Disabled!</strong> Please enable cookies in your browser for accessing SociallBox.
 				</div>
@@ -84,10 +78,14 @@
 									<div class="form-group" id="reg-con-pass-div">
 										<input type="password" ng-model="confirmPassword" name="confirmPassword" id="confirmPassword" tabindex="2" class="form-control input-lg" placeholder="Confirm Password">
 									</div>
+									<div  class="form-group" >
+										<input type="checkbox" id="agreement" class="css-checkbox"/>
+										<label for="agreement" name="checkbox2_lbl" class="css-label lite-red-check">I have read <a href="/terms" target="_blank">Terms & Conditions</a></label>
+									</div>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3"  ng-if="cookiesEnabled">
-												<input type="submit" ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-login" value="Register Now">
+												<input type="submit" disabled ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-login" value="Register Now">
 											</div>
 										</div>
 									</div>
@@ -99,26 +97,17 @@
 			</div>
 		</div>
     </div>
-     <!-- Javascript Libs -->
-    <script type="text/javascript" src="/resources/js/lib/jquery.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/angular.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/angular-route.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/angular-cookies.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/Chart.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/bootstrap-switch.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/jquery.matchHeight-min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ui-bootstrap-tpls.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.js"></script>
+     <!-- jQuery library -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js"></script>
+    <!-- Bootstrap -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-route.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap-tpls.min.js"></script>
+  	<script type="text/javascript" src='/resources/js/lib/ta/textAngular-sanitize.min.js'></script>
     <script type="text/javascript" src="/resources/js/lib/dialogs.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/select2.full.min.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ace/ace.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ace/mode-html.js"></script>
-    <script type="text/javascript" src="/resources/js/lib/ace/theme-github.js"></script>
-    
     
     <script type="text/javascript" src="/resources/js/loginapp.js"></script>
     <script type="text/javascript" src="/resources/js/modules/index/controllers.js"></script>
@@ -143,6 +132,15 @@
 				$(this).addClass('active');
 				e.preventDefault();
 			});
+			
+			$('#agreement').change(function() {
+		        if($(this).is(":checked")) {
+		        	$('input[id="register-submit"]').prop('disabled', false);
+		        }else{
+		        	$('input[id="register-submit"]').prop('disabled', true);
+		        }
+		              
+		    });
 			
 			$.validator.addMethod('matchPasswords', function (value, element, param) {
 				var pass = $("#register-form input[name=password]").val();

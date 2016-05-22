@@ -42,13 +42,11 @@ public class RestSecurityFilter extends GenericFilterBean{
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-    	LOGGER.info("### Inside RestSecurityFilter ###");
     	
     	HttpServletResponse response = (HttpServletResponse) resp;
         HttpServletRequest request = (HttpServletRequest)req;
         // Get authorization header
         String authHeader = request.getHeader("Authorization");
-        LOGGER.info("Authorization : {} ",authHeader);
         
         // If there's not credentials return...
         if (authHeader == null) {
@@ -57,10 +55,8 @@ public class RestSecurityFilter extends GenericFilterBean{
         }
 
         String credentials = authHeader.replaceAll("Basic ", "");
-        LOGGER.info("Credentials : {}",credentials);
         
         String base64Decoded = new String(Base64.decode(credentials.getBytes()));
-        LOGGER.info("Decoded Credentials : {}",base64Decoded);
         
         
         // Authorization header is in the form <public_access_key>:<signature>
@@ -73,17 +69,17 @@ public class RestSecurityFilter extends GenericFilterBean{
         }
         String username = auth[0];
         String signature = auth[1];
-        LOGGER.info("Username : {}",username);
-        LOGGER.info("Signature : {} ",signature);
         
         // get timestamp
         String dateHeader =  request.getHeader("X-Auth-Date");
-        LOGGER.info("Date Header : {} ",dateHeader);
         
         Long timestamp = null;
         try{
+        	if(dateHeader==null){
+        		throw new Exception("Date header missing");
+        	}
         	timestamp = Long.parseLong(dateHeader);
-        }catch(NumberFormatException exception){
+        }catch(Exception exception){
         	 SecurityContextHolder.clearContext();
              authenticationEntryPoint.commence(request, response, new AuthenticationException("Date header not in proper format",exception) {
 

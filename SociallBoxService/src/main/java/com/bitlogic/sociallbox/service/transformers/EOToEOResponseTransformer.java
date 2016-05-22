@@ -39,7 +39,7 @@ public class EOToEOResponseTransformer implements Transformer<EventOrganizerProf
 		eventOrganizerResp.setWebsite(eventOrganizer.getWebsite());
 		eventOrganizerResp.setCoverPic(eventOrganizer.getCoverPic());
 		eventOrganizerResp.setProfilePic(eventOrganizer.getProfilePic());
-		
+		eventOrganizerResp.setIsEmailVerified(eventOrganizer.getIsEmailVerified());
 		return eventOrganizerResp;
 	}
 }

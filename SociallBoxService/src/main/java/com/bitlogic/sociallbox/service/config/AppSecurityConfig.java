@@ -65,7 +65,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.antMatchers("/terms")
 				.permitAll()
-				.antMatchers("/policy")
+				.antMatchers("/privacy")
 				.permitAll()
 				.antMatchers("/eo/**")
 				.permitAll()
