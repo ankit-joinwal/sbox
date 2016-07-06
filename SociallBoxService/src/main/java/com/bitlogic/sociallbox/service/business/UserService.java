@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.AppLoginResponse;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.Role;
 import com.bitlogic.sociallbox.data.model.SmartDevice;
@@ -25,6 +26,8 @@ public interface UserService {
 	public List<User> getAllUsers();
 	
 	public User signupOrSignin(User user,UserTypeBasedOnDevice userTypeBasedOnDevice) ;
+	
+	public void disableDevice(String deviceId);
 	
 	public List<UserEventInterest> getUserEventInterests(Long id);
 	

@@ -4,6 +4,7 @@ public class SocialBoxConfig extends APIConfig{
 	private String notificationServiceURL;
 	private String feedServiceURL;
 	private String meetupsBaseUrl;
+	private String eventsBaseUrl;
 	private String isaUserName;
 	private String isaPassword;
 	private String verifyEmailUrl;
@@ -13,9 +14,25 @@ public class SocialBoxConfig extends APIConfig{
 	private String emailVerifyBCC;
 	private String emailVerifySenderName;
 	private String verifyCompanyEmailUrl;
+	private String eoHomeUrl ;
 	
 	
-	
+	public String getEoHomeUrl() {
+		return eoHomeUrl;
+	}
+
+	public void setEoHomeUrl(String eoHomeUrl) {
+		this.eoHomeUrl = eoHomeUrl;
+	}
+
+	public String getEventsBaseUrl() {
+		return eventsBaseUrl;
+	}
+
+	public void setEventsBaseUrl(String eventsBaseUrl) {
+		this.eventsBaseUrl = eventsBaseUrl;
+	}
+
 	public String getVerifyCompanyEmailUrl() {
 		return verifyCompanyEmailUrl;
 	}

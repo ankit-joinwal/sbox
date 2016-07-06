@@ -221,7 +221,7 @@ public class PlacesServiceImpl extends LoggingService implements PlacesService,C
 		}
 		logInfo(LOG_PREFIX, "Getting friends list of user = {} who like place = {}", user.getId(),placeId);
 		List<Long> usersIds = this.placeDAO.getUsersWhoLikePlace(placeId);
-		if(usersIds!=null){
+		if(usersIds!=null && usersIds.size()>0){
 			List<User> friendsWhoLikePlace = this.userDAO.getUserFriendsByIds(user, usersIds);
 			if(friendsWhoLikePlace!=null){
 				UsersToFriendsTransformer transformer = (UsersToFriendsTransformer) TransformerFactory

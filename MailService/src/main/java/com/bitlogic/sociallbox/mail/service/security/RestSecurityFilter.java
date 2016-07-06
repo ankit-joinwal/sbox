@@ -20,6 +20,8 @@ import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.mail.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.mail.service.exception.UnauthorizedException;
 
 public class RestSecurityFilter extends GenericFilterBean{

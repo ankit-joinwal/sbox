@@ -2,6 +2,7 @@ package com.bitlogic.sociallbox.service.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
 
 public class RestSecurityFilter extends GenericFilterBean{
@@ -79,6 +82,7 @@ public class RestSecurityFilter extends GenericFilterBean{
         		throw new Exception("Date header missing");
         	}
         	timestamp = Long.parseLong(dateHeader);
+        	
         }catch(Exception exception){
         	 SecurityContextHolder.clearContext();
              authenticationEntryPoint.commence(request, response, new AuthenticationException("Date header not in proper format",exception) {

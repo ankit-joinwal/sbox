@@ -26,6 +26,8 @@ public interface EventDAO {
 	
 	public Event getEventWithoutImage(String id);
 	
+	public List<EventResponse> searchEventsByName(String name);
+	
 	public void makeEventLive(Event event);
 	
 	public List<EventResponse> getEventsByFilter(Long userId,Map<String,Double> cordinatesMap,List<Long> tagIds,String city,String country,Integer page) throws ServiceException;

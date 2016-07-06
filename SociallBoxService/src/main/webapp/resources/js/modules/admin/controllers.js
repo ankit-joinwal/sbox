@@ -16,14 +16,11 @@ angular.module('Admin')
 		$('#login-div').addClass('loader');
 		var emailId = $scope.loginEmail;
 		var password = $scope.loginPass;
-		console.log('inside AdminAuthController for signin');
 		AdminService.signin(emailId,password,false)
 		.then(function(authResponse){
-			console.log('Inside AdminAuthController.signin Response :'+authResponse.status);
 			$window.location.href = "/nimda/home";
 		})
 		.catch(function(authResponse){
-			console.log('Inside AdminAuthController.signin Response :'+authResponse.status);
 			$('#login-div').removeClass('loader');
 			alert("Invalid Credentials !!!");
 		});
@@ -37,7 +34,6 @@ angular.module('Admin')
 	$scope.getProfileData = function(){
 		AdminService.isUserLoggedIn()
 		.then(function(response){
-			console.log('Inside AdminController.isUserLoggedIn Response :'+response.status);
 			AdminService.getUserProfile()
 			.then(function(profileResponse){
 				var profile = profileResponse.data;
@@ -49,7 +45,6 @@ angular.module('Admin')
 			
 		})
 		.catch(function(response){
-			console.log('Inside AdminController.isUserLoggedIn Response :'+response.status);
 			$window.location.href = "/nimda/login";
 		});
 	};
@@ -76,7 +71,6 @@ angular.module('Admin')
 			$('#company-profile-div').removeClass('loader');
 		})
 		.catch(function(response){
-			console.log('Inside AdminController.getCompanyDetails Response :'+response.status);
 			$window.location.href = "/nimda/home";
 		});
 	};
@@ -88,7 +82,6 @@ angular.module('Admin')
 		profileIds.push(profileId);
 		AdminService.approveCompanyProfile(profileIds)
 		.then(function(approveResponse){
-			console.log(JSON.stringify(approveResponse.data));
 			AdminService.getPendingProfiles(1)
 			.then(function(response){
 				$scope.pending_profiles = response.data.data;
@@ -99,7 +92,6 @@ angular.module('Admin')
 			
 		})
 		.catch(function(approveResponse){
-			console.log('Inside AdminController.approveProfile Response :'+approveResponse.status);
 			alert('Unable to approve profile.Error occured');
 			$window.location.href = "/nimda/home#/organizers";
 		});
@@ -209,12 +201,10 @@ angular.module('Admin')
 				
 			})
 			.catch(function(response){
-				console.log('Inside AdminController.getEventDetails Response :'+response.status);
 				$window.location.href = "/nimda/home";
 			});
 		})
 		.catch(function(profileResponse){
-			console.log('Inside AdminController.getEventDetails Response :'+profileResponse.status);
 			$window.location.href = "/nimda/home";
 		});
 	};
@@ -316,12 +306,10 @@ angular.module('Admin')
 			   	
 			})
 			.catch(function(response){
-				console.log('Inside AdminController.getEventStats Response :'+response.status);
 				$window.location.href = "/nimda/home";
 			});
 		})
 		.catch(function(profileResponse){
-			console.log('Inside AdminController.getEventStats.getUserProfile Response :'+profileResponse.status);
 			$window.location.href = "/nimda/home";
 		});
 	};
@@ -332,7 +320,6 @@ angular.module('Admin')
 		eventIds.push(eventdId);
 		AdminService.approveEvents(eventIds)
 		.then(function(approveResponse){
-			console.log(JSON.stringify(approveResponse.data));
 			
 			AdminService.getPendingEvents(1)
 			.then(function(response){
@@ -343,7 +330,6 @@ angular.module('Admin')
 			
 		})
 		.catch(function(approveResponse){
-			console.log('Inside AdminController.approveEvents Response :'+approveResponse.status);
 			alert('Unable to approve events');
 			$window.location.href = "/nimda/home#/organizers";
 		});
@@ -355,7 +341,6 @@ angular.module('Admin')
 		eventIds.push(eventdId);
 		AdminService.rejectEvents(eventIds)
 		.then(function(rejectResponse){
-			console.log(JSON.stringify(rejectResponse.data));
 			
 			AdminService.getPendingEvents()
 			.then(function(response){
@@ -366,7 +351,6 @@ angular.module('Admin')
 			
 		})
 		.catch(function(approveResponse){
-			console.log('Inside AdminController.approveEvents Response :'+approveResponse.status);
 			alert('Unable to reject events');
 			$window.location.href = "/nimda/home#/organizers";
 		});

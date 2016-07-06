@@ -57,6 +57,7 @@ import com.bitlogic.sociallbox.data.model.response.EventResponseForAdmin;
 import com.bitlogic.sociallbox.image.service.ImageService;
 import com.bitlogic.sociallbox.service.business.EOAdminService;
 import com.bitlogic.sociallbox.service.business.EventOrganizerService;
+import com.bitlogic.sociallbox.service.business.NotificationService;
 import com.bitlogic.sociallbox.service.dao.EventDAO;
 import com.bitlogic.sociallbox.service.dao.EventOrganizerDAO;
 import com.bitlogic.sociallbox.service.dao.UserDAO;
@@ -66,6 +67,7 @@ import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.ServiceException;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
 import com.bitlogic.sociallbox.service.model.CompanyRegistrationEvent;
+import com.bitlogic.sociallbox.service.model.EventApprovedApplicationEvent;
 import com.bitlogic.sociallbox.service.model.UserRegistrationEvent;
 import com.bitlogic.sociallbox.service.transformers.EOToEOResponseTransformer;
 import com.bitlogic.sociallbox.service.transformers.EventTransformer;
@@ -105,6 +107,9 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 	
 	@Autowired
 	private  MessageSource messageSource;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Override
 	public Logger getLogger() {
@@ -546,8 +551,10 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		Date now = new Date();
 		event.setEventStatus(EventStatus.LIVE);
 		event.getEventDetails().setUpdateDt(now);
+		
+		notificationService.notifyUsersAboutNewEvent(event);
 		logInfo(LOG_PREFIX, "Successfully made event live {}", eventId);
-
+		
 	}
 	
 	@Override
@@ -859,6 +866,15 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		this.eventOrganizerDAO.createVerificationToken(emailVerificationToken);
 		EmailUtils.sendCompanyEmailVerification(restTemplate, emailVerificationToken, socialBoxConfig,this.messageSource);
 		logInfo(LOG_PREFIX, "Email verification sent succesfully to company");
+	}
+	
+	@Override
+	public void sendEventApprovalNotification(
+			EventApprovedApplicationEvent event) {
+		String LOG_PREFIX = "EOAdminServiceImpl-sendEventApprovalNotification";
+		logInfo(LOG_PREFIX, "Sending event approval notification about {} ", event.getEvent().getTitle());
+		EmailUtils.sendEventApprovalNotification(restTemplate, event.getEvent(), socialBoxConfig, messageSource);
+		logInfo(LOG_PREFIX, "Email notification about event approval sent succesfully about {}",event.getEvent().getTitle());
 	}
 	
 	@Override

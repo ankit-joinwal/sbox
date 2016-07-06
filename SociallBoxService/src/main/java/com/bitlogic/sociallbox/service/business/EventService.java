@@ -25,6 +25,7 @@ public interface EventService {
 	
 	public EventResponse get(String uuid,Long userId);
 	
+	public List<EventResponse> searchEventsByName(String name);
 	
 	public List<EventResponse> getEventsForUser(String userLocation,Long userId,String city,String country,Integer page);
 	

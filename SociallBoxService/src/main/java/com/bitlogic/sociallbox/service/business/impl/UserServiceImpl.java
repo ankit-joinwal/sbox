@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.AppLoginResponse;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.EventTag;
 import com.bitlogic.sociallbox.data.model.EventType;
@@ -107,10 +109,11 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 		if (userTypeBasedOnDevice == UserTypeBasedOnDevice.MOBILE) {
 			logInfo(LOG_PREFIX, "User is of Mobile type");
 			return handleMobileUser(user);
-		} else {
+		} /*else {
 			logInfo(LOG_PREFIX, "User is of User type");
 			return handleWebUser(user);
-		}
+		}*/
+		throw new ClientException(RestErrorCodes.ERR_001,ERROR_USER_TYPE_INVALID);
 	}
 
 	private User handleMobileUser(User user) {
@@ -158,6 +161,7 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 			}
 			List<EventType> userInterests = this.eventTypeDAO.getAllEventTypes();
 			this.eventTypeDAO.saveUserEventInterests(userInterests, id);
+			createdUser.setIsLogin(false);
 			return createdUser;
 		} else {
 			logInfo(LOG_PREFIX, "Mobile user exists. Checking if case of new device or login case.");
@@ -195,8 +199,10 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 				newDevice.setUser(userInDB);
 				newDevice.setCreateDt(now);
 				user.getSmartDevices().add(newDevice);
-				return this.userDAO
+				User setupUser = this.userDAO
 						.setupFirstDeviceForUser(userInDB, newDevice);
+				setupUser.setIsLogin(false);
+				return setupUser;
 
 			} else if (newDeviceCase && devicesExistForUser) {
 				
@@ -226,6 +232,7 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 				Set<SmartDevice> newDevices = new HashSet<>(1);
 				newDevices.add(newDevice);
 				userObjectToReturn.setSmartDevices(newDevices);
+				userObjectToReturn.setIsLogin(false);
 				return userObjectToReturn;
 			} else {
 				logInfo(LOG_PREFIX, "No new device added. Simple User login case");
@@ -265,10 +272,12 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 					}
 				}
 				Set<SmartDevice> deviceInRequest = user.getSmartDevices();
+				SmartDevice userDevice = null;
 				for(SmartDevice device : deviceInRequest){
 					for(SmartDevice existingDevice : existingDevices){
 						if(device.equals(existingDevice)){
-							if(!device.getGcmId().equals(existingDevice.getGcmId())){
+							userDevice = existingDevice;
+							if(StringUtils.isNotBlank(device.getGcmId())&& !device.getGcmId().equals(existingDevice.getGcmId())){
 								logInfo(LOG_PREFIX, "Updating GCM ID for Device {}", existingDevice.getId());
 								existingDevice.setGcmId(device.getGcmId());
 							}
@@ -276,6 +285,17 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 					}
 				}
 				userObjectToReturn = userInDB;
+				if(userDevice!=null){
+					if(userDevice.getIsEnabled()){
+						userObjectToReturn.setIsLogin(true);
+					}else{
+						userDevice.setIsEnabled(true);
+						userObjectToReturn.setIsLogin(false);
+					}
+				}else{
+					userObjectToReturn.setIsLogin(true);
+				}
+				
 				//Set<SmartDevice> newDevices = new HashSet<>(1);
 				//userObjectToReturn.setSmartDevices(newDevices);
 				return userObjectToReturn;
@@ -334,6 +354,16 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 			throw new EntityNotFoundException(id, RestErrorCodes.ERR_020, ERROR_USER_INVALID);
 		}
 		return user;
+	}
+	
+	@Override
+	public void disableDevice(String deviceId) {
+		
+		SmartDevice smartDevice = this.smartDeviceDAO.getSmartDeviceByDeviceId(deviceId);
+		if(smartDevice==null){
+			throw new ClientException(RestErrorCodes.ERR_001, ERROR_INVALID_DEVICE);
+		}
+		smartDevice.setIsEnabled(Boolean.FALSE);
 	}
 
 	@Override

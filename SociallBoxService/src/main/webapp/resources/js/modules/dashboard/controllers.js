@@ -6,7 +6,6 @@ app.controller('DashboardController',
 				['$window','$scope','$compile', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','DashboardService',
                 function ($window,$scope,$compile, $rootScope, $routeParams,$location,dialogs,AuthenticationService,DashboardService) {
 	
-	console.log("Inside DashboardController");
 	 var dialogOpts = {windowClass:'dialog-custom'};
 	 
 	$scope.editProfile = function(){
@@ -48,7 +47,6 @@ app.controller('DashboardController',
 	$scope.initCompanyPage = function(){
 		AuthenticationService.isUserLoggedIn()
 		.then(function(response){
-			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
 			AuthenticationService.getUserProfile()
 			.then(function(profileResponse){
 				var profile = profileResponse.data;
@@ -66,7 +64,6 @@ app.controller('DashboardController',
 			
 		})
 		.catch(function(response){
-			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
 			$window.location.href = "/eo/login";
 		});
 	};
@@ -79,7 +76,6 @@ app.controller('DashboardController',
 		
 		AuthenticationService.isUserLoggedIn()
 		.then(function(response){
-			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
 			AuthenticationService.getUserProfile()
 			.then(function(profileResponse){
 				var profile = profileResponse.data;
@@ -130,7 +126,6 @@ app.controller('DashboardController',
 			
 		})
 		.catch(function(response){
-			console.log('Inside DashboardController.isUserLoggedIn Response :'+response.status);
 			$window.location.href = "/eo/login";
 		});
 	};

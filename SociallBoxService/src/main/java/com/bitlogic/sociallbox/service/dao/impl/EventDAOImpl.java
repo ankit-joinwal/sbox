@@ -47,7 +47,7 @@ import com.bitlogic.sociallbox.service.utils.GeoUtils;
 @Repository("eventDAO")
 public class EventDAOImpl extends AbstractDAO implements EventDAO {
 
-	
+	SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.EVENT_RESPONSE_DATE_FORMAT);
 	private static final Logger logger = LoggerFactory
 			.getLogger(EventDAOImpl.class);
 
@@ -87,6 +87,38 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 		}
 
 		return event;
+	}
+	
+	@Override
+	public List<EventResponse> searchEventsByName(String name) {
+		
+		String sql = " SELECT EVENT.TITLE , EVENT.START_DT , IMAGES.URL "
+					+" FROM EVENT EVENT "
+					+" JOIN EVENT_IMAGES IMAGES "
+					+" ON EVENT.ID = IMAGES.EVENT_ID "
+					+" WHERE EVENT.EVENT_STATUS = :status "
+					+" AND EVENT.END_DT > :endDate "
+					+" AND EVENT.TITLE LIKE :name ";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		query.setParameter("name", name);
+		query.setParameter("status", EventStatus.LIVE.name());
+		query.setParameter("endDate", new Date());
+		List results = query.list();
+		
+		List<EventResponse> events = new ArrayList<EventResponse>();
+		for (Iterator iterator = results.iterator(); iterator.hasNext();) {
+			Object[] result = (Object[]) iterator.next();
+			EventResponse event = new EventResponse();
+			EventImage eventImage = new EventImage();
+			
+			event.setTitle((String)result[0]);
+			event.setStartDate(dateFormat.format(result[1]));
+			eventImage.setUrl((String)result[2]);
+			event.setDisplayImage(eventImage);
+			events.add(event);
+		}
+
+		return events;
 	}
 
 	@Override
@@ -135,9 +167,10 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 		logger.info("Getting paginated events . Start :{}", startIdx);
 		Criteria criteria1 = getSession().createCriteria(Event.class, "event")
 				.add(Restrictions.eq("event.eventStatus", EventStatus.LIVE))
+				.add(Restrictions.gt("event.endDate", new Date()))
 				.setFirstResult(startIdx)
 				.setMaxResults(Constants.RECORDS_PER_PAGE)
-				.addOrder(Order.asc("event.title"));
+				.addOrder(Order.asc("event.startDate"));
 		// Image Criteria
 		Criteria imageCrit = criteria1.createCriteria("event.eventImages",
 				"image");
@@ -151,10 +184,15 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 		// Location Criteria
 		Criteria locationCrit = criteria1.createCriteria("event.eventDetails",
 				"ed");
-		locationCrit
+		//TODO : currenlty city filter is disabled
+		/*locationCrit
 				.add(Restrictions.and(Restrictions.like("ed.location.name",
 						city, MatchMode.ANYWHERE), Restrictions.like(
-						"ed.location.name", country, MatchMode.ANYWHERE)));
+						"ed.location.name", country, MatchMode.ANYWHERE)));*/
+		locationCrit
+		.add(Restrictions.like(
+				"ed.location.name", country, MatchMode.ANYWHERE));
+		
 
 		criteria1.setProjection(Projections.distinct(Projections
 				.projectionList().add(Projections.id())
@@ -172,6 +210,7 @@ public class EventDAOImpl extends AbstractDAO implements EventDAO {
 		if (idlist.size() > 0) {
 			criteria1 = getSession().createCriteria(Event.class);
 			criteria1.add(Restrictions.in("id", idlist));
+			criteria1.addOrder(Order.asc("startDate"));
 			events = criteria1.list();
 		}
 		

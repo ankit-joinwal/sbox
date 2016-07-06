@@ -1,10 +1,12 @@
 package com.bitlogic.sociallbox.image.service;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +35,7 @@ public class AmazonS3ImageService {
 	
 	public Map<String,?> uploadImage(ImageFolderType folderType,String folderName,String fileName, InputStream inputStream,
 			String contentType,
-			Integer contentLength){
+			Integer contentLength) {
 		LOGGER.info("Inside AmazonS3ImageService to upload image {} to folder {} ",fileName,folderName);
 		Boolean isfolderExist = checkIfFolderExists(folderType,folderName);
 
@@ -46,6 +48,7 @@ public class AmazonS3ImageService {
     	if(fileName.contains(" ")){
     		fileName = fileName.replaceAll(" ", "-");
     	}
+    	
     	String imageUrl = uploadFileToFolder(folderType,folderName, fileName,inputStream,contentType,contentLength);
     	LOGGER.info("File Uploaded succesfully. URL for file {} ",imageUrl);
     	Map<String,String> imageInfoMap = new HashMap<String,String>();

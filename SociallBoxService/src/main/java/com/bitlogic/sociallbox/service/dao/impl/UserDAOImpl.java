@@ -99,6 +99,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 		for(PushNotificationSettingMaster notificationSettingMaster : notificationSettingMasters){
 			UserSetting settings = new UserSetting();
 			settings.setSettingType(UserSettingType.PUSH_NOTIFICATION);
+			settings.setSettingTypeDesc(UserSettingType.PUSH_NOTIFICATION.getDescription());
 			settings.setName(notificationSettingMaster.getName());
 			settings.setUser(user);
 			settings.setDisplayName(notificationSettingMaster.getDisplayName());
@@ -127,6 +128,20 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 				.setFetchMode("smartDevices", FetchMode.JOIN);
 
 		return (List<User>) criteria.list();
+	}
+	
+	@Override
+	public List<Long> getAllMobileUserIds() {
+		String sql = "SELECT USR.ID FROM USER USR INNER JOIN SMART_DEVICE SD ON USR.ID = SD.USER_ID WHERE USR.IS_ENABLED = 'T'";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		List results = query.list();
+		List<Long> userIds = new ArrayList<Long>();
+		Iterator iter = results.iterator();
+		while(iter.hasNext()){
+			BigInteger id = (BigInteger)iter.next();
+			userIds.add(id.longValue());
+		}
+		return userIds;
 	}
 
 	@Override

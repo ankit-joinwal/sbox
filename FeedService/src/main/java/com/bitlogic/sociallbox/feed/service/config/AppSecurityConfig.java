@@ -101,6 +101,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(restSecurityFilter, BasicAuthenticationFilter.class);
 		CORSFilter corsFilter = new CORSFilter();
 		http.addFilterBefore(corsFilter, BasicAuthenticationFilter.class);
+		http.requiresChannel().anyRequest().requiresSecure();
+		
 		// if ("true".equals(System.getProperty("httpsOnly"))) {
 	/*	LOGGER.info("launching the application in HTTPS-only mode");
 		http.requiresChannel().anyRequest().requiresSecure();*/

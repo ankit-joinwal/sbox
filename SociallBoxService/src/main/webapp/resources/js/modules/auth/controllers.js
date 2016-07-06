@@ -59,7 +59,6 @@ angular.module('Authentication')
     	    		
     	    		AuthenticationService.register(name,emailId,password)
     	    		.then(function(authResponse){
-    					console.log('Inside AuthController.register Response :'+authResponse.status);
     					
     					$window.location.href = "/eo/home";
     				})
@@ -114,11 +113,9 @@ angular.module('Authentication')
     	    		}
     	    		AuthenticationService.signin(emailId,password,false)
     	    		.then(function(authResponse){
-    					console.log('Inside AuthController.signin Response :'+authResponse.status);
     					$window.location.href = "/eo/home";
     				})
     				.catch(function(authResponse){
-    					console.log('Inside AuthController.signin Response :'+authResponse.status);
     					$('#login-div').removeClass('loader');
     					$('#register-form').after(
     					        '<div class="alert alert-danger alert-dismissable">'+

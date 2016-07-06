@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "USER_SETTINGS")
@@ -28,6 +29,10 @@ public class UserSetting {
 	@Column(nullable=false,name="SETTING_TYPE",length=50)
 	@Enumerated(EnumType.STRING)
 	private UserSettingType settingType;
+	
+	@JsonProperty("setting_type_desc")
+	@Column(name="SETTING_TYPE_DESC",length=50)
+	private String settingTypeDesc;
 
 	@Column(nullable=false,name="NAME",length=50)
 	private String name;
@@ -55,6 +60,18 @@ public class UserSetting {
 	public Date getUpdateDt() {
 		return updateDt;
 	}
+	
+	public String getSettingTypeDesc() {
+		return settingTypeDesc;
+	}
+
+
+
+	public void setSettingTypeDesc(String settingTypeDesc) {
+		this.settingTypeDesc = settingTypeDesc;
+	}
+
+
 
 	public void setUpdateDt(Date updateDt) {
 		this.updateDt = updateDt;

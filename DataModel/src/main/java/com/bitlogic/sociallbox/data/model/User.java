@@ -124,7 +124,19 @@ public class User implements Serializable,Cloneable {
 	 @Column(name="EMAIL_VERIFIED",length=5)
 	 private Boolean isEmailVerified;
 	 
-	 public Boolean getIsEmailVerified() {
+	 @Transient
+	 @JsonProperty("is_login")
+	 private Boolean isLogin;
+	 
+	 public Boolean getIsLogin() {
+		return isLogin;
+	}
+
+	public void setIsLogin(Boolean isLogin) {
+		this.isLogin = isLogin;
+	}
+
+	public Boolean getIsEmailVerified() {
 		return isEmailVerified;
 	}
 

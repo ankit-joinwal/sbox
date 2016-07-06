@@ -281,12 +281,15 @@ public class MeetupDAOImpl extends AbstractDAO implements MeetupDAO{
 		String sql = "SELECT * FROM MEETUP MEETUP "
 						+ "	INNER JOIN MEETUP_ATTENDEES ATTENDEE ON MEETUP.ID = ATTENDEE.MEETUP_ID "
 						+ "	WHERE ATTENDEE.USER_ID = :userId "
-						+ "	AND ATTENDEE.ATTENDEE_RESPONSE = :attendeeResponse"
+						+ "	AND ATTENDEE.ATTENDEE_RESPONSE = :attendeeResponse "
+						+ " AND MEETUP.END_DT > :now "
 						+ "	ORDER BY MEETUP.CREATE_DT DESC";
+		Date now = new Date();
 		SQLQuery query = getSession().createSQLQuery(sql);
 		query.addEntity(Meetup.class);
 		query.setParameter("userId", user.getId());
 		query.setParameter("attendeeResponse", AttendeeResponse.MAYBE.name());
+		query.setParameter("now", now);
 		
 		List results = query.list();
 		List<Meetup> meetups = new ArrayList<Meetup>();

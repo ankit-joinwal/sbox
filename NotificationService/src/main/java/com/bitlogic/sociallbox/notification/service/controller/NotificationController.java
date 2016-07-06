@@ -21,7 +21,7 @@ import com.bitlogic.sociallbox.data.model.notifications.Notification;
 import com.bitlogic.sociallbox.notification.service.business.NotificationService;
 
 @RestController
-@RequestMapping("/api/public/notifications")
+@RequestMapping("/api/secured/notifications")
 public class NotificationController extends BaseController implements Constants{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotificationController.class);

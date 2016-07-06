@@ -1,6 +1,8 @@
 package com.bitlogic.sociallbox.service.transformers;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +32,7 @@ public class UsersToFriendsTransformer implements Transformer<List<UserFriend>, 
 	
 	public List<UserFriend> transform(List<User> users) throws com.bitlogic.sociallbox.service.exception.ServiceException {
 		List<UserFriend> userFriends = new ArrayList<>();
+		
 		if(users!=null && !users.isEmpty()){
 			for(User user : users){
 				UserFriend userFriend = new UserFriend();
@@ -49,6 +52,7 @@ public class UsersToFriendsTransformer implements Transformer<List<UserFriend>, 
 				userFriends.add(userFriend);
 			}
 		}
+		Collections.sort(userFriends);
 		return userFriends;
 		
 	};

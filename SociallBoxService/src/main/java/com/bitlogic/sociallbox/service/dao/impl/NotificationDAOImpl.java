@@ -2,9 +2,7 @@ package com.bitlogic.sociallbox.service.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import com.bitlogic.Constants;
@@ -20,14 +18,24 @@ public class NotificationDAOImpl extends AbstractDAO implements NotificationDAO{
 			Integer page, Long fromId) {
 
 		
-		Criteria criteria = getSession().createCriteria(NotificationEntity.class)
+		/*Criteria criteria = getSession().createCriteria(NotificationEntity.class)
 							.add(Restrictions.eq("deviceId", deviceId))
-							.add(Restrictions.gt("id", (fromId == null ? 1L : fromId)))
+							.add(Restrictions.lt("id", (fromId == null ? 1L : fromId)))
 							.add(Restrictions.isNull("errorMessage"))
 							.setMaxResults(Constants.RECORDS_PER_PAGE)
-							.addOrder(Order.desc("createDate"));
+							.addOrder(Order.desc("createDate"));*/
+		String sql = " SELECT * FROM NOTIFICATIONS WHERE DEVICE_ID = :deviceId "
+					+" AND (:fromId IS NULL OR ID < :fromId )"
+					+" AND ERROR IS NULL ORDER BY CREATE_DATE DESC LIMIT :limit";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		query.addEntity(NotificationEntity.class);
+		query.setParameter("deviceId", deviceId);
+		query.setParameter("fromId", fromId);
+		query.setParameter("limit", Constants.RECORDS_PER_PAGE);
 		
-		return criteria.list();
+		List<NotificationEntity> notifications = query.list();
+		
+		return notifications;
 	}
 
 }

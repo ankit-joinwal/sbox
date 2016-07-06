@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.AppLoginResponse;
 import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.UserSetting;
+import com.bitlogic.sociallbox.data.model.UserSocialActivity;
 import com.bitlogic.sociallbox.data.model.UserTypeBasedOnDevice;
 import com.bitlogic.sociallbox.data.model.response.EntityCollectionResponse;
 import com.bitlogic.sociallbox.data.model.response.SingleEntityResponse;
@@ -31,6 +33,7 @@ import com.bitlogic.sociallbox.service.controller.BaseController;
 import com.bitlogic.sociallbox.service.exception.ClientException;
 import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.ServiceException;
+import com.bitlogic.sociallbox.service.utils.LoginUtil;
 
 /**
  * TODO: For All methods, check additionally that one user does not end up updating other user
@@ -52,6 +55,7 @@ public class UserSecuredController extends BaseController implements Constants{
 	private static final String GET_USER_FRIENDS_REQUEST = "GetUserFriends API";
 	private static final String GET_USER_SETTINGS = "GetUserSetings api";
 	private static final String SAVE_USER_SETTINGS_API = "SaveUserSetings API";
+	private static final String UNREGISTER_DEVICE_API = "Unregister API";
 	
 	@Autowired
 	private UserService userService;
@@ -138,7 +142,7 @@ public class UserSecuredController extends BaseController implements Constants{
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseStatus(HttpStatus.CREATED)
 	public SingleEntityResponse<User> signinOrSignupUser(@RequestHeader(required = true, value = Constants.USER_TYPE_HEADER) String userType,
-			@Valid @RequestBody User user) throws ServiceException{
+			@Valid @RequestBody User user) {
 
 		logRequestStart(REQUEST_SIGNUP_SIGNIN, PUBLIC_REQUEST_START_LOG, REQUEST_SIGNUP_SIGNIN);
 		logInfo(REQUEST_SIGNUP_SIGNIN, "User Id = {}", user.getEmailId());
@@ -148,21 +152,43 @@ public class UserSecuredController extends BaseController implements Constants{
 		
 		if(userType.equals(UserTypeBasedOnDevice.MOBILE.toString())){
 			userTypeBasedOnDevice = UserTypeBasedOnDevice.MOBILE;
-		}else if (userType.equals(UserTypeBasedOnDevice.WEB.toString())){
+		}
+		/*else if (userType.equals(UserTypeBasedOnDevice.WEB.toString())){
 			userTypeBasedOnDevice = UserTypeBasedOnDevice.WEB;
-		}else{
+		}*/
+		else{
 			throw new ClientException(RestErrorCodes.ERR_001,ERROR_USER_TYPE_INVALID);
 		}
 		User createdUser = userService.signupOrSignin(user,userTypeBasedOnDevice);
-		SingleEntityResponse<User> entityResponse = new SingleEntityResponse<>();
+		SingleEntityResponse<User> entityResponse = new SingleEntityResponse<User>();
 		entityResponse.setData(createdUser);
 		entityResponse.setStatus(SUCCESS_STATUS);
-		
 		logRequestEnd(REQUEST_SIGNUP_SIGNIN, REQUEST_SIGNUP_SIGNIN);
 		return entityResponse;
-		
 	}
 
+	@RequestMapping(value="/unregister",method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.CREATED)
+	public SingleEntityResponse<String> unregister(@RequestHeader(value = Constants.AUTHORIZATION_HEADER) String auth) {
+		logRequestStart(UNREGISTER_DEVICE_API, SECURED_REQUEST_START_LOG_MESSAGE, UNREGISTER_DEVICE_API);
+		String userName = LoginUtil.getUserNameFromHeader(auth);
+		UserTypeBasedOnDevice typeBasedOnDevice = LoginUtil
+				.identifyUserType(userName);
+		if (typeBasedOnDevice == UserTypeBasedOnDevice.MOBILE) {
+			String deviceId = LoginUtil.getDeviceIdFromUserName(userName);
+			this.userService.disableDevice(deviceId);
+			SingleEntityResponse<String> entityResponse = new SingleEntityResponse<String>();
+			entityResponse.setStatus("Device unregistered succesfully");
+			logRequestEnd(UNREGISTER_DEVICE_API, UNREGISTER_DEVICE_API);
+			return entityResponse;
+		} else {
+			logRequestEnd(UNREGISTER_DEVICE_API, UNREGISTER_DEVICE_API);
+			throw new ClientException(RestErrorCodes.ERR_003,
+					ERROR_FEATURE_AVAILABLE_TO_MOBILE_ONLY);
+		}
+	}
 	/**
 	 *  @api {get} /api/secured/users/user/:id Get User Info
 	 *  @apiName Get User Info

@@ -106,7 +106,6 @@ app.controller('EventsController',
 					
 					}).catch(function(response){
 						 $scope.isUpEventsLoading = false;
-						console.log("Inside event service controller Response :"+response.status);
 						$('#event_home').addClass('loader');
 						$window.location.href = "/eo/login";
 						
@@ -114,7 +113,6 @@ app.controller('EventsController',
 					
 				}).catch(function(response){
 					 $scope.isUpEventsLoading = false;
-					console.log("Inside event service controller Response :"+response.status);
 					$('#event_home').addClass('loader');
 					$window.location.href = "/eo/login";
 		
@@ -163,14 +161,12 @@ app.controller('EventsController',
 					
 					}).catch(function(response){
 						 $scope.isPastEventsLoading = false;
-						console.log("Inside event service controller Response :"+response.status);
 						$window.location.href = "/eo/login";
 			
 					});
 					
 				}).catch(function(response){
 					 $scope.isPastEventsLoading = false;
-					console.log("Inside event service controller Response :"+response.status);
 					$window.location.href = "/eo/login";
 		
 				});
@@ -196,7 +192,6 @@ app.controller('EventsController',
 						
 					})
 					.catch(function(response){
-						console.log('Inside EventsController.getEventDetails Response :'+response.status);
 						if(response.data.exception.message !=null){
 							dialogs.error('Error',response.data.exception.message,dialogOpts);
 						}else{
@@ -205,7 +200,6 @@ app.controller('EventsController',
 					});
 				})
 				.catch(function(profileResponse){
-					console.log('Inside EventsController.getEventDetails Response :'+profileResponse.status);
 					dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
 				});
 			};
@@ -303,7 +297,6 @@ app.controller('EventsController',
 					   	/*Users chart end*/
 					})
 					.catch(function(response){
-						console.log('Inside EventsController.getEventStats Response :'+response.status);
 						if(response.data.exception.message !=null){
 							dialogs.error('Error',response.data.exception.message,dialogOpts);
 						}else{
@@ -313,7 +306,6 @@ app.controller('EventsController',
 					});
 				})
 				.catch(function(profileResponse){
-					console.log('Inside EventsController.getEventStats.getUserProfile Response :'+profileResponse.status);
 					 $("#dailyUsers").removeClass('loader');
 					dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);
 				});
@@ -325,7 +317,6 @@ app.controller('EventsController',
 					$scope.allTags = response.data.data;
 				})
 				.catch(function(response){
-					console.log("Inside event service controller to get all tags Response :"+response.status);
 					if(response.data.exception.message !=null){
 						dialogs.error('Error',response.data.exception.message,dialogOpts);
 					}else{
@@ -412,11 +403,6 @@ app.controller('EventsController',
 						var locLat = $scope.event_place_lat;
 						var locLng = $scope.event_place_lng;
 						var locality = $scope.event_address_components[1].short_name;
-						console.log('Name :'+locationName);
-						console.log('Lat :'+locLat);
-						console.log('Long :'+locLng);
-						console.log('shortName' + locality);
-					
 						
 						var createEventRequest = ' { '+
 												 ' 	"title" 		 : "' +eventTitle+ 	'",'+
@@ -440,14 +426,12 @@ app.controller('EventsController',
 						EventService.createEvent(createEventRequest)
 						.then(function(eventResponse){
 							var eventId = eventResponse.data.data.id;
-							console.log('Event Id :'+eventId);
 							var eventPic = $scope.eventPic;
 					       
 					        if(eventPic != null){
 					        	EventService.uploadEventPhoto(eventId,eventPic)
 						        .then(function(uploadResponse){
 						        	if(uploadResponse.status == 201){
-							        	console.log('Uploaded event Pic');
 							        	var dlg = dialogs.notify('Success!','Event created succefully. You can make it live once it is approved by admin.',dialogOpts);
 							        	dlg.result.then(function(btn){
 							        		$window.location.href = "/eo/home#/events";
@@ -542,7 +526,6 @@ app.controller('EventsController',
 					});
 					
 				}).catch(function(response){
-					console.log("Inside event service controller Response :"+response.status);
 					$window.location.href = "/eo/login";
 		
 				});
@@ -581,7 +564,6 @@ app.controller('EventsController',
 					});
 					
 				}).catch(function(response){
-					console.log("Inside event service controller Response :"+response.status);
 					$window.location.href = "/eo/login";
 		
 				});
@@ -616,13 +598,11 @@ app.controller('EventsController',
 								$('#event_home').removeClass('loader');
 							});
 						}).catch(function(profileResponse){
-							console.log("Inside event service controller Response :"+profileResponse.status);
 							$('#event_home').removeClass('loader');
 							dialogs.error('Error','Unable to get your details. Please logout and login again.',dialogOpts);				
 						});
 						
 					}).catch(function(response){
-						console.log("Inside event service controller Response :"+response.status);
 						$window.location.href = "/eo/login";
 			
 					});

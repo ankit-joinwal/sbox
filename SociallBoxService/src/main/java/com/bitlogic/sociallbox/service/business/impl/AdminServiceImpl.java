@@ -10,6 +10,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,12 @@ import com.bitlogic.sociallbox.service.dao.SmartDeviceDAO;
 import com.bitlogic.sociallbox.service.dao.UserDAO;
 import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
+import com.bitlogic.sociallbox.service.model.CompanyRegistrationEvent;
+import com.bitlogic.sociallbox.service.model.EventApprovedApplicationEvent;
 import com.bitlogic.sociallbox.service.transformers.Transformer;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory;
 import com.bitlogic.sociallbox.service.transformers.TransformerFactory.TransformerTypes;
+import com.bitlogic.sociallbox.service.utils.EmailUtils;
 import com.bitlogic.sociallbox.service.utils.LoggingService;
 
 @Service("adminService")
@@ -62,6 +66,10 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 	
 	@Autowired
 	private SmartDeviceDAO smartDeviceDAO;
+	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@Override
 	public User signupOrSignin(String emailId,
 			UserTypeBasedOnDevice userTypeBasedOnDevice) {
@@ -169,6 +177,11 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 				userMessage.setMessage(String.format(message,event.getTitle()));
 				userMessage.setUser(user);
 				this.userDAO.addMessageForUser(userMessage);
+				try{
+					eventPublisher.publishEvent(new EventApprovedApplicationEvent(event));
+				}catch(Exception ex){
+					logError(LOG_PREFIX, "Error occured while sending email notification about approval of event {}", event.getTitle(),ex);
+				}
 			}
 		}
 		logInfo(LOG_PREFIX, "Following events approved : {}", eventNames);

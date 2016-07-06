@@ -20,6 +20,8 @@ import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.feed.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.feed.service.exception.UnauthorizedException;
 
 public class RestSecurityFilter extends GenericFilterBean{
@@ -86,6 +88,7 @@ public class RestSecurityFilter extends GenericFilterBean{
         		throw new Exception("Date header missing in request");
         	}
         	timestamp = Long.parseLong(dateHeader);
+        	
         }catch(Exception exception){
         	 SecurityContextHolder.clearContext();
              authenticationEntryPoint.commence(request, response, new AuthenticationException("Date header not in proper format",exception) {

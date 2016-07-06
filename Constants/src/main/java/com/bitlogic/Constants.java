@@ -5,6 +5,8 @@ import java.io.File;
 public interface Constants {
 
 	String MEETUPS_BASE_URL_PROPERTY = "sb.meetups.base.url";
+	String EVENTS_BASE_URL_PROPERTY = "sb.events.base.url";
+	String EO_HOME_URL_PROPERTY = "sb.eo.events.url";
 	
 	//Hibernate Properties
 	String JDBC_DRIVER_PROPERTY = "jdbc.driverClassName";
@@ -85,14 +87,14 @@ public interface Constants {
 	String DEFAULT_RADIUS = "5000";
 	String TIMELINE_UPCOMING = "upcoming";
 	String TIMELINE_PAST = "past";
-	Integer FEEDS_PER_PAGE = 5;
+	Integer FEEDS_PER_PAGE = 20;
 	
 	//Date Formats 
 	String MEETUP_DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
 	String EVENT_RESPONSE_DATE_FORMAT = "EEE, d MMM yyyy hh:mm aa";
 	String MEETUP_RESPONSE_DATE_FORMAT = "EEE, d MMM yyyy hh:mm aa";
 	String ACTIVITY_RESPONSE_DATE_FORMAT = "EEE, d MMM yyyy hh:mm aa";
-	
+	String FEED_TIME_FORMAT = "dd/MM/yyyy hh:mm aa";
 	//Service Names
 	String GEO_SERVICE_NAME = "SociallBoxService";
 	String IMAGE_SERVICE_NAME = "ImageService";
@@ -133,6 +135,7 @@ public interface Constants {
 	String PACKAGE_NAME_FOR_NOTIFICATIONS = "com.bitlogic.sociallbox";
 	String NOTIFICATION_SERVICE_URL = "sb.notification.service.url";
 	String NOTIFICATION_SOUND = "default";
+	String NOTIFICATION_COLOR = "#FF5A5F";
 	String NEW_FRIEND_JOINED_NOT_TITLE = "Friend joined you";
 	String NEW_FRIEND_JOINED_NOT_BODY = "%s is now on SociallBox";
 	String NEW_FRIEND_JOINED_NOT_TARGET = "SociallBox";
@@ -151,7 +154,9 @@ public interface Constants {
 	String MEETUP_MESSAGE_NOT_TITLE = "%s";
 	String MEETUP_MESSAGE_NOT_BODY = "New message from %s";
 	String MEETUP_MESSAGE_NOT_TARGET = "%s"; //Meetup title
-	
+	String NEW_EVENT_NOT_TITLE = "Checkout new event";
+	String NEW_EVENT_NOT_BODY = "%s is now available on SociallBox. Be the star of your group by creating meetup here and invite friends.";
+	String NEW_EVENT_NOT_TARGET = "SociallBox";
 	//Feed service Constants
 	String STREAMS_API_KEY_PROP = "streams.api.key";
 	String STREAMS_PRIVATE_KEY_PROP = "streams.private.key";
@@ -167,10 +172,14 @@ public interface Constants {
 	String SB_EO_VERIFY_EMAIL_CC = "sb.eo.verify.email.cc";
 	String SB_EO_VERIFY_EMAIL_BCC = "sb.eo.verify.email.bcc";
 	String EMAIL_VERIFICATION_SUBJECT = "sb.eo.verify.email.subject";
+	String EVENT_APPROVED_SUBJECT = "sb.eo.event.approved.mail.subject";
 	String SB_EO_VERIFY_SENDER_NAME = "sb.eo.verify.sender.name";
 	String EMAIL_VERIF_TEMPLATE_NAME = "verifyEmailTemplate.vm";
+	String EVENT_APPROVED_TEMPLATE_NAME = "eventApprovedTemplate.vm";
 	String EMAIL_LOGO_PATH = "images/sociallboxlogo.png";
 	String EMAIL_VERIFY_LINK_PARAM = "link";
+	String EMAIL_EVENT_ORGANIZER_NAME_PARAM = "name";
+	String EMAIL_EVENT_NAME_PARAM = "eventName";
 	String SB_EO_EMAIL_VERIFY_LINK = "sb.eo.email.verify.link";
 	String SB_COMPANY_EMAIL_VERIFY_LINK = "sb.company.email.verify.link";
 	
@@ -246,4 +255,5 @@ public interface Constants {
 	String EO_ERROR_COMPANY_NOT_APPROVED = "eo.error.company.not.approved";
 	String ERROR_EMAIL_VERIFICATION_TOKEN_NOT_FOUND = "error.email.verification.token.not.found";
 	String ERROR_EMAIL_VERIFICATION_TOKEN_EXPIRED = "error.email.verification.token.expired";
+	String ERROR_TIME_HEADER_EXPIRED = "error.time.header.expired";
 }

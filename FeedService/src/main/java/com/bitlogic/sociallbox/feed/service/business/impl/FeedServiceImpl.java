@@ -11,6 +11,7 @@ import io.getstream.client.model.filters.FeedFilter;
 import io.getstream.client.service.FlatActivityServiceImpl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.Event;
 import com.bitlogic.sociallbox.data.model.EventImage;
 import com.bitlogic.sociallbox.data.model.Meetup;
@@ -55,6 +57,7 @@ import com.google.common.collect.Lists;
 public class FeedServiceImpl extends LoggingService implements FeedService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FeedServiceImpl.class);
+	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(Constants.FEED_TIME_FORMAT);
 	
 	@Override
 	public Logger getLogger() {
@@ -166,7 +169,7 @@ public class FeedServiceImpl extends LoggingService implements FeedService{
 	            feed.setId(activity.getId());
 	            
 	            feed.setType(activity.getActivityType());
-	            
+	            feed.setTime(DATE_FORMAT.format(activity.getTime()));
 	            if(activity.getActivityType().equals(UserActivityType.INTERESTED_IN_EVENT.name())){
 	            	EventInterestActivity eventInterestActivity = (EventInterestActivity) activity;
 	            	feed.setImage(eventInterestActivity.getEventPic());

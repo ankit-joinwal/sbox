@@ -28,7 +28,6 @@ app.factory('EventService',
 	 	    		 })
 	 	    		 .then(function(response) {
 		                 if (response.status == 200) {
-		                	 console.log('My events in:'+response.status);
 		                	 deferred.resolve(response);
 		 					 return deferred.promise;
 		                 }
@@ -63,12 +62,10 @@ app.factory('EventService',
 		 	    		 })
 		 	    		 .then(function(response) {
 			                 if (response.status == 200) {
-			                	 //console.log('My events past in:'+response.status);
 			                	 deferred.resolve(response);
 			 					 return deferred.promise;
 			                 }
 		 	    		 }).catch(function(response){
-		 	    			 console.log("Unable to get my events past data . Response :"+response.status);
 		 	    			 deferred.reject(response);
 		 					 return deferred.promise;
 		 	    		});
@@ -102,7 +99,6 @@ app.factory('EventService',
 		 	    		 }).then(function(response) {
 		 	                 if (response.status == 201) {
 		 	                 	deferred.resolve(response);
-		 	                 	console.log('Event created'+response.status)
 		 	 					return deferred.promise;
 		 	                 }else{
 		 	                	 
@@ -168,7 +164,6 @@ app.factory('EventService',
 		 	    		 })
 		 	    		 .then(function(response) {
 			                 if (response.status == 200) {
-			                	 //console.log('My events past in:'+response.status);
 			                	 deferred.resolve(response);
 			 					 return deferred.promise;
 			                 }
@@ -205,7 +200,6 @@ app.factory('EventService',
 			 					 return deferred.promise;
 			                 }
 		 	    		 }).catch(function(response){
-		 	    			 console.log('Unable to getEventDetails. Response :'+response.status);
 		 	    			 deferred.reject(response);
 		 					 return deferred.promise;
 		 	    		});
@@ -320,11 +314,9 @@ app.factory('EventService',
 			                 	deferred.resolve(response);
 			 					return deferred.promise;
 			                 }
-			                 console.log('Unable to cancel event . Response :'+response.status);
 			                 deferred.reject(response);
 		 					 return deferred.promise;
 			    		 }).catch(function(response){
-		 	    			 console.log('Unable to cancel event . Response :'+response.status);
 		 	    			 deferred.reject(response);
 		 					 return deferred.promise;
 		 	    		});

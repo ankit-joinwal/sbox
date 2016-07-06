@@ -74,7 +74,6 @@ app.factory('CompanyService',
 			    		        })
 			    		        .catch(function(uploadResponse){
 			    	    			//If unable to get auth token, then redirect to login page
-			    	    			console.log('Inside CompanyService.uploadCompanyPhoto to upload photo.Response :'+tokenResponse.status);
 			    	    			 deferred.reject(uploadResponse);
 			 	 					 return deferred.promise;
 			    	    		});

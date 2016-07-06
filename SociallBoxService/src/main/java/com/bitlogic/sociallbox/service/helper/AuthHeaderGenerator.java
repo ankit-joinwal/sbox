@@ -14,8 +14,8 @@ import com.bitlogic.Constants;
 public class AuthHeaderGenerator {
 	public static void main(String[] args)throws Exception {
 		
-		//generateAuthorization("6bbdec87e8198cf4", "d1348667-8f74-45e9-8aa2-64499c26f476");
-		generateHeaderForWeb("ankit.joinwal@gmail.com", "610a07e9a2385a066d89902a845c50f2");
+		generateAuthorization("8780cd45ede37933", "818f0799-5737-49b0-8228-3ea6c27582dd");
+		//generateHeaderForWeb("ankit.joinwal@gmail.com", "610a07e9a2385a066d89902a845c50f2");
 		//generateHeaderForISA("contact@sociallbox.com", "7d6167d24582509150eeb3cefbe85738");
 	}
 	

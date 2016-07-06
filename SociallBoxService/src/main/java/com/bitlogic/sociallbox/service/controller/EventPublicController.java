@@ -39,6 +39,7 @@ public class EventPublicController extends BaseController implements Constants{
 	private static final String GET_EVENT_IMAGES_API = "GetEventImages API";
 	private static final String GET_EVENT_IMAGE_BY_NAME_API = "GetEventImageByName API";
 	private static final String GET_PERSONALIZEZ_EVENT_FOR_USER_API = "GetPersonalizedEventsForUser API";
+	private static final String SEARCH_EVENTS = "SearchEvents API";
 	private static final String GET_EVENTS_BY_TYPE_API = "GetEventsOfType API";
 	private static final String GET_RETAIL_EVENTS = "GetRetailEvents API";
 	private static final String GET_RETAIL_TAGS = "GetRetailTags API";
@@ -571,6 +572,128 @@ public class EventPublicController extends BaseController implements Constants{
 		return collectionResponse;
 	}
 	
+	/**
+	*  @api {get} /api/public/events/search?name=:name Search Event By name
+	*  @apiName Search events by name
+	*  @apiGroup Events
+	*  @apiHeader {String} accept application/json
+	*  @apiParam {Number} name Mandatory Event name 
+	*  @apiSuccess (Success - OK 200) {Object}  response  Response.
+	*  @apiSuccess (Success - OK 200) {String}  response.status   OK.
+	*  @apiSuccess (Success - OK 200) {Object}  response.data Events list
+	*  @apiSuccessExample {json} Success-Response:
+	* 
+		{
+		  "status": "Success",
+		  "data": [
+			{
+			  "title": "DISCOVERY One Month Weekend Theatre Workshop-Batch 1",
+			  "description": null,
+			  "tags": [],
+			  "id": null,
+			  "distance_from_src": null,
+			  "event_detail": null,
+			  "start_date": "Tue, 12 Apr 2016 06:30 PM",
+			  "end_date": null,
+			  "is_user_fav": false,
+			  "is_user_going": false,
+			  "display_image": {
+				"id": null,
+				"name": null,
+				"url": "https://sociallbox.s3-ap-southeast-1.amazonaws.com/public/events/2c9f8ff353bd8bf50153bdbcd0840003/disc.jpg",
+				"displayOrder": null,
+				"mimeType": null
+			  },
+			  "status": null,
+			  "is_free": null
+			},
+			{
+			  "title": "Tenth event",
+			  "description": null,
+			  "tags": [],
+			  "id": null,
+			  "distance_from_src": null,
+			  "event_detail": null,
+			  "start_date": "Fri, 6 May 2016 11:13 AM",
+			  "end_date": null,
+			  "is_user_fav": false,
+			  "is_user_going": false,
+			  "display_image": {
+				"id": null,
+				"name": null,
+				"url": "https://sociallbox.s3-ap-southeast-1.amazonaws.com/public/events/40289188547cdac501547cde3cd70001/auto_expo1.jpg",
+				"displayOrder": null,
+				"mimeType": null
+			  },
+			  "status": null,
+			  "is_free": null
+			},
+			{
+			  "title": "Eleventh event",
+			  "description": null,
+			  "tags": [],
+			  "id": null,
+			  "distance_from_src": null,
+			  "event_detail": null,
+			  "start_date": "Fri, 6 May 2016 11:14 AM",
+			  "end_date": null,
+			  "is_user_fav": false,
+			  "is_user_going": false,
+			  "display_image": {
+				"id": null,
+				"name": null,
+				"url": "https://sociallbox.s3-ap-southeast-1.amazonaws.com/public/events/40289188547cdac501547ce142de0002/party-venue-wicklow.jpg",
+				"displayOrder": null,
+				"mimeType": null
+			  },
+			  "status": null,
+			  "is_free": null
+			},
+			{
+			  "title": "Third event",
+			  "description": null,
+			  "tags": [],
+			  "id": null,
+			  "distance_from_src": null,
+			  "event_detail": null,
+			  "start_date": "Wed, 18 May 2016 10:12 AM",
+			  "end_date": null,
+			  "is_user_fav": false,
+			  "is_user_going": false,
+			  "display_image": {
+				"id": null,
+				"name": null,
+				"url": "https://sociallbox.s3-ap-southeast-1.amazonaws.com/public/events/4028918754b278930154b2b96df80002/auto_expo2.jpg",
+				"displayOrder": null,
+				"mimeType": null
+			  },
+			  "status": null,
+			  "is_free": null
+			}
+		  ],
+		  "page": 1,
+		  "nextPage": null,
+		  "total_records": 4
+		}
+	*/
+	@RequestMapping(value="/search",method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.OK)
+	public EntityCollectionResponse<EventResponse> searchEvents(@RequestParam(value="name") String name)
+	{
+
+		logRequestStart(SEARCH_EVENTS, PUBLIC_REQUEST_START_LOG, SEARCH_EVENTS);
+		
+		List<EventResponse> events = this.eventService.searchEventsByName(name);
+		EntityCollectionResponse<EventResponse> collectionResponse = new EntityCollectionResponse<>();
+		collectionResponse.setData(events);
+		collectionResponse.setStatus("Success");
+		collectionResponse.setPage(1);
+		collectionResponse.setTotalRecords(events.size());
+		
+		logRequestEnd(SEARCH_EVENTS, SEARCH_EVENTS);
+		return collectionResponse;
+	}
 	
 	/**
 	*  @api {get} /api/public/events/types/:type?city=:city&country=:country&id=:userId&lat=:lat&lon=:lon&page=:page Get Events By Event-Type

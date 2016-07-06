@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @XmlRootElement(name = "friend")
-public class UserFriend implements Serializable{
+public class UserFriend implements Serializable,Comparable<UserFriend>{
 
 
 	private static final long serialVersionUID = 1L;
@@ -63,4 +63,12 @@ public class UserFriend implements Serializable{
 		return "Friend [name = "+this.name +" ]";
 	}
 	
+	@Override
+	public int compareTo(UserFriend obj) {
+		if(obj instanceof UserFriend){
+			UserFriend friend = (UserFriend) obj;
+			return this.name.compareTo(friend.name);
+		}
+		throw new IllegalArgumentException("Invalid parameter to method compareTo of UserFriend");
+	}
 }

@@ -26,6 +26,8 @@ public interface UserDAO {
 	
 	public List<User> getAllUsers();
 	
+	public List<Long> getAllMobileUserIds();
+	
 	public User getUserById(Long id);
 	
 	public User getUserByEmailId(String emailId,boolean updateQuota);

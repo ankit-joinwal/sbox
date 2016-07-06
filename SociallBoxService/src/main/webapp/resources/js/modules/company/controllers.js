@@ -170,7 +170,6 @@ app.controller('CompanyController',
 					});
 				})
 				.catch(function(response){
-					console.log('Inside CompanyController.createCompany to get user profile. Response :'+response.status);
 					$window.location.href = "/eo/login";
 				});
 			};

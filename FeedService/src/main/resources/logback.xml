@@ -39,8 +39,8 @@
 		<appender-ref ref="consoleAppender" />
 	</logger>
 
-	 <logger name="org.hibernate.SQL" level="DEBUG" /> <logger name="org.hibernate.type" 
-		level="TRACE" /> 
+	<!-- <logger name="org.hibernate.SQL" level="DEBUG" /> <logger name="org.hibernate.type" 
+		level="TRACE" /> -->
 	<logger name="org.hibernate" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="dailyRollingFileAppender" />

@@ -34,13 +34,13 @@ public class NotificationMessage {
 
 	@Embeddable
 	public static final class NotificationPayload{
-		@Column(name="NOTIFICATION_TITLE",length=100)
+		@Column(name="NOTIFICATION_TITLE",length=255)
 		private String title;
 		
-		@Column(name="NOTIFICATION_BODY",length=100)
+		@Column(name="NOTIFICATION_BODY",length=255)
 		private String body;
 		
-		@Column(name="NOTIFICATION_CLICK_ACTION",length=100)
+		@Column(name="NOTIFICATION_CLICK_ACTION",length=255)
 		@JsonProperty(value="click_action")
 		private String clickAction;
 		
@@ -48,8 +48,19 @@ public class NotificationMessage {
 		private String icon;
 		
 		@Transient
+		private String color;
+		
+		@Transient
 		private String sound;
 		
+		public String getColor() {
+			return color;
+		}
+
+		public void setColor(String color) {
+			this.color = color;
+		}
+
 		public String getIcon() {
 			return icon;
 		}

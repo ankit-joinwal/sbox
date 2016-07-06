@@ -38,7 +38,6 @@ app.factory('DashboardService',
 				 					 return deferred.promise;
 				                 }
 			 	    		 }).catch(function(dashboardResponse){
-			 	    			 console.log('Unable to get dashboard cards data . Response :'+dashboardResponse.status);
 			 	    			 deferred.reject(dashboardResponse);
 			 					 return deferred.promise;
 			 	    		});
@@ -73,7 +72,6 @@ app.factory('DashboardService',
 		 					 return deferred.promise;
 		                 }
 	 	    		 }).catch(function(dashboardResponse){
-	 	    			 console.log('Unable to get dashboard chart data . Response :'+dashboardResponse.status);
 	 	    			 deferred.reject(dashboardResponse);
 	 					 return deferred.promise;
 	 	    		});
@@ -111,7 +109,6 @@ app.factory('DashboardService',
 		 					 return deferred.promise;
 		                 }
 	 	    		 }).catch(function(dashboardResponse){
-	 	    			 console.log('Unable to get user messages . Response :'+dashboardResponse.status);
 	 	    			 deferred.reject(dashboardResponse);
 	 					 return deferred.promise;
 	 	    		});

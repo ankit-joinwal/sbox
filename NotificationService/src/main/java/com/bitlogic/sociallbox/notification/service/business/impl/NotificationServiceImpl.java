@@ -192,6 +192,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		notificationPayload.setIcon(notificationType.getIcon());
 		notificationPayload.setClickAction(notificationType.getClickAction());
 		notificationPayload.setSound(Constants.NOTIFICATION_SOUND);
+		notificationPayload.setColor(Constants.NOTIFICATION_COLOR);
 		DataPayload dataPayload = recievedMessage.getDataPayload();
 		dataPayload.setType(notificationType.getType());
 		dataPayload.setVerb(notificationType.getVerb());

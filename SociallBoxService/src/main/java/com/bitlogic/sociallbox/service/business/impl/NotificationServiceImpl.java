@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.Event;
 import com.bitlogic.sociallbox.data.model.Meetup;
 import com.bitlogic.sociallbox.data.model.MeetupImage;
 import com.bitlogic.sociallbox.data.model.SmartDevice;
@@ -107,7 +108,45 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		logInfo(lOG_PREFIX, "Notification sent");
 	}
 	
-
+	@Override
+	public void notifyUsersAboutNewEvent(Event event) {
+		String lOG_PREFIX = "NotificationServiceImpl-notifyUsersAboutNewEvent";
+		//Prepare Notification
+		Notification newEventNotification = new Notification();
+		newEventNotification.setType(NotificationType.NEW_EVENT_NOTIFICATION.getType());
+		List<Long> receiverIds = this.userDAO.getAllMobileUserIds();
+		newEventNotification.setRecieverIds(receiverIds);
+		
+		//Prepare Notification Message
+		NotificationMessage notificationMessage = new NotificationMessage();
+		NotificationMessage.NotificationPayload notificationPayload = new NotificationMessage.NotificationPayload();
+		notificationPayload.setTitle(NEW_EVENT_NOT_TITLE);
+		notificationPayload.setBody(String.format(NEW_EVENT_NOT_BODY,event.getTitle()));
+		
+		//Set Notification Payload in Notification Message
+		notificationMessage.setNotificationPayload(notificationPayload);
+		
+		NotificationMessage.DataPayload dataPayload = new NotificationMessage.DataPayload();
+		dataPayload.setActor(event.getTitle());
+		dataPayload.setType(NotificationType.NEW_EVENT_NOTIFICATION.getType());
+		dataPayload.setTarget(NEW_EVENT_NOT_TARGET);
+		dataPayload.setIcon(event.getEventImages().get(0).getUrl());
+		dataPayload.setImage(event.getEventImages().get(0).getUrl());
+		
+		String eventsBaseURL = socialBoxConfig.getEventsBaseUrl();
+		String eventUrl = eventsBaseURL+event.getUuid();
+		dataPayload.setActionURL(eventUrl);
+		
+		//Set Data payload in Notification Message
+		notificationMessage.setDataPayload(dataPayload);
+		
+		newEventNotification.setNotificationMessage(notificationMessage);
+		
+		logInfo(lOG_PREFIX, "Sending Notification Request {}",newEventNotification);
+		NotificationUtils.send(restTemplate, newEventNotification, socialBoxConfig);
+		
+		logInfo(lOG_PREFIX, "Notification sent");
+	}
 	
 	@Override
 	public void notifyAboutMeetupInvite(User actor, Meetup meetup,

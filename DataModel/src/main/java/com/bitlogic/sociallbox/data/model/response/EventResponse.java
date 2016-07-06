@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @XmlRootElement(name="event")
 @XmlAccessorType(XmlAccessType.NONE)
-public class EventResponse implements Serializable{
+public class EventResponse implements Serializable,Comparable<EventResponse>{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -170,4 +170,19 @@ public class EventResponse implements Serializable{
 		this.uuid = uuid;
 	}
 
+	@Override
+	public int compareTo(EventResponse obj) {
+		if(obj instanceof EventResponse){
+			String distance1 = this.distanceFromSource;
+			String distance2 = ((EventResponse) obj).distanceFromSource;
+			if(distance1 != null && distance2 !=null){
+				String[] distance1Parts = distance1.split(" ");
+				String[] distance2Parts = distance2.split(" ");
+				if(distance1Parts!= null && distance1Parts.length ==2 && distance2Parts!=null && distance2Parts.length ==2){
+					return distance1Parts[0].compareTo(distance2Parts[0]);
+				}
+			}
+		}
+		return 0;
+	}
 }

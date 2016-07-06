@@ -15,7 +15,6 @@ var app = angular.module('Authentication')
     	 //Service Function to Register User
     	 service.register = function(name,emailId,password){
     		 var deferred = $q.defer();
-    		 console.log('Inside AuthenticationService.registerUser');
     		 var userData = '{ "name"	 : "'+		name		+'" , 	'+
 							 ' "emailId" : "'+		emailId		+'" , 	'+
 							 ' "password": "'+		password	+'" 	'+
@@ -36,11 +35,7 @@ var app = angular.module('Authentication')
 	                 	service.setUserProfile(response.data.data.id,response.data.data.name,response.data.data.email_id,
 	                 							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,null,response.data.data.email_verified)
 	                 	.then(function(userProfileResponse){
-							if(userProfileResponse.status == 200){
-								console.log('AuthenticationService.registerUser : Succesfully stored user profile in cookies');
-							}else{
-								console.log('AuthenticationService.registerUser : Failed to store user profile in cookies');
-							}
+							
 						});
 	                 	deferred.resolve(response);
 	 					return deferred.promise;
@@ -61,7 +56,6 @@ var app = angular.module('Authentication')
     	 
     	 service.resendVerifyEmail = function(userId){
     		 var deferred = $q.defer();
-    		 console.log('Inside AuthenticationService.resendVerifyEmail');
     		 return service.getAuthToken()
      		.then(function(tokenResponse){
      			//Extract epoch time and token from response
@@ -102,7 +96,6 @@ var app = angular.module('Authentication')
     	 
     	 service.resendCompanyVerifyEmail = function(orgId){
     		 var deferred = $q.defer();
-    		 console.log('Inside AuthenticationService.resendCompanyVerifyEmail');
     		 return service.getAuthToken()
      		.then(function(tokenResponse){
      			//Extract epoch time and token from response
@@ -183,11 +176,6 @@ var app = angular.module('Authentication')
 		                	 service.setUserProfile(response.data.data.id,response.data.data.name,response.data.data.email_id,
           							response.data.data.profile_id,response.data.data.profile_pic,response.data.data.status,encPassword,response.data.data.company_profile,response.data.data.email_verified)
 				          	 .then(function(userProfileResponse){
-									if(userProfileResponse.status == 200){
-										console.log('AuthenticationService.signin : Succesfully stored user profile in cookies');
-									}else{
-										console.log('AuthenticationService.signin : Failed to store user profile in cookies');
-									}
 							});
 		                 	deferred.resolve(response);
 		 					return deferred.promise;
@@ -283,7 +271,6 @@ var app = angular.module('Authentication')
  			 
  			 if(companyProfile ==null){
 	 			 //Create profile
- 				console.log("Company Profile : "+companyProfile);
 	 			$rootScope.userProfile = {
 	 					userId: userId,
 						name: name,
@@ -296,7 +283,6 @@ var app = angular.module('Authentication')
 						
 				};
  			 }else{
- 				console.log("Company Profile : "+JSON.stringify(companyProfile));
  				 //Create profile
  	 			$rootScope.userProfile = {
  	 					userId: userId,
@@ -325,7 +311,6 @@ var app = angular.module('Authentication')
     		var deferred = $q.defer();
  			var response = {};
  			var userProfile = $cookieStore.get('userProfile') ;
- 			console.log('User Profile : '+userProfile);
  			response.status = 200;
  			response.data = userProfile;
  			deferred.resolve(response);

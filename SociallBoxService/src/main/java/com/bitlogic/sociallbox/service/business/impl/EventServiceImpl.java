@@ -288,6 +288,15 @@ public class EventServiceImpl extends LoggingService implements EventService,
 		return eventResponse;
 	}
 
+	@Override
+	public List<EventResponse> searchEventsByName(String name) {
+		String LOG_PREFIX = "EventServiceImpl-searchEventsByName";
+		logInfo(LOG_PREFIX, "Searching events by name {}", name);
+		
+		name = (name == null ? BLANK : name.replaceAll(ONE_WHITESPACE, "%"));
+		name = "%"+name+"%";
+		return this.eventDAO.searchEventsByName(name);
+	}
 	
 
 	@Override

@@ -43,19 +43,16 @@ var adminAuthApp = angular.module('Admin')
 	         							encPassword)
 					          	 .then(function(userProfileResponse){
 										if(userProfileResponse.status == 200){
-											console.log('AdminService.signin : Succesfully stored user profile in cookies');
 											deferred.resolve(response);
 						 					return deferred.promise;
 										}else{
 											
-											console.log('AdminService.signin : Failed to store user profile in cookies');
 											deferred.reject(response);
 						 					 return deferred.promise;
 										}
 								});
 			                 	
 			                 }else{
-			                	 console.log('signin error : '+response.status);
 			                	 //Clear profile from cookies
 			                	 service.clearProfile();
 			 					 deferred.reject(response);
@@ -79,7 +76,6 @@ var adminAuthApp = angular.module('Admin')
 						password : encPassword
 						
 				};
-				console.log('inside AdminAuthService . Storing admin profile in cookies for user '+name+ ' , Profile ='+JSON.stringify($rootScope.adminProfile) );
 				//Store in cookies
 				$cookieStore.put('adminProfile', $rootScope.adminProfile);
 				var response = {"status": 200};
@@ -98,7 +94,6 @@ var adminAuthApp = angular.module('Admin')
     		var deferred = $q.defer();
  			var response = {};
  			var adminProfile = $cookieStore.get('adminProfile') ;
- 			console.log('User Profile : '+ adminProfile);
  			response.status = 200;
  			response.data = adminProfile;
  			deferred.resolve(response);
@@ -206,13 +201,11 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to get pending profiles data . Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     		}).catch(function(tokenResponse){
     			//If unable to get auth token, then redirect to login page
-    			console.log('Unable to gen token in AdminService.getPendingProfiles.Response :'+tokenResponse.status);
     			
     		});
  		 };
@@ -242,13 +235,11 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to get all profiles data . Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     		}).catch(function(tokenResponse){
     			//If unable to get auth token, then redirect to login page
-    			console.log('Unable to gen token in AdminService.getEOProfiles.Response :'+tokenResponse.status);
     			
     		});
  		 };
@@ -280,14 +271,12 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to get organizer profile . Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     		
 	 		}).catch(function(tokenResponse){
 	 			//If unable to get auth token, then redirect to login page
-	 			console.log('Unable to gen token in AdminService.getCompanyDetails.Response :'+tokenResponse.status);
 	 			
 	 		});
  		 };
@@ -320,14 +309,12 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to approve organizer profile . Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     			
     		}).catch(function(tokenResponse){
 	 			//If unable to get auth token, then redirect to login page
-	 			console.log('Unable to gen token in AdminService.approveCompanyProfile.Response :'+tokenResponse.status);
 	 			
 	 		});
  		 };
@@ -357,13 +344,11 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to get pending profiles data . Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     		}).catch(function(tokenResponse){
     			//If unable to get auth token, then redirect to login page
-    			console.log('Unable to gen token in AdminService.getPendingProfiles.Response :'+tokenResponse.status);
     			
     		});
  		 };
@@ -396,14 +381,12 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to getEventDetails. Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     		
 	 		}).catch(function(tokenResponse){
 	 			//If unable to get auth token, then redirect to login page
-	 			console.log('Unable to gen token in AdminService.getEventDetails.Response :'+tokenResponse.status);
 	 			
 	 		});
  		 };
@@ -436,13 +419,11 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(eventStatsResponse){
- 	    			 console.log('Unable to get event stats . Response :'+eventStatsResponse.status);
  	    			 deferred.reject(eventStatsResponse);
  					 return deferred.promise;
  	    		});
     		}).catch(function(tokenResponse){
     			//If unable to get auth token, then redirect to login page
-    			console.log('Inside AdminService.getEventStats to gen token.Response :'+tokenResponse.status);
     			
     		});
  		 };
@@ -474,14 +455,12 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to approve events. Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     			
     		}).catch(function(tokenResponse){
 	 			//If unable to get auth token, then redirect to login page
-	 			console.log('Unable to gen token in AdminService.approveEvents.Response :'+tokenResponse.status);
 	 			
 	 		});
  		 };
@@ -513,14 +492,12 @@ var adminAuthApp = angular.module('Admin')
 	 					 return deferred.promise;
 	                 }
  	    		 }).catch(function(response){
- 	    			 console.log('Unable to reject events. Response :'+response.status);
  	    			 deferred.reject(response);
  					 return deferred.promise;
  	    		});
     			
     		}).catch(function(tokenResponse){
 	 			//If unable to get auth token, then redirect to login page
-	 			console.log('Unable to gen token in AdminService.rejectEvents.Response :'+tokenResponse.status);
 	 			
 	 		});
  		 };

@@ -20,7 +20,7 @@ public enum NotificationType {
 	
 	EVENT_CANCEL_NOTIFICATION("EVENT_CANCEL_NOTIFICATION"," cancelled event","ic_notification","eventDetailsNotfication","high") ,
 	
-	NEW_EVENT_NOTIFICATION("NEW_EVENT_NOTIFICATION"," is available now on","ic_notification","eventDetailsNotfication","high"); 
+	NEW_EVENT_NOTIFICATION("NEW_EVENT_NOTIFICATION"," is now available on","ic_notification","eventDetailsNotfication","high"); 
 	
 	String type;
 	String verb;
