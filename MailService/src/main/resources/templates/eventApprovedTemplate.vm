@@ -1,32 +1,17 @@
 <html>
-	<head>
-		<style>
-			.button {
-			    background-color: #FF5A5F;
-			    border: none;
-			    color: white;
-			    padding: 10px 32px;
-			    text-align: center;
-			    text-decoration: none;
-			    display: inline-block;
-			    font-size: 16px;
-			    margin: 4px 2px;
-			    cursor: pointer;
-			    border-radius: 5px;
-			}
-		</style>
-	</head>
+	
     <body>
     	<div align='center'>
-    		<img src='cid:sblogo' alt='SociallBox'>
+    		<img src='cid:sociallbox'>
     	</div>
     	<p>&nbsp;</p>
     	<p>Hello <b>${name}</b></p><br/>
 		<p>Your event <b>${eventName}</b> has been approved. You may now publish it to make it available on SociallBox app. Please visit SociallBox to publish it.</p>
-		<div>
-			<a href="${link}" class="button">Publish Event</a>
+		<div align='center'>
+			<a href="${link}" style="background-color: #FF5A5F;border: none;color: white;padding: 10px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 5px;">Publish Event</a>
 		</div>
-		<p>If you have any problems please contact us: <a href="mailto:contact@sociallbox.com">contact@sociallbox.com</a></p>
+		<p>&nbsp;</p>
+		<p>For queries or issues, please contact us: <a href="mailto:contact@sociallbox.com">contact@sociallbox.com</a></p>
 		<p>Best Regards,</p>
 		<p><b>SociallBox Team</b></p>	
     </body>

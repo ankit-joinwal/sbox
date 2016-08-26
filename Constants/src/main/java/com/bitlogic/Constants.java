@@ -7,6 +7,7 @@ public interface Constants {
 	String MEETUPS_BASE_URL_PROPERTY = "sb.meetups.base.url";
 	String EVENTS_BASE_URL_PROPERTY = "sb.events.base.url";
 	String EO_HOME_URL_PROPERTY = "sb.eo.events.url";
+	String DEFAULT_MEETUP_IMAGE_URL = "https://s3-ap-southeast-1.amazonaws.com/sociallbox/cdn/images/mobile/meetup_cover.png";
 	
 	//Hibernate Properties
 	String JDBC_DRIVER_PROPERTY = "jdbc.driverClassName";
@@ -91,6 +92,7 @@ public interface Constants {
 	
 	//Date Formats 
 	String MEETUP_DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
+	String CREATE_EVENT_DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
 	String EVENT_RESPONSE_DATE_FORMAT = "EEE, d MMM yyyy hh:mm aa";
 	String MEETUP_RESPONSE_DATE_FORMAT = "EEE, d MMM yyyy hh:mm aa";
 	String ACTIVITY_RESPONSE_DATE_FORMAT = "EEE, d MMM yyyy hh:mm aa";
@@ -118,6 +120,10 @@ public interface Constants {
 	String EVENT_APPROVED_MESSAGE = "eo.event.approved.message";
 	String EVENT_REJECTED_MESSAGE = "eo.event.rejected.message";
 	String EO_EVENT_CREATED_MESSAGE = "eo.event.created.message";
+	String EO_PASS_RESET_EMAIL_SENT_MESSAGE = "eo.pass.reset.email.sent.mesage";
+	String EO_PASS_RESET_EMAIL_SEND_FAIL_MESSAGE = "eo.pass.reset.email.send.fail.mesage";
+	String EO_PASS_RESET_UPDATED_MESAGE = "eo.pass.reset.updated.mesage";
+	
 	//S3 Config Properties
 	String AWS_EVENTS_ROOT_FOLDER_KEY = "aws.s3.events.root.path";
 	String AWS_MEETUPS_ROOT_FOLDER_KEY = "aws.s3.meetups.root.path";	
@@ -172,16 +178,24 @@ public interface Constants {
 	String SB_EO_VERIFY_EMAIL_CC = "sb.eo.verify.email.cc";
 	String SB_EO_VERIFY_EMAIL_BCC = "sb.eo.verify.email.bcc";
 	String EMAIL_VERIFICATION_SUBJECT = "sb.eo.verify.email.subject";
+	String PASS_RESET_EMAIL_SUBJECT = "sb.eo.reset.password.subject";
 	String EVENT_APPROVED_SUBJECT = "sb.eo.event.approved.mail.subject";
+	String PROFILE_APPROVED_SUBJECT = "sb.eo.profile.approved.mail.subject";
 	String SB_EO_VERIFY_SENDER_NAME = "sb.eo.verify.sender.name";
 	String EMAIL_VERIF_TEMPLATE_NAME = "verifyEmailTemplate.vm";
+	String EMAIL_RESET_PASS_TEMPLATE_NAME = "resetPasswordTemplate.vm";
 	String EVENT_APPROVED_TEMPLATE_NAME = "eventApprovedTemplate.vm";
+	String COMPANY_APPROVED_TEMPLATE_NAME = "profileApprovedTemplate.vm";
 	String EMAIL_LOGO_PATH = "images/sociallboxlogo.png";
+	String EMAIL_CSS_PATH = "css/mail.css";
 	String EMAIL_VERIFY_LINK_PARAM = "link";
 	String EMAIL_EVENT_ORGANIZER_NAME_PARAM = "name";
+	String EMAIL_PROFILE_APPROVED_NAME_PARAM = "profileName";
 	String EMAIL_EVENT_NAME_PARAM = "eventName";
 	String SB_EO_EMAIL_VERIFY_LINK = "sb.eo.email.verify.link";
+	String SB_EO_RESET_PASSWORD_LINK = "sb.eo.reset.password.link";
 	String SB_COMPANY_EMAIL_VERIFY_LINK = "sb.company.email.verify.link";
+	
 	
 	//Inter Service Constants 
 	String SB_ISA_USERNAME = "sb.isa.username";
@@ -256,4 +270,7 @@ public interface Constants {
 	String ERROR_EMAIL_VERIFICATION_TOKEN_NOT_FOUND = "error.email.verification.token.not.found";
 	String ERROR_EMAIL_VERIFICATION_TOKEN_EXPIRED = "error.email.verification.token.expired";
 	String ERROR_TIME_HEADER_EXPIRED = "error.time.header.expired";
+	String ERROR_EMAIL_NOT_RECOGNIZED = "error.email.not.recognized";
+	String ERROR_PASS_RESET_TOKEN_NOT_FOUND = "error.pass.reset.token.not.found";
+	String ERROR_PASS_RESET_TOKEN_EXPIRED = "error.pass.reset.token.expired";
 }

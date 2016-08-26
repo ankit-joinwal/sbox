@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.AppLoginResponse;
+import com.bitlogic.sociallbox.data.model.ResetPasswordToken;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.EventTag;
 import com.bitlogic.sociallbox.data.model.EventType;
@@ -35,6 +36,7 @@ import com.bitlogic.sociallbox.data.model.UserRoleType;
 import com.bitlogic.sociallbox.data.model.UserSetting;
 import com.bitlogic.sociallbox.data.model.UserSocialDetail;
 import com.bitlogic.sociallbox.data.model.UserTypeBasedOnDevice;
+import com.bitlogic.sociallbox.data.model.requests.ResetPasswordRequest;
 import com.bitlogic.sociallbox.data.model.response.UserEventInterest;
 import com.bitlogic.sociallbox.data.model.response.UserFriend;
 import com.bitlogic.sociallbox.data.model.response.UserRetailEventInterest;
@@ -198,6 +200,7 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 				newDevice.setPrivateKey(privateKeyForDevice);
 				newDevice.setUser(userInDB);
 				newDevice.setCreateDt(now);
+				newDevice.setIsEnabled(true);
 				user.getSmartDevices().add(newDevice);
 				User setupUser = this.userDAO
 						.setupFirstDeviceForUser(userInDB, newDevice);
@@ -218,6 +221,7 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 				newDevice.setPrivateKey(privateKeyForDevice);
 				newDevice.setCreateDt(now);
 				newDevice.setUser(userInDB);
+				newDevice.setIsEnabled(true);
 				User userWithAllDevices = this.userDAO
 						.addDeviceToExistingUserDevices(userInDB, newDevice);
 				User userObjectToReturn = null;
@@ -671,5 +675,17 @@ public class UserServiceImpl extends LoggingService implements UserService, Cons
 		
 		User user = emailVerificationToken.getUser();
 		user.setIsEmailVerified(Boolean.TRUE);
+	}
+	
+	@Override
+	public void sendPasswordResetEmail(ResetPasswordToken resetPasswordToken) {
+
+		String LOG_PREFIX = "UserServiceImpl-sendPasswordResetEmail";
+		Date now = new Date();
+		resetPasswordToken.setCreateDate(now);
+		logInfo(LOG_PREFIX, "Creating reset password token for user {} ", resetPasswordToken.getUser().getName());
+		this.userDAO.creatResetPasswordToken(resetPasswordToken);
+		EmailUtils.sendPassResetEmail(restTemplate, resetPasswordToken.getUser(), resetPasswordToken.getResetLink(), socialBoxConfig, this.messageSource);
+		logInfo(LOG_PREFIX, "Reset password email sent succesfully to user {} ",resetPasswordToken.getUser());
 	}
 }

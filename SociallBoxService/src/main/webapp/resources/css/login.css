@@ -1,9 +1,10 @@
 body.login-page {
-  background: url(https://s3-ap-southeast-1.amazonaws.com/sociallbox/cdn/images/web/app-header-bg.png) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; }
+background: url(https://s3-ap-southeast-1.amazonaws.com/sociallbox/cdn/images/web/loginbg.png) no-repeat center center fixed; 
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
+  }
   body.login-page .login-box {
     width: 100%;
     max-width: 320px;
@@ -50,13 +51,14 @@ body.login-page {
 
 .login-container{
 	 padding-top: 90px;
+
 }
 .panel-login {
 	border-color: #ccc;
 	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
 	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
-	background-color: #353535;
+	
 }
 .panel-login>.panel-heading {
 	color: #00415d;
@@ -66,16 +68,17 @@ body.login-page {
 }
 .panel-login>.panel-heading a{
 	text-decoration: none;
-	color: white;
+	color: #50504D;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 20px;
 	-webkit-transition: all 0.1s linear;
 	-moz-transition: all 0.1s linear;
 	transition: all 0.1s linear;
 }
 .panel-login>.panel-heading a.active{
-	color: #FD5C63;
-	font-size: 18px;
+	color: #0089BD;
+	font-size: 25px;
+	text-decoration: underline;
 }
 .panel-login>.panel-heading hr{
 	margin-top: 10px;
@@ -91,7 +94,7 @@ body.login-page {
 .panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
     border: 1px solid #ddd;
     font-size: 16px;
-    border-radius: 10px;
+    border-radius: 6px;
 	-webkit-transition: all 0.1s linear;
 	-moz-transition: all 0.1s linear;
 	transition: all 0.1s linear;
@@ -105,24 +108,17 @@ body.login-page {
 	border-color: #ccc;
 }
 .btn-login {
-	background-color: #029f5b;
-    outline: none;
+	outline: none;
     color: #fff;
     font-size: 14px;
     height: auto;
     font-weight: normal;
     padding: 10px 0;
     text-transform: uppercase;
-    border-color: #029f5b;
     border-radius: 5px;
 
 }
-.btn-login:hover,
-.btn-login:focus {
-	color: #fff;
-	background-color: #029f5b;
-	border-color: #029f5b;
-}
+
 .btn-login:disabled {
     background: #353535;
      border-color: #EEE;
@@ -213,10 +209,19 @@ input[type=checkbox].css-checkbox + label.css-label {
 	font-size:15px;
 	vertical-align:middle;
 	cursor:pointer;
-	color: white;
+	
 }
 
 input[type=checkbox].css-checkbox:checked + label.css-label {
 	background-position: 0 -15px;
 }
 .lite-red-check{background-image:url(http://csscheckbox.com/checkboxes/lite-red-check.png);}
+
+
+.my-class .modal-footer {
+	margin-top: 0;
+}
+
+.padding-row{
+	padding-top:10px;
+}

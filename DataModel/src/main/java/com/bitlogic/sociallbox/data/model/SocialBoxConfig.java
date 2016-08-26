@@ -8,6 +8,7 @@ public class SocialBoxConfig extends APIConfig{
 	private String isaUserName;
 	private String isaPassword;
 	private String verifyEmailUrl;
+	private String resetPasswordUrl;
 	private String emailServiceURL;
 	private String emailVerifySender;
 	private String emailVerifyCC ;
@@ -17,6 +18,14 @@ public class SocialBoxConfig extends APIConfig{
 	private String eoHomeUrl ;
 	
 	
+	public String getResetPasswordUrl() {
+		return resetPasswordUrl;
+	}
+
+	public void setResetPasswordUrl(String resetPasswordUrl) {
+		this.resetPasswordUrl = resetPasswordUrl;
+	}
+
 	public String getEoHomeUrl() {
 		return eoHomeUrl;
 	}

@@ -21,6 +21,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
 import com.bitlogic.Constants;
+import com.bitlogic.sociallbox.data.model.ResetPasswordToken;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.MeetupAttendeeEntity;
 import com.bitlogic.sociallbox.data.model.PushNotificationSettingMaster;
@@ -425,5 +426,23 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 							.add(Restrictions.eq("token", token));
 		
 		return (UserEmailVerificationToken)criteria.uniqueResult();
+	}
+	
+	@Override
+	public void creatResetPasswordToken(ResetPasswordToken resetPasswordToken) {
+		String sql = "SELECT * FROM RESET_PASSWORD_TOKEN WHERE USER_ID = :userId";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		
+		query.addEntity(ResetPasswordToken.class);
+		query.setParameter("userId", resetPasswordToken.getUser().getId());
+		
+		ResetPasswordToken existingToken = (ResetPasswordToken)query.uniqueResult();
+		
+		if(existingToken == null){
+			getSession().save(resetPasswordToken);
+		}else{
+			existingToken.setToken(resetPasswordToken.getToken());
+			existingToken.setExpiryDate(resetPasswordToken.getExpiryDate());
+		}		
 	}
 }

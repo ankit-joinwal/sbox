@@ -2,9 +2,9 @@ package com.bitlogic.sociallbox.data.model.notifications;
 
 public enum NotificationType {
 	
-	GENERAL_NOTIFICATION("GENERAL_NOTIFICATION","","ic_notification","rawNotficationNew","normal"),
+	GENERAL_NOTIFICATION("GENERAL_NOTIFICATION","","ic_notification","rawNotfication","normal"),
 	
-	NEW_FRIEND_NOTIFICATION("NEW_FRIEND_NOTIFICATION"," joined","ic_notification","rawNotficationNew","normal") ,
+	NEW_FRIEND_NOTIFICATION("NEW_FRIEND_NOTIFICATION"," joined","ic_notification","rawNotfication","normal") ,
 	
 	NEW_MEETUP_NOTIFICATION("NEW_MEETUP_NOTIFICATION"," invited you to meetup","ic_notification","meetupDetailsNotfication","high") ,
 	

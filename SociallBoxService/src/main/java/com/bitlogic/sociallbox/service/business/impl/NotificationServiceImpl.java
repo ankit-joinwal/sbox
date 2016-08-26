@@ -132,7 +132,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		dataPayload.setTarget(NEW_EVENT_NOT_TARGET);
 		dataPayload.setIcon(event.getEventImages().get(0).getUrl());
 		dataPayload.setImage(event.getEventImages().get(0).getUrl());
-		
+		dataPayload.setEntityId(event.getUuid());
 		String eventsBaseURL = socialBoxConfig.getEventsBaseUrl();
 		String eventUrl = eventsBaseURL+event.getUuid();
 		dataPayload.setActionURL(eventUrl);
@@ -178,7 +178,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		dataPayload.setType(NotificationType.NEW_MEETUP_NOTIFICATION.getType());
 		dataPayload.setTarget(String.format(NEW_MEETUP_INVITE_NOT_TARGET,meetup.getTitle()));
 		dataPayload.setIcon(actor.getProfilePic());
-		
+		dataPayload.setEntityId(meetup.getUuid());
 		String meetupsBaseURL = socialBoxConfig.getMeetupsBaseUrl();
 		dataPayload.setActionURL(meetupsBaseURL+meetup.getUuid());
 		
@@ -229,7 +229,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		dataPayload.setTarget(String.format(NEW_MEETUP_PHOTO_NOT_TARGET,meetup.getTitle()));
 		dataPayload.setIcon(actor.getProfilePic());
 		dataPayload.setImage(photos.get(0).getUrl());
-		
+		dataPayload.setEntityId(meetup.getUuid());
 		
 		String meetupsBaseURL = socialBoxConfig.getMeetupsBaseUrl();
 		dataPayload.setActionURL(meetupsBaseURL+meetup.getUuid());
@@ -278,7 +278,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		dataPayload.setType(NotificationType.MEETUP_UPDATE_NOTIFICATION.getType());
 		dataPayload.setTarget(String.format(MEETUP_MODIFY_NOT_TARGET,meetup.getTitle()));
 		dataPayload.setIcon(actor.getProfilePic());
-		
+		dataPayload.setEntityId(meetup.getUuid());
 		String meetupsBaseURL = socialBoxConfig.getMeetupsBaseUrl();
 		dataPayload.setActionURL(meetupsBaseURL+meetup.getUuid());
 		
@@ -327,7 +327,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		dataPayload.setType(NotificationType.MEETUP_CANCEL_NOTIFICATION.getType());
 		dataPayload.setTarget(String.format(MEETUP_CANCEL_NOT_TARGET,meetup.getTitle()));
 		dataPayload.setIcon(actor.getProfilePic());
-		
+		dataPayload.setEntityId(meetup.getUuid());
 		String meetupsBaseURL = socialBoxConfig.getMeetupsBaseUrl();
 		dataPayload.setActionURL(meetupsBaseURL+meetup.getUuid());
 		
@@ -377,7 +377,7 @@ public class NotificationServiceImpl extends LoggingService implements Notificat
 		dataPayload.setIcon(actor.getProfilePic());
 		String meetupsBaseURL = socialBoxConfig.getMeetupsBaseUrl();
 		dataPayload.setActionURL(meetupsBaseURL+meetup.getUuid());
-		
+		dataPayload.setEntityId(meetup.getUuid());
 		//Set Data payload in Notification Message
 		notificationMessage.setDataPayload(dataPayload);
 		

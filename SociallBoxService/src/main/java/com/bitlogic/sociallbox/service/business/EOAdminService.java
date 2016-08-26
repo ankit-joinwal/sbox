@@ -13,11 +13,14 @@ import com.bitlogic.sociallbox.data.model.EventStatus;
 import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.requests.AddCompanyToProfileRequest;
+import com.bitlogic.sociallbox.data.model.requests.PasswordUpdateRequest;
+import com.bitlogic.sociallbox.data.model.requests.ResetPasswordRequest;
 import com.bitlogic.sociallbox.data.model.requests.UpdateEOAdminProfileRequest;
 import com.bitlogic.sociallbox.data.model.requests.UpdateEventRequest;
 import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
 import com.bitlogic.sociallbox.data.model.response.EODashboardResponse;
 import com.bitlogic.sociallbox.data.model.response.EventResponseForAdmin;
+import com.bitlogic.sociallbox.service.model.CompanyApprovedApplicationEvent;
 import com.bitlogic.sociallbox.service.model.EventApprovedApplicationEvent;
 
 public interface EOAdminService {
@@ -76,9 +79,15 @@ public interface EOAdminService {
 	
 	public void createCompanyEmailVerification(CompanyEmailVerificationToken emailVerificationToken);
 	
+	public void sendCompanyApprovalNotification(CompanyApprovedApplicationEvent event);
+	
 	public void sendEventApprovalNotification(EventApprovedApplicationEvent event);
 	
 	public void verifyCompanyEmail(String token);
 	
 	public void resendCompanyEmailVerification(String orgId);
+	
+	public String sendResetPassLink(ResetPasswordRequest passwordRequest);
+	
+	public String resetPassword(PasswordUpdateRequest passwordRequest);
 }

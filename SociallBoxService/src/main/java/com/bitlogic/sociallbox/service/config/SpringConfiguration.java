@@ -76,6 +76,7 @@ public class SpringConfiguration extends LoggingService {
 		String isaPass = environment.getRequiredProperty(Constants.SB_ISA_PASSWORD);
 		String verifyEmailUrl = environment.getRequiredProperty(Constants.SB_EO_EMAIL_VERIFY_LINK);
 		String verifyCompanyEmailUrl = environment.getRequiredProperty(Constants.SB_COMPANY_EMAIL_VERIFY_LINK);
+		String resetPasswordUrl = environment.getRequiredProperty(Constants.SB_EO_RESET_PASSWORD_LINK);
 		String eoHomeUrl = environment.getRequiredProperty(Constants.EO_HOME_URL_PROPERTY);
 		logger.info("###           SocialBoxConfig       ###");
 		logInfo(LOG_PREFIX, "NOTIFICATION_SERVICE_URL : {}", notificationServiceURL);
@@ -89,6 +90,7 @@ public class SpringConfiguration extends LoggingService {
 		logInfo(LOG_PREFIX, "SB_EO_VERIFY_EMAIL_BCC {} ", emailVerificationBCC);
 		logInfo(LOG_PREFIX, "SB_EO_VERIFY_SENDER_NAME {} ", emailVerifySenderName);
 		logInfo(LOG_PREFIX, "SB_EO_EMAIL_VERIFY_LINK {} ", verifyEmailUrl);
+		logInfo(LOG_PREFIX, "SB_EO_RESET_PASSWORD_LINK {} ", resetPasswordUrl);
 		logInfo(LOG_PREFIX, "SB_COMPANY_EMAIL_VERIFY_LINK {} ", verifyCompanyEmailUrl);
 		logger.info("###########################################");
 		
@@ -105,6 +107,7 @@ public class SpringConfiguration extends LoggingService {
 		boxConfig.setIsaPassword(isaPass);
 		boxConfig.setVerifyEmailUrl(verifyEmailUrl);
 		boxConfig.setVerifyCompanyEmailUrl(verifyCompanyEmailUrl);
+		boxConfig.setResetPasswordUrl(resetPasswordUrl);
 		boxConfig.setEoHomeUrl(eoHomeUrl);
 		
 		return boxConfig;

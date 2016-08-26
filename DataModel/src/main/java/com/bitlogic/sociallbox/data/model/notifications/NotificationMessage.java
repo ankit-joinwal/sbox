@@ -129,10 +129,23 @@ public class NotificationMessage {
 		
 		@Column(name="IMAGE")
 		private String image;
+		
+		@Transient
+		@JsonProperty(value="entity_id")
+		private String entityId;
 
 		@Column(name="ACTION_URL",length=500)
 		@JsonProperty(value="action_url")
 		private String actionURL;
+
+		
+		public String getEntityId() {
+			return entityId;
+		}
+
+		public void setEntityId(String entityId) {
+			this.entityId = entityId;
+		}
 
 		public String getType() {
 			return type;
@@ -198,7 +211,8 @@ public class NotificationMessage {
 					" , target = "+this.target+
 					" , icon = "+this.icon+
 					" , image = "+this.image+
-					" , actionURL = "+this.actionURL+ " ]";
+					" , actionURL = "+this.actionURL+
+					" , entityId = "+this.entityId+" ]";
 		}
 	}
 	

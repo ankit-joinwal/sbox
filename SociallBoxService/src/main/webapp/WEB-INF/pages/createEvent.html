@@ -72,21 +72,21 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-4" ng-controller="DateTimeController as ctrl">
+											<div class="col-md-4" >
 								   
 								        		<div class="dateStartLabel">
 								        			<label for="startDate" class="text-primary" >Event Start Date & Time</label>
 								        		</div>	
-								        		<input type="text" style="width:250px;"  required id="startDate" name="startDate" class="form-control"  ng-model="startDate" placeholder="DD/MM/YYYY HH:MM AM/PM" />
-								                <!-- <button type="button" class="btn btn-success dateButton" ng-click="ctrl.openCalendar($event, 'startDate')"><i class="fa fa-calendar"></i></button> -->
-								     
+								        		
+												<input ng-model="startDate" style="width:250px;" required id="startDate" name="startDate" class="form-control"  datetime-picker date-format="dd/MM/yyyy hh:mm a"/>								     
 											</div>
-											<div class="col-md-4" ng-controller="DateTimeController as ctrl">
+											<div class="col-md-4">
 										
 									        	<div class="dateEndLabel">
 									        		<label for="endDate"  class="text-primary">Event End Date & Time</label>
 									        	</div>
-									            <input type="text" style="width:250px;" required  class="form-control" id="endDate" name="endDate"  ng-model="endDate" placeholder="DD/MM/YYYY HH:MM AM/PM" />
+									          
+												<input ng-model="endDate" style="width:250px;" required id="endDate" name="endDate" class="form-control"  datetime-picker date-format="dd/MM/yyyy hh:mm a"/>		
 											</div>
 											<div class="col-md-4">
 											</div>

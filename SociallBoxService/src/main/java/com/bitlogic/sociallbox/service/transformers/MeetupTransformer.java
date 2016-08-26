@@ -60,6 +60,10 @@ public class MeetupTransformer implements Transformer<MeetupResponse, Meetup> {
 				}
 			}
 			
+		}else{
+			MeetupImage meetupImage = new MeetupImage();
+			meetupImage.setUrl(Constants.DEFAULT_MEETUP_IMAGE_URL);
+			createMeetupResponse.setDisplayImage(meetupImage);
 		}
 		
 		if(meetup.getOrganizer()!=null){

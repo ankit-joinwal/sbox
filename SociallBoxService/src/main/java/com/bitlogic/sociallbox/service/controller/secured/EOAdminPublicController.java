@@ -16,6 +16,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.User;
+import com.bitlogic.sociallbox.data.model.requests.PasswordUpdateRequest;
+import com.bitlogic.sociallbox.data.model.requests.ResetPasswordRequest;
 import com.bitlogic.sociallbox.data.model.requests.VerificationToken;
 import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
 import com.bitlogic.sociallbox.data.model.response.SingleEntityResponse;
@@ -110,5 +112,28 @@ public class EOAdminPublicController extends BaseController implements Constants
 		entityResponse.setData("Email verified successfully");
 		return entityResponse;
 	}
+	
+	@RequestMapping(value="/password",method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.OK)
+	public SingleEntityResponse<String> resetPassword(@Valid @RequestBody ResetPasswordRequest request){
+		String message = this.eventOrganizerAdminService.sendResetPassLink(request);
+		SingleEntityResponse<String> entityResponse = new SingleEntityResponse<>();
+		entityResponse.setStatus(SUCCESS_STATUS);
+		entityResponse.setData(message);
+		return entityResponse;
+	}
+	
+	@RequestMapping(value="/password",method = RequestMethod.PUT, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseStatus(HttpStatus.OK)
+	public SingleEntityResponse<String> updatePassword(@Valid @RequestBody PasswordUpdateRequest request){
+		String message = this.eventOrganizerAdminService.resetPassword(request);
+		SingleEntityResponse<String> entityResponse = new SingleEntityResponse<>();
+		entityResponse.setStatus(SUCCESS_STATUS);
+		entityResponse.setData(message);
+		return entityResponse;
+	}
+	
 	
 }

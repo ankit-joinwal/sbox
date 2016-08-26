@@ -64,6 +64,12 @@ public class ViewController extends BaseController{
          return new ModelAndView("login");
      }
 	 
+	 @RequestMapping(value="/eo/login/reset",method = RequestMethod.GET)
+     public ModelAndView getPasswordResetPage() {
+		
+         return new ModelAndView("passReset");
+     }
+	 
 	/* @RequestMapping(value="/eo/verifyEmail",method = RequestMethod.GET)
      public ModelAndView getEmailVerificationPage() {
 		

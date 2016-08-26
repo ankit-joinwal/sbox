@@ -1,5 +1,7 @@
 package com.bitlogic.sociallbox.service.utils;
 
+import static com.bitlogic.Constants.COMMA;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +25,12 @@ import org.springframework.web.client.RestTemplate;
 import com.bitlogic.Constants;
 import com.bitlogic.sociallbox.data.model.CompanyEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.Event;
+import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.SocialBoxConfig;
+import com.bitlogic.sociallbox.data.model.User;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
-import com.bitlogic.sociallbox.data.model.mail.MailImage;
-import com.bitlogic.sociallbox.data.model.mail.MailImage.ImageType;
+import com.bitlogic.sociallbox.data.model.mail.MailResource;
+import com.bitlogic.sociallbox.data.model.mail.MailResource.ResourceType;
 import com.bitlogic.sociallbox.data.model.mail.SendMailRequest;
 import com.bitlogic.sociallbox.service.exception.ClientException;
 import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
@@ -48,16 +52,16 @@ public class EmailUtils extends LoggingService implements Constants{
 		Locale currentLocale = LocaleContextHolder.getLocale();
 		String subject = messageSource.getMessage(EMAIL_VERIFICATION_SUBJECT, null,
 				currentLocale);
-		MailImage mailImage = new MailImage();
-		mailImage.setImageType(ImageType.CLASSPATH);
+		MailResource mailImage = new MailResource();
+		mailImage.setResourceType(ResourceType.CLASSPATH);
 		mailImage.setName("sociallbox");
 		mailImage.setPath(Constants.EMAIL_LOGO_PATH);
-		List<MailImage> mailImages = Arrays.asList(mailImage);
+		List<MailResource> mailImages = Arrays.asList(mailImage);
 		
 
 		Map<String,Object> mailParams = new HashMap<>();
 		mailParams.put(Constants.EMAIL_VERIFY_LINK_PARAM, token.getConfirmationLink());
-		
+		mailParams.put(Constants.EMAIL_EVENT_ORGANIZER_NAME_PARAM, token.getUser().getName());
 		SendMailRequest mailRequest = new SendMailRequest();
 		mailRequest.setMailRecipients(new String[]{token.getUser().getEmailId()});
 		mailRequest.setMailFrom(config.getEmailVerifySender());
@@ -65,7 +69,7 @@ public class EmailUtils extends LoggingService implements Constants{
 			mailRequest.setMailCc(new String[]{config.getEmailVerifyCC()});
 		}
 		if(StringUtils.isNotBlank(config.getEmailVerifyBCC())){
-			mailRequest.setMailBcc(new String[]{config.getEmailVerifyBCC()});
+			mailRequest.setMailBcc(config.getEmailVerifyBCC().split(COMMA));
 		}
 		mailRequest.setMailSubject(subject);
 		mailRequest.setSenderName(config.getEmailVerifySenderName());
@@ -111,11 +115,14 @@ public class EmailUtils extends LoggingService implements Constants{
 		Locale currentLocale = LocaleContextHolder.getLocale();
 		String subject = String.format(messageSource.getMessage(EVENT_APPROVED_SUBJECT, null,
 				currentLocale),event.getTitle());
-		MailImage mailImage = new MailImage();
-		mailImage.setImageType(ImageType.CLASSPATH);
+		MailResource mailImage = new MailResource();
+		mailImage.setResourceType(ResourceType.CLASSPATH);
 		mailImage.setName("sociallbox");
 		mailImage.setPath(Constants.EMAIL_LOGO_PATH);
-		List<MailImage> mailImages = Arrays.asList(mailImage);
+		
+	
+		
+		List<MailResource> mailImages = Arrays.asList(mailImage);
 		
 
 		Map<String,Object> mailParams = new HashMap<>();
@@ -129,11 +136,75 @@ public class EmailUtils extends LoggingService implements Constants{
 			mailRequest.setMailCc(new String[]{config.getEmailVerifyCC()});
 		}
 		if(StringUtils.isNotBlank(config.getEmailVerifyBCC())){
-			mailRequest.setMailBcc(new String[]{config.getEmailVerifyBCC()});
+			mailRequest.setMailBcc(config.getEmailVerifyBCC().split(COMMA));
 		}
 		mailRequest.setMailSubject(subject);
 		mailRequest.setSenderName(config.getEmailVerifySenderName());
 		mailRequest.setTemplateName(Constants.EVENT_APPROVED_TEMPLATE_NAME);
+		mailRequest.setImages(mailImages);
+		mailRequest.setParams(mailParams);
+		
+		Map<String,String> authMap = AuthHeaderGenerator.generateHeaderForISA(config.getIsaUserName(), config.getIsaPassword());
+		
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(Constants.AUTHORIZATION_HEADER, authMap.get(AUTHORIZATION_HEADER));
+		headers.add(Constants.AUTH_DATE_HEADER, authMap.get(Constants.AUTH_DATE_HEADER));
+		
+		headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE.toString());
+		headers.add("Accept", MediaType.APPLICATION_JSON_VALUE.toString());
+		
+
+		HttpEntity<SendMailRequest> request = new HttpEntity<SendMailRequest>(mailRequest,headers);
+		String message = LOG_PREFIX + " :: " + "Invoking request to URL = {}";
+		LOGGER.info(message, config.getEmailServiceURL());
+		ResponseEntity<String> response = restTemplate.exchange(config.getEmailServiceURL(), HttpMethod.POST, request, String.class);
+		
+		HttpStatus returnStatus = response.getStatusCode();
+		boolean isSuccess = returnStatus.is2xxSuccessful();
+		if (isSuccess) {
+			message = LOG_PREFIX + " :: " + "Search returned success response";
+			LOGGER.info(message);
+
+		} else {
+			if (returnStatus.is4xxClientError()) {
+				throw new ClientException(RestErrorCodes.ERR_050,
+						Constants.ERROR_EMAIL_CLIENT_REQUEST);
+			} else if (returnStatus.is5xxServerError()) {
+				throw new ServiceException(EMAIL_SERVICE_NAME, RestErrorCodes.ERR_010,
+						Constants.ERROR_EMAIL_WEBSERVICE_ERROR);
+			}
+		}
+	}
+	
+	public static void sendCompanyApprovalNotification(RestTemplate restTemplate,EventOrganizerAdmin admin, SocialBoxConfig config,MessageSource messageSource){
+		String LOG_PREFIX = "EmailUtils-sendCompanyApprovalNotification";
+		
+		Locale currentLocale = LocaleContextHolder.getLocale();
+		String subject = messageSource.getMessage(PROFILE_APPROVED_SUBJECT, null,currentLocale);
+		MailResource mailImage = new MailResource();
+		mailImage.setResourceType(ResourceType.CLASSPATH);
+		mailImage.setName("sociallbox");
+		mailImage.setPath(Constants.EMAIL_LOGO_PATH);
+		
+		List<MailResource> mailImages = Arrays.asList(mailImage);
+		
+
+		Map<String,Object> mailParams = new HashMap<>();
+		mailParams.put(Constants.EMAIL_VERIFY_LINK_PARAM, config.getEoHomeUrl());
+		mailParams.put(Constants.EMAIL_EVENT_ORGANIZER_NAME_PARAM, admin.getUser().getName());
+		mailParams.put(Constants.EMAIL_PROFILE_APPROVED_NAME_PARAM, admin.getOrganizer().getName());
+		SendMailRequest mailRequest = new SendMailRequest();
+		mailRequest.setMailRecipients(new String[]{admin.getOrganizer().getEmailId()});
+		mailRequest.setMailFrom(config.getEmailVerifySender());
+		if(StringUtils.isNotBlank(config.getEmailVerifyCC())){
+			mailRequest.setMailCc(new String[]{config.getEmailVerifyCC()});
+		}
+		if(StringUtils.isNotBlank(config.getEmailVerifyBCC())){
+			mailRequest.setMailBcc(config.getEmailVerifyBCC().split(COMMA));
+		}
+		mailRequest.setMailSubject(subject);
+		mailRequest.setSenderName(config.getEmailVerifySenderName());
+		mailRequest.setTemplateName(Constants.COMPANY_APPROVED_TEMPLATE_NAME);
 		mailRequest.setImages(mailImages);
 		mailRequest.setParams(mailParams);
 		
@@ -175,16 +246,16 @@ public class EmailUtils extends LoggingService implements Constants{
 		Locale currentLocale = LocaleContextHolder.getLocale();
 		String subject = messageSource.getMessage(EMAIL_VERIFICATION_SUBJECT, null,
 				currentLocale);
-		MailImage mailImage = new MailImage();
-		mailImage.setImageType(ImageType.CLASSPATH);
+		MailResource mailImage = new MailResource();
+		mailImage.setResourceType(ResourceType.CLASSPATH);
 		mailImage.setName("sociallbox");
 		mailImage.setPath(Constants.EMAIL_LOGO_PATH);
-		List<MailImage> mailImages = Arrays.asList(mailImage);
+		List<MailResource> mailImages = Arrays.asList(mailImage);
 		
 
 		Map<String,Object> mailParams = new HashMap<>();
 		mailParams.put(Constants.EMAIL_VERIFY_LINK_PARAM, token.getConfirmationLink());
-		
+		mailParams.put(Constants.EMAIL_EVENT_ORGANIZER_NAME_PARAM, token.getOrganizer().getName());
 		SendMailRequest mailRequest = new SendMailRequest();
 		mailRequest.setMailRecipients(new String[]{token.getOrganizer().getEmailId()});
 		mailRequest.setMailFrom(config.getEmailVerifySender());
@@ -192,11 +263,74 @@ public class EmailUtils extends LoggingService implements Constants{
 			mailRequest.setMailCc(new String[]{config.getEmailVerifyCC()});
 		}
 		if(StringUtils.isNotBlank(config.getEmailVerifyBCC())){
-			mailRequest.setMailBcc(new String[]{config.getEmailVerifyBCC()});
+			mailRequest.setMailBcc(config.getEmailVerifyBCC().split(COMMA));
 		}
 		mailRequest.setMailSubject(subject);
 		mailRequest.setSenderName(config.getEmailVerifySenderName());
 		mailRequest.setTemplateName(Constants.EMAIL_VERIF_TEMPLATE_NAME);
+		mailRequest.setImages(mailImages);
+		mailRequest.setParams(mailParams);
+		
+		Map<String,String> authMap = AuthHeaderGenerator.generateHeaderForISA(config.getIsaUserName(), config.getIsaPassword());
+		
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add(Constants.AUTHORIZATION_HEADER, authMap.get(AUTHORIZATION_HEADER));
+		headers.add(Constants.AUTH_DATE_HEADER, authMap.get(Constants.AUTH_DATE_HEADER));
+		
+		headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE.toString());
+		headers.add("Accept", MediaType.APPLICATION_JSON_VALUE.toString());
+		
+
+		HttpEntity<SendMailRequest> request = new HttpEntity<SendMailRequest>(mailRequest,headers);
+		String message = LOG_PREFIX + " :: " + "Invoking request to URL = {}";
+		LOGGER.info(message, config.getEmailServiceURL());
+		ResponseEntity<String> response = restTemplate.exchange(config.getEmailServiceURL(), HttpMethod.POST, request, String.class);
+		
+		HttpStatus returnStatus = response.getStatusCode();
+		boolean isSuccess = returnStatus.is2xxSuccessful();
+		if (isSuccess) {
+			message = LOG_PREFIX + " :: " + "Search returned success response";
+			LOGGER.info(message);
+
+		} else {
+			if (returnStatus.is4xxClientError()) {
+				throw new ClientException(RestErrorCodes.ERR_050,
+						Constants.ERROR_EMAIL_CLIENT_REQUEST);
+			} else if (returnStatus.is5xxServerError()) {
+				throw new ServiceException(EMAIL_SERVICE_NAME, RestErrorCodes.ERR_010,
+						Constants.ERROR_EMAIL_WEBSERVICE_ERROR);
+			}
+		}
+	}
+	
+	public static void sendPassResetEmail(RestTemplate restTemplate,User user,String resetLink, SocialBoxConfig config,MessageSource messageSource){
+		String LOG_PREFIX = "EmailUtils-sendEmailVerification";
+		
+		Locale currentLocale = LocaleContextHolder.getLocale();
+		String subject = messageSource.getMessage(PASS_RESET_EMAIL_SUBJECT, null,
+				currentLocale);
+		MailResource mailImage = new MailResource();
+		mailImage.setResourceType(ResourceType.CLASSPATH);
+		mailImage.setName("sociallbox");
+		mailImage.setPath(Constants.EMAIL_LOGO_PATH);
+		List<MailResource> mailImages = Arrays.asList(mailImage);
+		
+
+		Map<String,Object> mailParams = new HashMap<>();
+		mailParams.put(Constants.EMAIL_VERIFY_LINK_PARAM, resetLink);
+		mailParams.put(Constants.EMAIL_EVENT_ORGANIZER_NAME_PARAM, user.getName());
+		SendMailRequest mailRequest = new SendMailRequest();
+		mailRequest.setMailRecipients(new String[]{user.getEmailId()});
+		mailRequest.setMailFrom(config.getEmailVerifySender());
+		if(StringUtils.isNotBlank(config.getEmailVerifyCC())){
+			mailRequest.setMailCc(new String[]{config.getEmailVerifyCC()});
+		}
+		if(StringUtils.isNotBlank(config.getEmailVerifyBCC())){
+			mailRequest.setMailBcc(config.getEmailVerifyBCC().split(COMMA));
+		}
+		mailRequest.setMailSubject(subject);
+		mailRequest.setSenderName(config.getEmailVerifySenderName());
+		mailRequest.setTemplateName(Constants.EMAIL_RESET_PASS_TEMPLATE_NAME);
 		mailRequest.setImages(mailImages);
 		mailRequest.setParams(mailParams);
 		

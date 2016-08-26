@@ -1,35 +1,20 @@
 <html>
-	<head>
-		<style>
-			.button {
-			    background-color: #FF5A5F;
-			    border: none;
-			    color: white;
-			    padding: 10px 32px;
-			    text-align: center;
-			    text-decoration: none;
-			    display: inline-block;
-			    font-size: 16px;
-			    margin: 4px 2px;
-			    cursor: pointer;
-			    border-radius: 5px;
-			}
-		</style>
-	</head>
+	
     <body>
     	<div align='center'>
-    		<img src='cid:sblogo' alt='SociallBox'>
+    		<img src='cid:sociallbox'>
     	</div>
     	<p>&nbsp;</p>
-		<h3><span style="color: #000000;">Welcome to <span style="color: #FF5A5F;">SociallBox</span>.</span></h3>
-		<h3><span style="color: #000000;">Create, manage and promote your events on our platform easily.</span></h3>
+    	<p>Hello <b>${name}</b></p><br>
+		<h3>Welcome to <span style="color: #FF5A5F;">SociallBox</span>. We are delighted to have you on board.</h3>
+		<h3><span>Create, manage and promote your events on our platform .</span></h3>
 		<p>As part of verification process, please click on below link to verify your email address -<br /></p>
-		<div>
-			<a href="${link}" class="button">Verify your email</a>
+		<div align='center'>
+			<a href="${link}" class="button" style="background-color: #FF5A5F;border: none;color: white;padding: 10px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 5px;">Verify your email</a>
 		</div>
 		<p><span style="color: #000000;">Note : This link will expire in 1 day</span></p>
 		<p>&nbsp;</p>
-		<p>If you have any problems please contact us: <a href="mailto:contact@sociallbox.com">contact@sociallbox.com</a></p>
+		<p>For queries or issues, please contact us: <a href="mailto:contact@sociallbox.com">contact@sociallbox.com</a></p>
 		<p>Best Regards,</p>
 		<p><b>SociallBox Team</b></p>	
 		

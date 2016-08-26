@@ -34,6 +34,7 @@ import com.bitlogic.sociallbox.data.model.EventImage;
 import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
+import com.bitlogic.sociallbox.data.model.ResetPasswordToken;
 import com.bitlogic.sociallbox.data.model.Role;
 import com.bitlogic.sociallbox.data.model.SocialBoxConfig;
 import com.bitlogic.sociallbox.data.model.SocialDetailType;
@@ -44,6 +45,8 @@ import com.bitlogic.sociallbox.data.model.UserRoleType;
 import com.bitlogic.sociallbox.data.model.UserSocialDetail;
 import com.bitlogic.sociallbox.data.model.requests.AddCompanyToProfileRequest;
 import com.bitlogic.sociallbox.data.model.requests.CreateEventOrganizerRequest;
+import com.bitlogic.sociallbox.data.model.requests.PasswordUpdateRequest;
+import com.bitlogic.sociallbox.data.model.requests.ResetPasswordRequest;
 import com.bitlogic.sociallbox.data.model.requests.UpdateEOAdminProfileRequest;
 import com.bitlogic.sociallbox.data.model.requests.UpdateEventRequest;
 import com.bitlogic.sociallbox.data.model.response.EOAdminProfile;
@@ -66,8 +69,10 @@ import com.bitlogic.sociallbox.service.exception.EntityNotFoundException;
 import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.ServiceException;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
+import com.bitlogic.sociallbox.service.model.CompanyApprovedApplicationEvent;
 import com.bitlogic.sociallbox.service.model.CompanyRegistrationEvent;
 import com.bitlogic.sociallbox.service.model.EventApprovedApplicationEvent;
+import com.bitlogic.sociallbox.service.model.ResetPasswordEvent;
 import com.bitlogic.sociallbox.service.model.UserRegistrationEvent;
 import com.bitlogic.sociallbox.service.transformers.EOToEOResponseTransformer;
 import com.bitlogic.sociallbox.service.transformers.EventTransformer;
@@ -89,9 +94,6 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 	
 	@Autowired
 	private EventOrganizerService eventOrganizerService;
-	
-	@Autowired
-	private MessageSource msgSource;
 	
 	@Autowired
 	private EventDAO eventDAO;
@@ -145,7 +147,7 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 			//Insert a new message for user
 			String messageKey = WELCOME_MESSAGE_KEY;
 			Locale currentLocale = LocaleContextHolder.getLocale();
-			String messageDetails = msgSource.getMessage(messageKey, null,
+			String messageDetails = messageSource.getMessage(messageKey, null,
 					currentLocale);
 			if(messageDetails!=null){
 				String formattedMsg = String.format(messageDetails, user.getName());
@@ -471,7 +473,7 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		//Insert a new message for user
 		String messageKey = COMPANY_ADDED_MESSAGE;
 		Locale currentLocale = LocaleContextHolder.getLocale();
-		String messageDetails = msgSource.getMessage(messageKey, null,
+		String messageDetails = messageSource.getMessage(messageKey, null,
 				currentLocale);
 		if(messageDetails!=null){
 			String formattedMsg = String.format(messageDetails, organizer.getName());
@@ -868,6 +870,16 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		logInfo(LOG_PREFIX, "Email verification sent succesfully to company");
 	}
 	
+	
+	@Override
+	public void sendCompanyApprovalNotification(
+			CompanyApprovedApplicationEvent event) {
+		String LOG_PREFIX = "EOAdminServiceImpl-sendCompanyApprovalNotification";
+		logInfo(LOG_PREFIX, "Sending company profile approval notification for {} ", event.getOrganizerAdmin().getOrganizer().getName());
+		EmailUtils.sendCompanyApprovalNotification(restTemplate, event.getOrganizerAdmin(), socialBoxConfig, messageSource);
+		logInfo(LOG_PREFIX, "Sent company profile approval notification for {} ",event.getOrganizerAdmin().getOrganizer().getName());
+	}
+	
 	@Override
 	public void sendEventApprovalNotification(
 			EventApprovedApplicationEvent event) {
@@ -893,5 +905,49 @@ public class EOAdminServiceImpl extends LoggingService implements EOAdminService
 		organizer.setIsEmailVerified(Boolean.TRUE);
 		
 				
+	}
+	
+	@Override
+	public String sendResetPassLink(ResetPasswordRequest passwordRequest) {
+		String LOG_PREFIX = "EOAdminServiceImpl-resetPassword";
+		User user = this.userDAO.getUserByEmailId(passwordRequest.getEmail(), false);
+		if(user==null){
+			throw new ClientException(RestErrorCodes.ERR_001, ERROR_EMAIL_NOT_RECOGNIZED);
+		}
+		Locale currentLocale = LocaleContextHolder.getLocale();
+		String message = messageSource.getMessage(EO_PASS_RESET_EMAIL_SENT_MESSAGE, null,
+				currentLocale);
+				
+		try{
+			logInfo(LOG_PREFIX, "Sending Reset Password Email to {}", passwordRequest.getEmail());
+			eventPublisher.publishEvent(new ResetPasswordEvent(user, Locale.US, ""));
+		}catch(Exception ex){
+			logError(LOG_PREFIX, "Error occured while sending password reset email link to user {}", user.getName(),ex);
+			message = messageSource.getMessage(EO_PASS_RESET_EMAIL_SEND_FAIL_MESSAGE, null,
+					currentLocale);
+		}
+		
+			return message;
+		
+	}
+	
+	
+	@Override
+	public String resetPassword(PasswordUpdateRequest passwordRequest) {
+		String LOG_PREFIX = "EOAdminServiceImpl-resetPassword";
+		Date now = new Date();
+		ResetPasswordToken resetPasswordToken = this.eventOrganizerDAO.getResetPasswordToken(passwordRequest.getToken());
+		if(resetPasswordToken==null){
+			throw new ClientException(RestErrorCodes.ERR_005, ERROR_PASS_RESET_TOKEN_NOT_FOUND);
+		}
+		if(now.compareTo(resetPasswordToken.getExpiryDate())>0){
+			logInfo(LOG_PREFIX, "Verification token {} expired ", resetPasswordToken);
+			throw new ClientException(RestErrorCodes.ERR_005, ERROR_PASS_RESET_TOKEN_EXPIRED);
+		}
+		resetPasswordToken.getUser().setPassword(PasswordUtils.encryptPass(passwordRequest.getPassword()));
+		Locale currentLocale = LocaleContextHolder.getLocale();
+		return messageSource.getMessage(EO_PASS_RESET_UPDATED_MESAGE, null,
+				currentLocale);
+		
 	}
 }

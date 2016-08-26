@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.bitlogic.sociallbox.data.model.ResetPasswordToken;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.MeetupAttendeeEntity;
 import com.bitlogic.sociallbox.data.model.Role;
@@ -64,6 +65,8 @@ public interface UserDAO {
 	public UserMessage getMessage(Long userId,Long messageId);
 	
 	public void createVerificationToken(UserEmailVerificationToken emailVerificationToken);
+	
+	public void creatResetPasswordToken(ResetPasswordToken resetPasswordToken);
 	
 	public UserEmailVerificationToken getUserEmailVerificationToken(String token);
 }

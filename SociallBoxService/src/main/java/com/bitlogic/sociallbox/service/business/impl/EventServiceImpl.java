@@ -165,7 +165,7 @@ public class EventServiceImpl extends LoggingService implements EventService,
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				Constants.MEETUP_DATE_FORMAT);
+				Constants.CREATE_EVENT_DATE_FORMAT);
 		try {
 			event.setStartDate(dateFormat.parse(createEventRequest
 					.getStartDate()));

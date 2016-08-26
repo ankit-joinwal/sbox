@@ -28,6 +28,10 @@ App.config(['$routeProvider','$locationProvider', function($routeProvider,$locat
 			controller : "AuthController",
 			templateUrl: '/eo/login'
 		})
+		.when('/eo/login/reset', {
+			controller : "AuthController",
+			templateUrl: '/eo/login/reset'
+		})
 		.when('/eo/home', {
 			templateUrl: '/eo/home',
 			controller : "IndexController"

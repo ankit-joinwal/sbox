@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('Authentication')
+var app = angular.module('Authentication');
 
 
-.controller('AuthController',['$window','$scope', '$compile','$rootScope', '$routeParams','$location','dialogs','AuthenticationService',
+app.controller('AuthController',['$window','$scope', '$compile','$rootScope', '$routeParams','$location','dialogs','AuthenticationService',
     function ($window,$scope,$compile, $rootScope, $routeParams,$location,dialogs,AuthenticationService) {
 	 var dialogOpts = {windowClass:'dialog-custom'};
 		$scope.isCookieEnabled = function(){
@@ -79,6 +79,66 @@ angular.module('Authentication')
     		
     		
     	};
+    	
+    	$scope.updatePassword = function() {
+    		$("#reset-pass-form").validate({
+    			rules: {
+	    			password: {
+		    			required: true,
+		    			minlength: 6 ,
+		    			matchResetPasswords : true
+	    			},
+	    			confirmPassword:{
+	    				required: true,
+		    			minlength: 6 ,
+		    			matchResetPasswords : true
+	    			}
+    			},
+    			messages: {
+	    			password: {
+	    				required: "Password field cannot be blank!",
+	    				minlength: "Your password must be at least 6 characters long"
+	    			},
+	    			confirmPassword: {
+	    				required: "ConfirmPassword field cannot be blank!",
+	    				minlength: "Your password must be at least 6 characters long"
+	    			}
+    			},
+    			submitHandler: function(form){
+    				
+    				$('#login-div').addClass('loader');
+    	    		var password = $scope.password;
+    	    		
+    	    		
+    	    		var token = $location.search().token;
+    	    		AuthenticationService.updatePass(token,password)
+    	    		.then(function(response){
+    	    			var dlg = dialogs.notify('Success!',response.data.data,dialogOpts);
+			        	dlg.result.then(function(btn){
+			        		$window.location.href = "/eo/login";
+			        	});
+    	    			
+    				})
+    				.catch(function(authResponse){
+    					$('#login-div').removeClass('loader');
+    					$('#reset-pass-form').after(
+    					        '<div class="alert alert-danger alert-dismissable">'+
+    				            '<button type="button" class="close" ' + 
+    				                    'data-dismiss="alert" aria-hidden="true">' + 
+    				                '&times;' + 
+    				            '</button>' + 
+    				            authResponse.data.exception.message + 
+    				         '</div>');
+    				});
+    			}
+   			 
+			});
+		};
+		
+		$scope.resetPass = function(){
+			dialogs.create('/dialogs/resetPass.html','resetPassCtrl',{},{size:'lg',keyboard: true,backdrop: false,windowClass: 'my-class'});
+					
+		};
     	
     	$scope.login = function(){
     		$("#login-form").validate({
@@ -280,3 +340,38 @@ angular.module('Authentication')
     	
 	}
 ]);
+
+app.controller('resetPassCtrl',function($scope,$uibModalInstance,data,AuthenticationService){
+		
+		$scope.cancel = function(){
+			$uibModalInstance.dismiss('Canceled');
+		}; 
+		
+		$scope.save = function(){
+			
+			var email = $scope.reset.email;
+			$scope.reset.message = "Please wait...";
+			AuthenticationService.sendResetPass(email)
+			.then(function(resetResponse){
+				$scope.reset.message = resetResponse.data.data;
+			}).catch(function(resetResponse){
+				if(resetResponse.data.exception.message !=null){
+					$scope.reset.message = resetResponse.data.exception.message;
+				}else{
+					$scope.reset.message = 'We are unable to send you email on above mentioned id. Please write to contact@sociallbox.com and we will reset password for you.';
+				}
+			});
+			
+		}; 
+		
+		$scope.hitEnter = function(evt){
+			if(angular.equals(evt.keyCode,13) && !(angular.equals($scope.reset.email,null) || angular.equals($scope.reset.email,'')))
+				$scope.save();
+		};
+	}) 
+
+app.run(['$templateCache',function($templateCache){
+ 
+$templateCache.put('/dialogs/resetPass.html','<div class="modal-header"><h4 class="modal-title">Password Reset</h4></div><div class="modal-body"><ng-form name="resetPassDialog" novalidate role="form">  <div class="form-group input-group-lg" ng-class="{true: \'has-error\'}[resetPassDialog.emailId.$dirty && resetPassDialog.emailId.$invalid]"><label class="control-label" for="course">Email Id:</label><input type="text" class="form-control" name="emailId" id="emailId" ng-model="reset.email" ng-keyup="hitEnter($event)" required><span class="help-block">Please enter your email id. We will send instructions to reset your password.</span><b><span class="help-block" >{{reset.message}}</span></b></div></ng-form></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="cancel()">Close</button><button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="(resetPassDialog.$dirty && resetPassDialog.$invalid) || resetPassDialog.$pristine">Reset Password</button></div>');
+  		
+	}]);

@@ -36,6 +36,7 @@ import com.bitlogic.sociallbox.service.dao.SmartDeviceDAO;
 import com.bitlogic.sociallbox.service.dao.UserDAO;
 import com.bitlogic.sociallbox.service.exception.RestErrorCodes;
 import com.bitlogic.sociallbox.service.exception.UnauthorizedException;
+import com.bitlogic.sociallbox.service.model.CompanyApprovedApplicationEvent;
 import com.bitlogic.sociallbox.service.model.CompanyRegistrationEvent;
 import com.bitlogic.sociallbox.service.model.EventApprovedApplicationEvent;
 import com.bitlogic.sociallbox.service.transformers.Transformer;
@@ -130,6 +131,13 @@ public class AdminServiceImpl extends LoggingService implements AdminService,Con
 				users.add(organizerAdmin.getUser());
 				organizerAdmin.setStatus(status);
 				organizerAdmin.setUpdateDt(now);
+				
+				try{
+					if(status == EOAdminStatus.APPROVED)
+						eventPublisher.publishEvent(new CompanyApprovedApplicationEvent(organizerAdmin));
+				}catch(Exception ex){
+					logError(LOG_PREFIX, "Error occured while sending email notification about approval of company {}", organizerAdmin.getOrganizer().getName(),ex);
+				}
 			}
 		}
 		

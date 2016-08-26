@@ -36,7 +36,7 @@ public class SendMailRequest {
 	private Map<String, Object> params;
 
 	@JsonProperty("images")
-	private List<MailImage> images;
+	private List<MailResource> images;
 
 	public SendMailRequest() {
 
@@ -50,11 +50,11 @@ public class SendMailRequest {
 		this.params = params;
 	}
 
-	public List<MailImage> getImages() {
+	public List<MailResource> getImages() {
 		return images;
 	}
 
-	public void setImages(List<MailImage> images) {
+	public void setImages(List<MailResource> images) {
 		this.images = images;
 	}
 

@@ -24,6 +24,7 @@ import com.bitlogic.sociallbox.data.model.EventOrganizer;
 import com.bitlogic.sociallbox.data.model.EventOrganizerAdmin;
 import com.bitlogic.sociallbox.data.model.EventStatus;
 import com.bitlogic.sociallbox.data.model.Location;
+import com.bitlogic.sociallbox.data.model.ResetPasswordToken;
 import com.bitlogic.sociallbox.data.model.UserEmailVerificationToken;
 import com.bitlogic.sociallbox.data.model.response.EventDetailsResponse;
 import com.bitlogic.sociallbox.data.model.response.EventResponse;
@@ -263,5 +264,12 @@ public class EventOrganizerDAOImpl extends AbstractDAO implements EventOrganizer
 							.add(Restrictions.eq("token", token));
 		
 		return (CompanyEmailVerificationToken) criteria.uniqueResult();
+	}
+	
+	@Override
+	public ResetPasswordToken getResetPasswordToken(String token) {
+		Criteria criteria = getSession().createCriteria(ResetPasswordToken.class)
+							.add(Restrictions.eq("token", token));
+		return (ResetPasswordToken) criteria.uniqueResult();
 	}
 }

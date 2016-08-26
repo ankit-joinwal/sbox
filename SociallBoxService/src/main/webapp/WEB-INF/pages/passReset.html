@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="login">
 <head>
-    <title>SociallBox | Login</title>
+    <title>SociallBox | Reset Login</title>
     <link rel="icon" type="image/png" href="/resources/img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Fonts -->
@@ -34,12 +34,10 @@
 						</div>
 						<hr>
 						<div class="row padding-row">
-							<div class="col-xs-6">
-								<a  class="active a-prevent-default" id="login-form-link">Login</a>
+							<div class="col-xs-12" align="center">
+								<h3>Reset your password</h3>
 							</div>
-							<div class="col-xs-6">
-								<a class="a-prevent-default" id="register-form-link">Sign Up</a>
-							</div>
+							
 						</div>
 					</div>
 					<div class="panel-body">
@@ -51,50 +49,21 @@
 								<div><h3 class="color-white">Please wait...</h3></div>
 							</div>
 							<div class="col-lg-12">
-								<form id="login-form" method="post" role="form" style="display: block;">
-									<div class="form-group">
-										<input type="text" ng-model="loginEmail" name="emailId" id="emailId" tabindex="1" class="form-control input-lg" placeholder="Email Id">
-									</div>
-									<div class="form-group">
-										<input type="password" ng-model="loginPass" name="password" id="password" tabindex="2" class="form-control input-lg" placeholder="Password">
-									</div>
-									<div class="form-group" align="right">
-										<a  class="a-prevent-default" ng-click="resetPass()">Forgot Password?</a>
-									</div>
-									
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3"  ng-if="cookiesEnabled">
-												<input type="submit" ng-click="login()" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login btn-primary" value="Log In">
-											</div>
-										</div>
-									</div>
-									
-								</form>
-								<form id="register-form"  method="post" role="form" style="display: none;">
-									<div class="form-group">
-										<input type="text" ng-model="username" name="username" id="username" tabindex="1" class="form-control input-lg" placeholder="Full Name" value="">
-									</div>
-									<div class="form-group">
-										<input type="email" ng-model="email" name="emailId" id="emailId" tabindex="1" class="form-control input-lg" placeholder="Email Address" value="">
-									</div>
+								<form id="reset-pass-form" method="post" role="form" style="display: block;">
 									<div class="form-group" id="reg-pass-div">
 										<input type="password" ng-model="password" name="password" id="password" tabindex="2" class="form-control input-lg" placeholder="Password">
 									</div>
 									<div class="form-group" id="reg-con-pass-div">
 										<input type="password" ng-model="confirmPassword" name="confirmPassword" id="confirmPassword" tabindex="2" class="form-control input-lg" placeholder="Confirm Password">
 									</div>
-									<div  class="form-group" >
-										<input type="checkbox" id="agreement" class="css-checkbox"/>
-										<label for="agreement" name="checkbox2_lbl" class="css-label lite-red-check">I have read <a href="/terms" target="_blank">Terms & Conditions</a></label>
-									</div>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3"  ng-if="cookiesEnabled">
-												<input type="submit" disabled ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-login" value="Register Now">
+												<input type="submit" ng-click="updatePassword()" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login btn-primary" value="Update password">
 											</div>
 										</div>
 									</div>
+									
 								</form>
 							</div>
 						</div>
@@ -124,33 +93,11 @@
  	<script type="text/javascript">
 	 	$( document ).ready(function() {
 		    
-		   $('#login-form-link').click(function(e) {
-				$("#login-form").delay(100).fadeIn(100);
-		 		$("#register-form").fadeOut(100);
-				$('#register-form-link').removeClass('active');
-				$(this).addClass('active');
-				e.preventDefault();
-			});
-			$('#register-form-link').click(function(e) {
-				$("#register-form").delay(100).fadeIn(100);
-		 		$("#login-form").fadeOut(100);
-				$('#login-form-link').removeClass('active');
-				$(this).addClass('active');
-				e.preventDefault();
-			});
+		  
 			
-			$('#agreement').change(function() {
-		        if($(this).is(":checked")) {
-		        	$('input[id="register-submit"]').prop('disabled', false);
-		        }else{
-		        	$('input[id="register-submit"]').prop('disabled', true);
-		        }
-		              
-		    });
-			
-			$.validator.addMethod('matchPasswords', function (value, element, param) {
-				var pass = $("#register-form input[name=password]").val();
-				var confirmPass = $("#register-form input[name=confirmPassword]").val();
+			$.validator.addMethod('matchResetPasswords', function (value, element, param) {
+				var pass = $("#reset-pass-form input[name=password]").val();
+				var confirmPass = $("#reset-pass-form input[name=confirmPassword]").val();
 				if(pass != confirmPass){
 					return false;
 				}

@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('Events',['textAngular']);
+var app = angular.module('Events',['textAngular','angularjs-datetime-picker']);
 
 app.controller('EventsController',
 		['$window','$scope', '$rootScope', '$routeParams','$location','dialogs','AuthenticationService','EventService',

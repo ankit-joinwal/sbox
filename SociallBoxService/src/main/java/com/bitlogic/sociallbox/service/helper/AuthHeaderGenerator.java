@@ -14,7 +14,7 @@ import com.bitlogic.Constants;
 public class AuthHeaderGenerator {
 	public static void main(String[] args)throws Exception {
 		
-		generateAuthorization("8780cd45ede37933", "818f0799-5737-49b0-8228-3ea6c27582dd");
+		generateAuthorization("6bbdec87e8198cf4", "35b0ba57-71b9-4b0a-81b5-b309dd51e4bf");
 		//generateHeaderForWeb("ankit.joinwal@gmail.com", "610a07e9a2385a066d89902a845c50f2");
 		//generateHeaderForISA("contact@sociallbox.com", "7d6167d24582509150eeb3cefbe85738");
 	}
@@ -45,6 +45,7 @@ public class AuthHeaderGenerator {
 		Map<String,String> authMap = new HashMap<String, String>();
 		authMap.put(Constants.AUTH_DATE_HEADER, timeHeader);
 		authMap.put(Constants.AUTHORIZATION_HEADER, authHeader);
+		System.out.println("Auth header : "+authHeader);
 		
 		return authMap;
 		

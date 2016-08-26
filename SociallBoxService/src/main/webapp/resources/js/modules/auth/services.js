@@ -54,6 +54,38 @@ var app = angular.module('Authentication')
 	             });
     	 };
     	 
+    	 service.updatePass = function(token,password){
+    		 var deferred = $q.defer();
+    		 var userData = '{ "token"	 : "'+		token		+'" , 	'+
+							 ' "password": "'+		password	+'" 	'+
+							'}';
+    		 return $http({
+	 				method:'PUT',
+	 				url: '/api/public/users/organizers/admins/password',
+	 	            data: userData,
+	 	            headers: {
+	 	                    "Content-Type"		: 	"application/json",
+	 						"accept"			:	"application/json",
+	 	                    "X-Login-Ajax-call"	: 	'true'
+	 	            }
+	    		 }).then(function(response) {
+	                 if (response.status == 200) {
+	                	
+	                 	deferred.resolve(response);
+	 					return deferred.promise;
+	                 }else{
+	                	 //Clear Profile from cookies
+	 					 deferred.reject(response);
+	 					 return deferred.promise;
+	                 }
+	             })
+	             .catch(function(response){
+	            	 
+ 					 deferred.reject(response);
+ 					 return deferred.promise;
+	             });
+    	 };
+    	 
     	 service.resendVerifyEmail = function(userId){
     		 var deferred = $q.defer();
     		 return service.getAuthToken()
@@ -134,6 +166,34 @@ var app = angular.module('Authentication')
     		});
     	 };
     	 
+		 service.sendResetPass = function(emailId){
+    		 var deferred = $q.defer();
+    		 	return $http({
+	 				method:'POST',
+	 				url: '/api/public/users/organizers/admins/password',
+	 	            data: {"email":emailId},
+	 	            headers: {
+	 	                    "Content-Type"		: 	"application/json",
+	 						"accept"			:	"application/json",
+	 	                    "X-Login-Ajax-call"	: 	'true'
+	 	            }
+	    		 }).then(function(response) {
+	                 if (response.status == 200) {
+	                 	deferred.resolve(response);
+	 					return deferred.promise;
+	                 }else{
+	                	 //Clear Profile from cookies
+	 					 deferred.reject(response);
+	 					 return deferred.promise;
+	                 }
+	             })
+	             .catch(function(response){
+	            	 deferred.reject(response);
+ 					 return deferred.promise;
+	             });
+     		
+    	 };
+		 
     	 service.encryptPass = function(password){
     		 var deferred = $q.defer();
     		 var  encPassword = MD5.genMD5(password);

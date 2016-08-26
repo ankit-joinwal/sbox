@@ -5,22 +5,21 @@ angular.module('index', []);
 angular.module('Authentication', []);
 angular.module('Dashboard', []);
 angular.module('Company', []);
-angular.module('Events', ['textAngular']);
-angular.module('DateTime', []);
+angular.module('Events', ['textAngular','angularjs-datetime-picker']);
+
 
 
 var App = angular.module('sociallbox',['ui.bootstrap',
-                                       'ui.bootstrap.datetimepicker',
                                        'dialogs.main',
                                        'smart-table','textAngular',
+                                       'angularjs-datetime-picker',
                                        'ngRoute',
                                        'ngCookies',
                                        'index',
                                        'Authentication',
                                        'Dashboard',
                                        'Company',
-                                       'Events',
-                                       'DateTime']);
+                                       'Events']);
 
 App.config(['$routeProvider', function($routeProvider) {
 	$routeProvider

@@ -3,14 +3,14 @@ package com.bitlogic.sociallbox.data.model.mail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-@JsonRootName("image")
-public class MailImage {
-	public enum ImageType{
+@JsonRootName("resource")
+public class MailResource {
+	public enum ResourceType{
 		URL , CLASSPATH , FILESYSTEM
 	}
 	
 	@JsonProperty("type")
-	private ImageType imageType;
+	private ResourceType resourceType;
 	
 	@JsonProperty("name")
 	private String name;
@@ -26,12 +26,12 @@ public class MailImage {
 		this.path = path;
 	}
 
-	public ImageType getImageType() {
-		return imageType;
+	public ResourceType getResourceType() {
+		return resourceType;
 	}
 
-	public void setImageType(ImageType imageType) {
-		this.imageType = imageType;
+	public void setResourceType(ResourceType imageType) {
+		this.resourceType = imageType;
 	}
 
 	public String getName() {

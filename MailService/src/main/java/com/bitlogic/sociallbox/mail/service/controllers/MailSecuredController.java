@@ -3,6 +3,7 @@ package com.bitlogic.sociallbox.mail.service.controllers;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.bitlogic.Constants;
-import com.bitlogic.sociallbox.data.model.mail.MailImage;
-import com.bitlogic.sociallbox.data.model.mail.MailImage.ImageType;
+import com.bitlogic.sociallbox.data.model.mail.MailResource;
+import com.bitlogic.sociallbox.data.model.mail.MailResource.ResourceType;
 import com.bitlogic.sociallbox.data.model.mail.SendMailRequest;
 import com.bitlogic.sociallbox.mail.service.business.MailService;
 import com.bitlogic.sociallbox.mail.service.model.Mail;
@@ -66,11 +67,11 @@ public class MailSecuredController extends BaseController implements Constants {
 		mail.setTemplateName(mailRequest.getTemplateName());
 		mail.setMailSubject(mailRequest.getMailSubject());
 
-		List<MailImage> mailImages = mailRequest.getImages();
-		Map<String, Resource> imageResources = new HashMap<>();
-		for (MailImage mailImage : mailImages) {
+		List<MailResource> mailImages = mailRequest.getImages();
+		Map<String, Resource> imageResources = new LinkedHashMap<>();
+		for (MailResource mailImage : mailImages) {
 			Resource resource;
-			if (mailImage.getImageType() == ImageType.URL) {
+			if (mailImage.getResourceType() == ResourceType.URL) {
 				try {
 					resource = new UrlResource(mailImage.getPath());
 					imageResources.put(mailImage.getName(), resource);
@@ -79,10 +80,10 @@ public class MailSecuredController extends BaseController implements Constants {
 					e.printStackTrace();
 				}
 
-			} else if (mailImage.getImageType() == ImageType.CLASSPATH) {
+			} else if (mailImage.getResourceType() == ResourceType.CLASSPATH) {
 				resource = new ClassPathResource(mailImage.getPath());
 				imageResources.put(mailImage.getName(), resource);
-			} else if (mailImage.getImageType() == ImageType.FILESYSTEM) {
+			} else if (mailImage.getResourceType() == ResourceType.FILESYSTEM) {
 				resource = new FileSystemResource(new File(mailImage.getPath()));
 				imageResources.put(mailImage.getName(), resource);
 			}
